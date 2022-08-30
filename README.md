@@ -1,1 +1,1 @@
-# MRI-Project
+# MRI

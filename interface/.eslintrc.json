@@ -1,0 +1,152 @@
+{
+  "extends": ["plugin:@next/next/recommended", "airbnb"],
+  "settings": {
+    "import/resolver": {
+      "webpack": {}
+    },
+    "react": {
+      "version": "16.3.0"
+    }
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "jquery": true
+  },
+  "plugins": ["react-hooks", "no-only-tests"],
+  "rules": {
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "peerDependencies": true
+      }
+    ],
+    "import/no-unresolved": ["error", { "ignore": ["react", "react-dom", "stripes-config"] }],
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": ["Link"],
+        "specialLink": ["to"]
+      }
+    ],
+    "jsx-a11y/label-has-for": [
+      "error",
+      {
+        "required": {
+          "some": ["nesting", "id"]
+        },
+        "allowChildren": false
+      }
+    ],
+    "jsx-a11y/no-noninteractive-tabindex": [
+      "error",
+      {
+        "tags": [],
+        "roles": ["tabpanel", "dialog"]
+      }
+    ],
+    "key-spacing": "off",
+    "linebreak-style": "off",
+    "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
+    "no-await-in-loop": "off",
+    "no-console": "warn",
+    "no-else-return": "off",
+    "no-multiple-empty-lines": "off",
+    "no-multi-spaces": [
+      "error",
+      {
+        "ignoreEOLComments": true
+      }
+    ],
+    "no-nested-ternary": "off",
+    "no-only-tests/no-only-tests": "error",
+    "no-param-reassign": [
+      "error",
+      {
+        "props": false
+      }
+    ],
+    "no-plusplus": "off",
+    "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"],
+    "no-underscore-dangle": "off",
+    "no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "React"
+      }
+    ],
+    "object-curly-newline": ["error", { "consistent": true }],
+    "operator-linebreak": ["off"],
+    "prefer-destructuring": "off",
+    "prefer-template": "off",
+    "quote-props": "off",
+    "react/destructuring-assignment": ["off"],
+    "react/forbid-prop-types": [
+      "warn",
+      {
+        "forbid": ["any", "array"]
+      }
+    ],
+    "react/jsx-curly-newline": "off",
+    "react/jsx-filename-extension": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-uses-react": "off",
+    "react/jsx-wrap-multilines": "off",
+    "react/no-array-index-key": "off",
+    "react/prefer-stateless-function": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/require-default-props": "off",
+    "react/sort-comp": [
+      "warn",
+      {
+        "order": ["static-methods", "static-variables", "lifecycle", "everything-else", "render"]
+      }
+    ],
+    "react/state-in-constructor": "off",
+    "react/static-property-placement": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "max-len": ["warn", 120],
+    "no-return-assign": "off",
+    "comma-dangle": "off",
+    "no-invalid-this": "error",
+    "quotes": ["error", "double", { "avoidEscape": true, "allowTemplateLiterals": false }],
+    "implicit-arrow-linebreak": "off",
+    "function-paren-newline": "off",
+    "import/no-named-as-default": "off",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error"],
+    "import/no-cycle": "off"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+      },
+      "plugins": ["@typescript-eslint"],
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:import/typescript"
+      ],
+      "rules": {
+        // must disable the traditional rule
+        // as it reports false positive on TS
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": ["error"]
+      }
+    },
+    {
+      "files": ["**/*.d.ts"],
+      "rules": {
+        "react/no-unused-prop-types": "off"
+      }
+    }
+  ]
+}

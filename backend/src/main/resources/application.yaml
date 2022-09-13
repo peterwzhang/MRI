@@ -1,0 +1,20 @@
+spring:
+  cache:
+    type: none
+  application:
+    name: hpc-interface
+  jackson:
+    default-property-inclusion: NON_NULL
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog-master.yaml
+  datasource:
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    url: jdbc:postgresql://${DB_HOST:postgres}:${DB_PORT:5432}/${DB_DATABASE:hpc_interface}?stringtype=unspecified
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  mvc:
+    throw-exception-if-no-handler-found: true

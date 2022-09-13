@@ -4,10 +4,10 @@
   "configurations": [
     {
       "type": "java",
-      "name": "Run API Server",
+      "name": "Run Server",
       "request": "launch",
       "mainClass": "edu.ua.cs495.hpc_interface.HPCInterfaceApplication",
-      "projectName": "hpc-interface",
+      "projectName": "hpc_interface",
       "envFile": "${workspaceFolder}/.env"
     }
   ]

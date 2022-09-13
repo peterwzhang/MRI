@@ -11,10 +11,14 @@ spring:
   datasource:
     username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:postgres}
-    url: jdbc:postgresql://${DB_HOST:postgres}:${DB_PORT:5432}/${DB_DATABASE:hpc_interface}?stringtype=unspecified
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_DATABASE:hpc_interface}?stringtype=unspecified
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: none
   mvc:
     throw-exception-if-no-handler-found: true
+
+logging:
+  level:
+    io.zonky.test.db.postgres: FATAL

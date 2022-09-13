@@ -1,0 +1,125 @@
+import javax.annotation.Nullable;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Singular;
+import lombok.With;
+
+/**
+ * {{description}}{{^description}}{{classname}}{{/description}}
+ */{{#description}}
+{{#oas3}}@Schema({{#name}}name = "{{name}}",{{/name}}{{/oas3}}{{^oas3}}@ApiModel({{/oas3}}description = "{{{.}}}"){{/description}}
+{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}{{>additionalModelTypeAnnotations}}
+@Data
+@With
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(toBuilder = true)
+@SuppressWarnings("unused") // some imports may not be used
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#hateoas}}extends RepresentationModel<{{classname}}> {{/hateoas}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
+  {{#vars}}
+  {{#description}}
+   /**
+    * {{.}}
+    */
+  {{/description}}
+    {{#isEnum}}
+    {{^isContainer}}
+{{>enumClass}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{#mostInnerItems}}
+{{>enumClass}}
+    {{/mostInnerItems}}
+    {{/isContainer}}
+    {{/isEnum}}
+  {{#jackson}}
+  @JsonProperty("{{baseName}}"){{#withXml}}
+  @JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}localName = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"){{/withXml}}
+  {{/jackson}}
+  {{#gson}}
+  @SerializedName("{{baseName}}")
+  {{/gson}}
+  {{^required}}
+  @Nullable
+  {{/required}}
+  {{#isContainer}}
+  {{#useBeanValidation}}@Valid{{/useBeanValidation}}
+  {{#defaultValue}}{{^isArray}}@Builder.Default{{/isArray}}{{/defaultValue}}
+  {{#isArray}}
+  @Singular{{#vendorExtensions.x-singular-name}}("{{{.}}}"){{/vendorExtensions.x-singular-name}}
+  private {{>nullableDataType}} {{name}};
+  {{/isArray}}
+  {{^isArray}}
+  {{#openApiNullable}}
+  private {{>nullableDataType}} {{name}} = {{#isNullable}}JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#required}}{{{defaultValue}}}{{/required}}{{^required}}null{{/required}}{{/isNullable}};
+  {{/openApiNullable}}
+  {{^openApiNullable}}
+  private {{>nullableDataType}} {{name}} = {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null{{/required}};
+  {{/openApiNullable}}
+  {{/isArray}}
+  {{/isContainer}}
+  {{^isContainer}}
+  {{#isBoolean}}
+  @Getter(AccessLevel.NONE)
+  {{/isBoolean}}
+  {{#isDate}}
+  @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)
+  {{/isDate}}
+  {{#isDateTime}}
+  @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
+  {{/isDateTime}}
+  {{#defaultValue}}@Builder.Default{{/defaultValue}}
+  {{#openApiNullable}}
+  private {{>nullableDataType}} {{name}}{{#isNullable}} = JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
+  {{/openApiNullable}}
+  {{^openApiNullable}}
+  private {{>nullableDataType}} {{name}}{{#isNullable}} = null{{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
+  {{/openApiNullable}}
+  {{/isContainer}}
+
+  {{/vars}}
+
+  {{#vars}}
+
+  {{#isBoolean}}
+  /**
+  {{#description}}
+   * {{{.}}}
+  {{/description}}
+  {{^description}}
+   * Check if {{name}}
+  {{/description}}
+   * @return {{name}}
+  */
+  public Boolean is{{nameInCamelCase}}() {
+    return this.{{name}};
+  }
+  {{/isBoolean}}
+
+  {{/vars}}
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class {{classname}} {\n");
+    {{#parent}}sb.append("    ").append(toIndentedString(super.toString())).append("\n");{{/parent}}
+    {{#vars}}sb.append("    {{name}}: ").append(toIndentedString({{name}})).append("\n");
+    {{/vars}}sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
+}

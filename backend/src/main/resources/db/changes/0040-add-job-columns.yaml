@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0040-add-job-columns
+      author: ncovercash
+      comment: Add additional columns to jobs table
+      changes:
+        - addColumn:
+            tableName: jobs
+            columns:
+              - column:
+                  afterColumn: id
+                  name: username
+                  type: TEXT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: job_username_fkey
+            baseTableName: jobs
+            baseColumnNames: username
+            referencedTableName: users
+            referencedColumnNames: username
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: RESTRICT
+            onUpdate: CASCADE
+            validate: true

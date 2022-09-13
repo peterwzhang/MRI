@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0020-create-users-table
+      author: ncovercash
+      comment: Create the table for users
+      changes:
+        - createTable:
+            tableName: users
+            remarks: Stores a user's information
+            columns:
+              - column:
+                  name: username
+                  type: TEXT
+                  remarks: myBama username
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: username_id
+              - column:
+                  name: private_key
+                  type: BYTEA
+                  constraints:
+                    nullable: false
+              - column:
+                  name: public_key
+                  type: BYTEA
+                  constraints:
+                    nullable: false

@@ -1,0 +1,14 @@
+{
+  // Copy and modify the provided .env.sample to your needs
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Run Server",
+      "request": "launch",
+      "mainClass": "edu.ua.cs495.hpc_interface.HPCInterfaceApplication",
+      "projectName": "hpc_interface",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

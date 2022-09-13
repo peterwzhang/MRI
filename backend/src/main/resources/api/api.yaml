@@ -1,0 +1,7 @@
+openapi: 3.0.3
+info:
+  title: HPC Interface API
+  version: v1.0
+servers:
+  - url: /
+paths: {}

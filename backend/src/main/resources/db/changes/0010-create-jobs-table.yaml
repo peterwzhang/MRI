@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0010-create-jobs-table
+      author: ncovercash
+      comment: Create the table for jobs
+      changes:
+        - createTable:
+            tableName: jobs
+            remarks: Stores job information
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: job_id
+              - column:
+                  name: slurm_id
+                  type: INTEGER
+                  constraints:
+                    nullable: true
+              - column:
+                  name: name
+                  type: TEXT
+                  constraints:
+                    nullable: false

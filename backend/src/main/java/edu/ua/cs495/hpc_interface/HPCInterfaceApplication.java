@@ -4,10 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class HpcInterfaceApplication {
+public class HPCInterfaceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(HpcInterfaceApplication.class, args);
-	}
-
+  public static void main(String[] args) {
+    SpringApplication.run(HPCInterfaceApplication.class, args);
+  }
 }

@@ -1,3 +1,7 @@
+# Run a single command on a compute node (e.g. /bin/bash, to open an interactive shell)
+srun --pty /bin/bash
+# Note, any Slurm configuration variables may be passed via parameters. `--pty` is required for any interactive/shell-based command
+
 # Get information on a job (2931152)
 sacct -j 2931152 \
   --format=User,JobID,Jobname,partition,state,time,start,end,elapsed,MaxRss,MaxVMSize,nnodes,ncpus,nodelist \

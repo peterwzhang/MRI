@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 import HeroBanner from "../components/HeroBanner"
 import JobForm from "../components/JobForm";
-import Navbar from './Navbar';
+import Navbar from '../components/Navbar';
 import SectionDiv from "../components/SectionDiv";
 import styles from '../styles/Home.module.css'
 

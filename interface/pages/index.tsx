@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import HeroBanner from "../components/HeroBanner"
-import Navbar from './Navbar'
+import Navbar from '../components/Navbar'
 import SectionDiv from "../components/SectionDiv";
 
 const Home: NextPage = () => (

@@ -31,6 +31,62 @@ sacct -u ncovercash \
 # |2931155.batch|batch||RUNNING||2022-09-15T19:30:31|Unknown|00:03:38|||1|2|compute-20-4
 # |2931155.extern|extern||RUNNING||2022-09-15T19:30:31|Unknown|00:03:38|||1|2|compute-20-4
 
+# All available format commands:
+#   Account             AdminComment        AllocCPUS           AllocNodes
+#   AllocTRES           AssocID             AveCPU              AveCPUFreq
+#   AveDiskRead         AveDiskWrite        AvePages            AveRSS
+#   AveVMSize           BlockID             Cluster             Comment
+#   Constraints         ConsumedEnergy      ConsumedEnergyRaw   CPUTime
+#   CPUTimeRAW          DBIndex             DerivedExitCode     Elapsed
+#   ElapsedRaw          Eligible            End                 ExitCode
+#   Flags               GID                 Group               JobID
+#   JobIDRaw            JobName             Layout              MaxDiskRead
+#   MaxDiskReadNode     MaxDiskReadTask     MaxDiskWrite        MaxDiskWriteNode
+#   MaxDiskWriteTask    MaxPages            MaxPagesNode        MaxPagesTask
+#   MaxRSS              MaxRSSNode          MaxRSSTask          MaxVMSize
+#   MaxVMSizeNode       MaxVMSizeTask       McsLabel            MinCPU
+#   MinCPUNode          MinCPUTask          NCPUS               NNodes
+#   NodeList            NTasks              Priority            Partition
+#   QOS                 QOSRAW              Reason              ReqCPUFreq
+#   ReqCPUFreqMin       ReqCPUFreqMax       ReqCPUFreqGov       ReqCPUS
+#   ReqMem              ReqNodes            ReqTRES             Reservation
+#   ReservationId       Reserved            ResvCPU             ResvCPURAW
+#   Start               State               Submit              Suspended
+#   SystemCPU           SystemComment       Timelimit           TimelimitRaw
+#   TotalCPU            TRESUsageInAve      TRESUsageInMax      TRESUsageInMaxNode
+#   TRESUsageInMaxTask  TRESUsageInMin      TRESUsageInMinNode  TRESUsageInMinTask
+#   TRESUsageInTot      TRESUsageOutAve     TRESUsageOutMax     TRESUsageOutMaxNode
+#   TRESUsageOutMaxTask TRESUsageOutMin     TRESUsageOutMinNode TRESUsageOutMinTask
+#   TRESUsageOutTot     UID                 User                UserCPU
+#   WCKey               WCKeyID             WorkDir
+
+# Possible states:
+# BF BOOT_FAIL
+# CA CANCELLED
+# CD COMPLETED
+# CF CONFIGURING
+# CG COMPLETING
+# DL DEADLINE
+# F FAILED
+# NF NODE_FAIL
+# OOM OUT_OF_MEMORY
+# PD PENDING
+# PR PREEMPTED
+# R RUNNING
+# RD RESV_DEL_HOLD
+# RF REQUEUE_FED
+# RH REQUEUE_HOLD
+# RQ REQUEUED
+# RS RESIZING
+# RV REVOKED
+# SI SIGNALING
+# SE SPECIAL_EXIT
+# SO STAGE_OUT
+# ST STOPPED
+# S SUSPENDED
+# TO TIMEOUT
+
+
 # Overall pretty graph of node usage
 slurmtop
 

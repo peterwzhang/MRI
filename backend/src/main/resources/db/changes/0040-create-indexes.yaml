@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0040-create-indexes
+      author: ncovercash
+      comment: Creates all non-primary indexes
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  defaultValueBoolean: false
+                  name: DELETED
+            indexName: SCRIPTS_DELETED_IDX
+            tableName: scripts
+        - createIndex:
+            columns:
+              - column:
+                  name: USERNAME
+            indexName: SCRIPTS_USERNAME_IDX
+            tableName: scripts
+        - createIndex:
+            columns:
+              - column:
+                  defaultValueBoolean: false
+                  name: GLOBAL_TEMPLATE
+            indexName: SCRIPTS_GLOBAL_TEMPLATE_IDX
+            tableName: scripts
+        - createIndex:
+            columns:
+              - column:
+                  name: BATCH_ID
+            indexName: JOBS_BATCH_ID_IDX
+            tableName: jobs
+        - createIndex:
+            columns:
+              - column:
+                  name: STATE
+            indexName: JOBS_STATE_IDX
+            tableName: jobs
+        - createIndex:
+            columns:
+              - column:
+                  name: USERNAME
+            indexName: BATCHES_USERNAME_IDX
+            tableName: batches
+        - createIndex:
+            columns:
+              - column:
+                  name: STATUS
+            indexName: BATCHES_STATUS_IDX
+            tableName: batches

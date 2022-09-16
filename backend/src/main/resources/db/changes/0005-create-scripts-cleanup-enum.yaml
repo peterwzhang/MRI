@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0005-create-scripts-cleanup-enum
+      author: ncovercash
+      comment: Add script cleanup enum type
+      changes:
+        - sql:
+            sql: |
+              CREATE TYPE "script_cleanup_mode" AS ENUM (
+                'ALL_ENDED','ALL_SUCCESS','NEVER'
+              );
+      rollback:
+        - sql:
+            sql: DROP TYPE "script_cleanup_mode";

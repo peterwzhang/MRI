@@ -1,0 +1,155 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0010-create-scripts-table
+      author: ncovercash
+      comment: Create the table for script storage
+      changes:
+        - createTable:
+            tableName: scripts
+            remarks:
+              Stores scripts used for each batch as well as scripts designed for
+              multiple uses (and global templates)
+            columns:
+              - column:
+                  name: ID
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  remarks: Unique ID for the script
+              - column:
+                  name: USERNAME
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                  remarks: The username of the script's creator
+              - column:
+                  name: NAME
+                  type: TEXT
+                  constraints:
+                    nullable: false
+                  remarks: A name for this script
+              - column:
+                  name: HEADER
+                  type: MEDIUMTEXT
+                  constraints:
+                    nullable: false
+                  remarks:
+                    This block is prepended to all scripts (setup, parallel
+                    jobs, slurm configs, and cleanups) and can contain global
+                    constants/variables, functions, shell options, and more.
+              - column:
+                  name: SETUP_SCRIPT
+                  type: MEDIUMTEXT
+                  constraints:
+                    nullable: false
+                  remarks:
+                    This script is used to setup the environment for the
+                    processing.  This will typically include extraction of
+                    archives, creation of folders, etc.  This, if provided, will
+                    be ran on compute nodes.
+              - column:
+                  name: SETUP_SLURM_CONFIG
+                  type: MEDIUMTEXT
+                  constraints:
+                    nullable: false
+                  remarks:
+                    Slurm configuration to use to run the setup script, not
+                    including the srun.
+              - column:
+                  name: LOOP_WRAPPER_TOP
+                  type: MEDIUMTEXT
+                  constraints:
+                    nullable: false
+                  remarks:
+                    The top of the loop used to generate jobs. This can be a
+                    block of code ended by a for loop, for example (including
+                    the do).  If only performing one job, leave this blank.
+              - column:
+                  name: ID_VAR
+                  type: TINYTEXT
+                  constraints:
+                    nullable: false
+                  remarks:
+                    This should be a unique variable (e.g. $subject, including
+                    the $) that can be used to identify jobs.  This should/will
+                    be used in job names, output log filenames, etc.  If there
+                    is only a single job, use any string without a $.
+              - column:
+                  name: JOB_TEMPLATE
+                  type: MEDIUMTEXT
+                  constraints:
+                    nullable: false
+                  remarks:
+                    This is the code that should be run in parallel on compute
+                    nodes.
+              - column:
+                  name: SLURM_TEMPLATE
+                  type: MEDIUMTEXT
+                  constraints:
+                    nullable: false
+                  remarks:
+                    This is the script that will define the Slurm configuration
+                    and queue the jobs generated from JOB_TEMPLATE.
+              - column:
+                  name: LOOP_WRAPPER_BOTTOM
+                  type: MEDIUMTEXT
+                  constraints:
+                    nullable: false
+                  remarks:
+                    The bottom of the loop used to generate jobs.  This should
+                    close any loops started in the LOOP_WRAPPER_TOP.  If only
+                    performing one job, leave this blank.
+              - column:
+                  name: CLEANUP_SCRIPT
+                  type: MEDIUMTEXT
+                  constraints:
+                    nullable: false
+                  remarks:
+                    This script can be used to cleanup the environment after
+                    jobs have been completed.  This can include deleting
+                    temporary files, moving results into appropriate locations,
+                    etc.
+              - column:
+                  name: CLEANUP_SLURM_CONFIG
+                  type: MEDIUMTEXT
+                  constraints:
+                    nullable: false
+                  remarks: Slurm configuration to use for the cleanup job.
+              - column:
+                  name: CLEANUP_MODE
+                  type: script_cleanup_mode
+                  constraints:
+                    nullable: false
+                  remarks:
+                    "This dictates when the cleanup script should be run: if it
+                    should run after all jobs have ended (regardless of
+                    success), all jobs have"
+              - column:
+                  name: CREATED_TS
+                  type: timestamp
+                  constraints:
+                    nullable: false
+                  remarks: When this script was created
+              - column:
+                  name: UPDATED_TS
+                  type: timestamp
+                  constraints:
+                    nullable: false
+                  remarks: When the script was last edited
+              - column:
+                  name: GLOBAL_TEMPLATE
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+                  remarks: If this script is available to all users
+              - column:
+                  name: DELETED
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+                  remarks:
+                    If the script is deleted (shouldn't be shown).  Must be kept
+                    for archival purposes.

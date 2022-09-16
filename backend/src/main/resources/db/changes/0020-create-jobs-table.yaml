@@ -1,0 +1,120 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0020-create-jobs-table
+      author: ncovercash
+      comment: Create the table for job storage
+      changes:
+        - createTable:
+            tableName: jobs
+            remarks: Jobs that will run, are running, or have ran on the HPC.
+            columns:
+              - column:
+                  name: ID
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  remarks: A unique ID for the job
+              - column:
+                  name: BATCH_ID
+                  type: UUID
+                  constraints:
+                    nullable: false
+                  remarks: The batch which this job is part of
+              - column:
+                  name: SLURM_ID
+                  type: INT
+                  remarks: Slurm's ID for the job, if available
+              - column:
+                  name: STATE
+                  type: job_state
+                  constraints:
+                    nullable: false
+                  remarks: The job's current status
+              - column:
+                  name: SLURM_STATE
+                  type: TEXT
+                  defaultValue: ""
+                  constraints:
+                    nullable: false
+                  remarks:
+                    Information from Slurm's status, rather than our own derived
+                    status.  This may contain additional information.
+              - column:
+                  name: LOG_PATH
+                  type: TEXT
+                  constraints:
+                    nullable: false
+                  remarks: The location of the logfile
+              - column:
+                  name: LOG_TAIL
+                  type: TEXT
+                  defaultValue: ""
+                  remarks:
+                    The last 50 KB of the logfile, to facilitate debugging
+                  constraints:
+                    nullable: false
+              - column:
+                  name: VARIABLE_ID
+                  type: TINYTEXT
+                  constraints:
+                    nullable: false
+                  remarks: The identifying variable, as printed by the script.
+              - column:
+                  name: SCRIPT_PATH
+                  type: TEXT
+                  constraints:
+                    nullable: false
+                  remarks: The location of the script's path on disk.
+              - column:
+                  name: SLURM_QUEUE_SCRIPT_PATH
+                  type: TEXT
+                  constraints:
+                    nullable: false
+                  remarks: The location of the slurm queueing script, on disk.
+              - column:
+                  name: IS_SETUP_JOB
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+                  remarks: If this job is being used to setup a batch
+              - column:
+                  name: IS_CLEANUP_JOB
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+                  remarks: If this job is being used to cleanup a batch
+              - column:
+                  name: QUEUED_TIME
+                  type: timestamp
+                  remarks: When this job entered Slurm's queue
+              - column:
+                  name: START_TIME
+                  type: timestamp
+                  remarks: When Slurm started this job
+              - column:
+                  name: END_TIME
+                  type: timestamp
+                  remarks: When this job finished, per Slurm
+              - column:
+                  name: TIME_LIMIT
+                  type: INT UNSIGNED
+                  remarks: How long this job has to run, in seconds
+              - column:
+                  name: NODE_LIST
+                  type: MEDIUMTEXT
+                  remarks: The node(s) which this job ran on, if known
+              - column:
+                  name: EXIT_CODE
+                  type: TINYINT(3) UNSIGNED
+                  constraints:
+                    nullable: false
+                  remarks: The script's exit code, if applicable
+              - column:
+                  name: LAST_SYNC
+                  type: timestamp
+                  constraints:
+                    nullable: false
+                  remarks: When the row was last updated/synchronized

@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0025-create-batch-status-enum
+      author: ncovercash
+      comment: Add batch status enum type
+      changes:
+        - sql:
+            sql: |
+              CREATE TYPE "batch_status" AS ENUM (
+                'QUEUEING_SETUP',
+                'SETTING_UP',
+                'GENERATING',
+                'AWAITING_APPROVAL',
+                'QUEUEING',
+                'RUNNING',
+                'CLEANING_UP',
+                'COMPLETED',
+                'CANCELLED'
+              );
+      rollback:
+        - sql:
+            sql: DROP TYPE "batch_status";

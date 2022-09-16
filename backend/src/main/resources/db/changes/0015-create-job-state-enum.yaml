@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0015-create-job-state-enum
+      author: ncovercash
+      comment: Add job state enum type
+      changes:
+        - sql:
+            sql: |
+              CREATE TYPE "job_state" AS ENUM (
+                'WAITING_FOR_SETUP',
+                'QUEUEING',
+                'PENDING',
+                'RUNNING',
+                'TIMEOUT'
+              );
+      rollback:
+        - sql:
+            sql: DROP TYPE "job_state";

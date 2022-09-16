@@ -1,0 +1,59 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0030-create-batches-table
+      author: ncovercash
+      comment: Create the table for batch storage
+      changes:
+        - createTable:
+            tableName: batches
+            remarks: Stores all batches
+            columns:
+              - column:
+                  name: ID
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  remarks: A unique ID for this batch
+              - column:
+                  name: NAME
+                  type: TEXT
+                  constraints:
+                    nullable: false
+                  remarks: A useful name/label for this batch
+              - column:
+                  name: USERNAME
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                  remarks: The username of this batch's owner
+              - column:
+                  name: STATUS
+                  constraints:
+                    nullable: false
+                  type: batch_status
+                  remarks: The current status of the batch
+              - column:
+                  name: NEEDS_APPROVAL
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+                  remarks:
+                    If this job should generate scripts then stop for manual
+                    verification before it queues jobs.
+              - column:
+                  name: SCRIPT_USED
+                  type: UUID
+                  constraints:
+                    nullable: false
+                  remarks:
+                    The UUID of the script that was used for this job.  The
+                    script this points to should always be marked DELETED to
+                    ensure that users cannot edit it (for archival purposes).
+              - column:
+                  name: START_TIME
+                  type: datetime
+                  constraints:
+                    nullable: false
+                  remarks: The first time any processing was done using

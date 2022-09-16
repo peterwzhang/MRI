@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0050-create-foreign-keys
+      author: ncovercash
+      comment: Defines all foreign key relationships between tables
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: script_used
+            baseTableName: batches
+            constraintName: batches_script_used_fkey
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: RESTRICT
+            onUpdate: CASCADE
+            referencedColumnNames: id
+            referencedTableName: scripts
+            validate: true
+        - addForeignKeyConstraint:
+            baseColumnNames: batch_id
+            baseTableName: jobs
+            constraintName: jobs_batch_id_fkey
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: RESTRICT
+            onUpdate: CASCADE
+            referencedColumnNames: id
+            referencedTableName: batches
+            validate: true

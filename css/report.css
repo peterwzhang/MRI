@@ -94,9 +94,9 @@ a {
 }
 
 .center pre {
-    display: inline-block;
-    text-align: left;
-   }
+  display: inline-block;
+  text-align: left;
+}
 
 h1,
 h2,
@@ -184,20 +184,12 @@ table {
   border-spacing: 0;
 }
 
-table tr {
-  border-bottom: none;
-}
-
 table > tbody > tr:nth-child(odd) {
-  background-color: rgba(242, 242, 242, 0.5);
+  background-color: rgba(242, 242, 242, 1);
 }
 
 table > tbody > tr > td {
   border-radius: 0;
-}
-
-table.highlight > tbody > tr:hover {
-  background-color: rgba(242, 242, 242, 0.5);
 }
 
 tr {

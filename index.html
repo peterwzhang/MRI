@@ -1,251 +1,337 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>Fall 2022 | MRI Project</title>
-        <link href="./css/report.css" rel="stylesheet" />
-    </head>
+  <head>
+    <meta charset="utf-8" />
+    <title>Fall 2022 | MRI Project</title>
+    <link href="./css/report.css" rel="stylesheet" />
+  </head>
 
-    <body>
-        <div class="container">
-            <div class="section center">
-                <h3 class="no-bottom-margin">MRI Project</h3>
-                <h3 class="no-margin">Fall 2022 • CS 495</h3>
-            </div>
-            <div class="tabs row">
-                <div class="col s12 m4 tab active" data-tab="part1">
-                    <a href="javascript:tabSelect('part1')">
-                        Part 1<br />Project Goals
-                    </a>
-                </div>
-                <div class="col s12 m4 tab" data-tab="part2">
-                    <a href="javascript:tabSelect('part2')">
-                        Part 2<br />Approach
-                    </a>
-                </div>
-                <div class="col s12 m4 tab" data-tab="part3">
-                    <a href="javascript:tabSelect('part3')">
-                        Part 3<br />Team Members
-                    </a>
-                </div>
-            </div>
-            <div class="tab-content-area">
-                <!-- Project Goals -->
-                <div id="part1">
-                    <div class="section">
-                        <h3>Project Goals</h3>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="section">
-                        <h4>Create a user friendly interface for running image processing scripts on the UA HPC cluster</h4>
-                        <p> &emsp;This web application will provide an interface for the image processing pipeline that will run on the
-                             University of Alabama's HPC. With this software, users will be able to select their projects, participants, 
-                             and the processes they want to perform using the front end. After submitting this information, the software 
-                             will use it to create the necessary input files and submit a new job to the scheduler. Upon the completion 
-                             of jobs, the software will fetch the resulting files and provide access to them through the interface. This way, 
-                             researchers and other employees working with the MRI Center, who may have little to no programming experience,
-                             won't have to write code themselves.
-                             <br>&emsp;Additionally, the MRI Center will be able to manage their image processing jobs with greater ease. 
-                             In the web application, a dashboard will provide the user with a simple way to view, cancel, and track the 
-                             progress of SLURM jobs. </p>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="section">
-                        <h4>Make analysis of MRI images more efficient</h4>
-                        <p> &emsp; Abstracting the interaction with remote computational resources is key for efficienct analysis. By reducing 
-                            the time spent on studying the documentation of the job scheduler, fixing errors, and implementing scripts, more 
-                            time can be spent doing productive calculations and analysis of the processed images. An intuitive interface will 
-                            ensure ease of use for users with varying HPC experience. </p>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="section">
-                        <h4>Ensure the final application requires little to no maintenance</h4>
-                        <p>&emsp; Since this project will fall into the hands of the client after the semester, it is imperative that the software
-                            requires little to no maintenance upon completion. After the minimum viable product is complete, additional functionality to 
-                            increase flexibility will be developed. This includes the ability to create, edit, copy, and import new scripts. If new 
-                            requirements for the software arise, we will have provided thorough documentation
-                            to allow the software to be updated as needed. 
-                        </p>
-                    </div>
-                    <!-- for additional whitespace at the end of page -->
-                    <p></p>
-                </div>
-                <!-- Approach -->
-                <div id="part2" class="hide">
-                    <div class="section">
-                        <h3>Approach</h3>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="section">
-                        <h4>Tools/APIs/Frameworks</h4>
-                        <div class="row">
-                            <div class="col s12 m6">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Tool</th>
-                                            <th>Use</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>React</td>
-                                            <td>Frontend</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="col s12 m6">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Tool</th>
-                                            <th>Use</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Java</td>
-                                            <td>Backend</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="divider"></div>
-                        <div class="section">
-                            <h4>User Experience</h4>
-                        </div>
-                        <div class="divider"></div>
-                        <p><b>Step-By-Step Explanation of User Experience</b></p>
-                        <ul>
-                            <li>User logs in using myBama credentials (Active Directory Sign-On)</li>
-                            <li>User is able to view homepage with generic information about the functionality of the app</li>
-                            <li>User completes form to create new batch run on HPC cluster</li>
-                            <ul>
-                                <li>Choose script</li>
-                                <li>Input parameters for batch</li>
-                            </ul>
-                            <li>Once user starts run via submitting the form, they may navigate to the job dashboard</li>
-                            <li>User can view all jobs currently running on HPC cluster</li>
-                            <ul>
-                                <li>List of all batches and jobs</li>
-                                <li>View progress of each batch (how many jobs/batch are completed)</li>
-                            </ul>
-                            <li>For each batch, the user will be able to view:</li>
-                            <ul>
-                                <li>Batch information</li>
-                                <li>Status of each job within the batch</li>
-                            </ul>
-                            <li>For each job, the user will be able to view:</li>
-                            <ul>
-                                <li>Job information</li>
-                                <li>Other jobs associated with the same batch</li>
-                            </ul>
-                            <li>Once the batch is completed the user will receive a notification of its completion</li>
-                            <li>User can view completed jobs and results</li>
-                        </ul>
-                        <p><b>Example Scenario</b></p>
-                        <p>An example scenario for the use of this project is if a user wishes to run a script for
-                            processing MRI images. Instead of needing to go through the process of logging onto the UAHPC
-                            and running the scripts from there, they are instead able to fill out one user friendly form
-                            after logging in using only their myBama credentials. Once this form is complete, the user is
-                            able to see the progress of a batch run, in addition to information about each job included
-                            in the batch. They will be notified when the batch is complete and will be able to view the run
-                            details and results. This tool functions as a sort of one-stop-shop for image processing scripts,
-                            assisting researchers in analyzing results of MRI scans.
-                        </p>
-                        <!-- for additional whitespace at the end of page -->
-                        <p></p>
-                    </div>
-                </div>
-                <!-- Team Members -->
-                <div id="part3" class="hide">
-                    <div class="section">
-                        <h3>Team Members</h3>
-                        <div class="divider"></div>
-                        <table class="center">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>CWID</th>
-                                    <th>Email Address</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Cara Cannarozzi</td>
-                                    <td style="font-family: monospace">
-                                        11970792
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="mailto:cacannarozzi@crimson.ua.edu"
-                                            >cacannarozzi@crimson.ua.edu</a
-                                        >
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Madeline Moore</td>
-                                    <td style="font-family: monospace">
-                                        11884126
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="mailto:mcmoore11@crimson.ua.edu"
-                                            >mcmoore11@crimson.ua.edu</a
-                                        >
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Noah Overcash</td>
-                                    <td style="font-family: monospace">
-                                        11907775
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="mailto:ncovercash@crimson.ua.edu"
-                                            >ncovercash@crimson.ua.edu</a
-                                        >
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Peter Zhang</td>
-                                    <td style="font-family: monospace">
-                                        11861641
-                                    </td>
-                                    <td>
-                                        <a href="mailto:pwzhang@crimson.ua.edu"
-                                            >pwzhang@crimson.ua.edu</a
-                                        >
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- for additional whitespace at the end of page -->
-                    <p></p>
-                </div>
-            </div>
+  <body>
+    <div class="container">
+      <div class="section center">
+        <h3 class="no-bottom-margin">MRI Project</h3>
+        <h3 class="no-margin">Fall 2022 • CS 495</h3>
+      </div>
+      <div class="tabs row">
+        <div class="col s12 m4 tab active" data-tab="part1">
+          <a href="javascript:tabSelect('part1')">
+            Part 1<br />Project Goals
+          </a>
         </div>
-        <p></p>
-    </body>
+        <div class="col s12 m4 tab" data-tab="part2">
+          <a href="javascript:tabSelect('part2')"> Part 2<br />Approach </a>
+        </div>
+        <div class="col s12 m4 tab" data-tab="part3">
+          <a href="javascript:tabSelect('part3')"> Part 3<br />Team Members </a>
+        </div>
+      </div>
+      <div class="tab-content-area">
+        <!-- Project Goals -->
+        <div id="part1">
+          <div class="section">
+            <h3>Project Goals</h3>
+          </div>
+          <div class="divider"></div>
+          <div class="section">
+            <h4>
+              Create a user friendly interface for running image processing
+              scripts on the UA HPC cluster
+            </h4>
+            <p>
+              &emsp;This web application will provide an interface for the image
+              processing pipeline that will run on the University of Alabama's
+              HPC. With this software, users will be able to select their
+              projects, participants, and the processes they want to perform
+              using the front end. After submitting this information, the
+              software will use it to create the necessary input files and
+              submit a new job to the scheduler. Upon the completion of jobs,
+              the software will fetch the resulting files and provide access to
+              them through the interface. This way, researchers and other
+              employees working with the MRI Center, who may have little to no
+              programming experience, won't have to write code themselves.
+              <br />&emsp;Additionally, the MRI Center will be able to manage
+              their image processing jobs with greater ease. In the web
+              application, a dashboard will provide the user with a simple way
+              to view, cancel, and track the progress of SLURM jobs.
+            </p>
+          </div>
+          <div class="divider"></div>
+          <div class="section">
+            <h4>Make analysis of MRI images more efficient</h4>
+            <p>
+              &emsp; Abstracting the interaction with remote computational
+              resources is key for efficienct analysis. By reducing the time
+              spent on studying the documentation of the job scheduler, fixing
+              errors, and implementing scripts, more time can be spent doing
+              productive calculations and analysis of the processed images. An
+              intuitive interface will ensure ease of use for users with varying
+              HPC experience.
+            </p>
+          </div>
+          <div class="divider"></div>
+          <div class="section">
+            <h4>
+              Ensure the final application requires little to no maintenance
+            </h4>
+            <p>
+              &emsp; Since this project will fall into the hands of the client
+              after the semester, it is imperative that the software requires
+              little to no maintenance upon completion. After the minimum viable
+              product is complete, additional functionality to increase
+              flexibility will be developed. This includes the ability to
+              create, edit, copy, and import new scripts. If new requirements
+              for the software arise, we will have provided thorough
+              documentation to allow the software to be updated as needed.
+            </p>
+          </div>
+          <!-- for additional whitespace at the end of page -->
+          <p></p>
+        </div>
+        <!-- Approach -->
+        <div id="part2" class="hide">
+          <div class="section">
+            <h3>Approach</h3>
+          </div>
+          <div class="divider"></div>
+          <div class="section">
+            <h4>Technology Stack</h4>
+            <div class="row">
+              <div class="col s12">
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col" colspan="2">Frontend</th>
+                      <th scope="col" colspan="2">Backend</th>
+                    </tr>
+                    <tr>
+                      <th scope="col">Tool</th>
+                      <th scope="col">Use</th>
+                      <th scope="col">Tool</th>
+                      <th scope="col">Use</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><a href="https://nodejs.org/en/">Node.js</a></td>
+                      <td>Engine</td>
+
+                      <td>
+                        <a href="https://adoptium.net/temurin/releases/"
+                          >Java 17<br /><span>(Eclipse Temurin)</span></a
+                        >
+                      </td>
+                      <td>Java JDK/JRE</td>
+                    </tr>
+                    <tr>
+                      <td><a href="https://reactjs.org">React</a></td>
+                      <td>Interface Library</td>
+
+                      <td><a href="https://maven.apache.com/">Maven</a></td>
+                      <td>Build System</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <a href="https://typescriptlang.org/">TypeScript</a>
+                      </td>
+                      <td>Compilation</td>
+
+                      <td>
+                        <a href="https://spring.io/projects/spring-boot"
+                          >Spring Boot</a
+                        >
+                      </td>
+                      <td>Framework</td>
+                    </tr>
+                    <tr>
+                      <td><a href="https://nextjs.org/">Next.js</a></td>
+                      <td>Routing</td>
+
+                      <td>
+                        <a href="https://www.postgresql.org/">PostgreSQL</a>
+                      </td>
+                      <td>Database</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <a href="https://styled-components.com"
+                          >styled-components</a
+                        >
+                      </td>
+                      <td>Interface Components</td>
+
+                      <td>
+                        <a href="https://www.liquibase.org/">Liquibase</a>
+                      </td>
+                      <td>Database Management</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <a href="https://mui.com/material-ui/">material-ui</a>
+                      </td>
+                      <td>Interface Components</td>
+
+                      <td><a href="https://projectlombok.org/">Lombok</a></td>
+                      <td>Boilerplate Reduction</td>
+                    </tr>
+                    <tr>
+                      <td><a href="https://yarnpkg.com/">Yarn</a></td>
+                      <td>Package Manager</td>
+
+                      <td>
+                        <a href="https://openapi-generator.tech/"
+                          >OpenAPI Generator</a
+                        >
+                      </td>
+                      <td>API Entity Generation</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="section">
+              <h4>User Experience</h4>
+            </div>
+            <div class="divider"></div>
+            <p><b>Step-By-Step Explanation of User Experience</b></p>
+            <ul>
+              <li>
+                User logs in using myBama credentials (Active Directory Sign-On)
+              </li>
+              <li>
+                User is able to view homepage with generic information about the
+                functionality of the app
+              </li>
+              <li>
+                User completes form to create new batch run on HPC cluster
+              </li>
+              <ul>
+                <li>Choose script</li>
+                <li>Input parameters for batch</li>
+              </ul>
+              <li>
+                Once user starts run via submitting the form, they may navigate
+                to the job dashboard
+              </li>
+              <li>User can view all jobs currently running on HPC cluster</li>
+              <ul>
+                <li>List of all batches and jobs</li>
+                <li>
+                  View progress of each batch (how many jobs/batch are
+                  completed)
+                </li>
+              </ul>
+              <li>For each batch, the user will be able to view:</li>
+              <ul>
+                <li>Batch information</li>
+                <li>Status of each job within the batch</li>
+              </ul>
+              <li>For each job, the user will be able to view:</li>
+              <ul>
+                <li>Job information</li>
+                <li>Other jobs associated with the same batch</li>
+              </ul>
+              <li>
+                Once the batch is completed the user will receive a notification
+                of its completion
+              </li>
+              <li>User can view completed jobs and results</li>
+            </ul>
+            <p><b>Example Scenario</b></p>
+            <p>
+              An example scenario for the use of this project is if a user
+              wishes to run a script for processing MRI images. Instead of
+              needing to go through the process of logging onto the UAHPC and
+              running the scripts from there, they are instead able to fill out
+              one user friendly form after logging in using only their myBama
+              credentials. Once this form is complete, the user is able to see
+              the progress of a batch run, in addition to information about each
+              job included in the batch. They will be notified when the batch is
+              complete and will be able to view the run details and results.
+              This tool functions as a sort of one-stop-shop for image
+              processing scripts, assisting researchers in analyzing results of
+              MRI scans.
+            </p>
+            <!-- for additional whitespace at the end of page -->
+            <p></p>
+          </div>
+        </div>
+        <!-- Team Members -->
+        <div id="part3" class="hide">
+          <div class="section">
+            <h3>Team Members</h3>
+            <div class="divider"></div>
+            <table class="center">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>CWID</th>
+                  <th>Email Address</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Cara Cannarozzi</td>
+                  <td style="font-family: monospace">11970792</td>
+                  <td>
+                    <a href="mailto:cacannarozzi@crimson.ua.edu"
+                      >cacannarozzi@crimson.ua.edu</a
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>Madeline Moore</td>
+                  <td style="font-family: monospace">11884126</td>
+                  <td>
+                    <a href="mailto:mcmoore11@crimson.ua.edu"
+                      >mcmoore11@crimson.ua.edu</a
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>Noah Overcash</td>
+                  <td style="font-family: monospace">11907775</td>
+                  <td>
+                    <a href="mailto:ncovercash@crimson.ua.edu"
+                      >ncovercash@crimson.ua.edu</a
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>Peter Zhang</td>
+                  <td style="font-family: monospace">11861641</td>
+                  <td>
+                    <a href="mailto:pwzhang@crimson.ua.edu"
+                      >pwzhang@crimson.ua.edu</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- for additional whitespace at the end of page -->
+          <p></p>
+        </div>
+      </div>
+    </div>
+    <p></p>
+  </body>
 </html>
 <script type="text/javascript">
-    function tabSelect(tabName) {
-        const newTab = document.querySelector("[data-tab=" + tabName + "]");
-        const currentTab = document.querySelector(".active[data-tab]");
-        newTab.classList.toggle("active");
-        currentTab.classList.toggle("active");
+  function tabSelect(tabName) {
+    const newTab = document.querySelector("[data-tab=" + tabName + "]");
+    const currentTab = document.querySelector(".active[data-tab]");
+    newTab.classList.toggle("active");
+    currentTab.classList.toggle("active");
 
-        const currentTabContent = document.getElementById(
-            currentTab.getAttribute("data-tab")
-        );
-        const newTabContent = document.getElementById(
-            newTab.getAttribute("data-tab")
-        );
-        currentTabContent.classList.toggle("hide");
-        newTabContent.classList.toggle("hide");
-        window.scrollTo(0, 0);
-    }
+    const currentTabContent = document.getElementById(
+      currentTab.getAttribute("data-tab")
+    );
+    const newTabContent = document.getElementById(
+      newTab.getAttribute("data-tab")
+    );
+    currentTabContent.classList.toggle("hide");
+    newTabContent.classList.toggle("hide");
+    window.scrollTo(0, 0);
+  }
 </script>

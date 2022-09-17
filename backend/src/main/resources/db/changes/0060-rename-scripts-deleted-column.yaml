@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0060-rename-scripts-deleted-column
+      author: ncovercash
+      comment:
+        Rename the deleted column to archived to better reflect the purpose of
+        the column
+      changes:
+        - renameColumn:
+            tableName: scripts
+            columnDataType: BIT
+            oldColumnName: DELETED
+            newColumnName: ARCHIVED
+            remarks:
+              If the script is deleted (shouldn't be editable or available for
+              new batches).  Must be kept for archival purposes.

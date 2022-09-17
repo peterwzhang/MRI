@@ -4,4 +4,24 @@ info:
   version: v1.0
 servers:
   - url: /
-paths: {}
+paths:
+  # /batches:
+  #   $ref: paths/batches/root.yaml
+  # /batches/{batchId}:
+  #   $ref: paths/batches/batchId/root.yaml
+  # /batches/{batchId}/cancel:
+  #   $ref: paths/batches/batchId/cancel.yaml
+  # /batches/{batchId}/refresh:
+  #   $ref: paths/batches/batchId/refresh.yaml
+  # /batches/{batchId}/jobs:
+  #   $ref: paths/batches/batchId/jobs/root.yaml
+  # /batches/{batchId}/jobs/{jobId}:
+  #   $ref: paths/batches/batchId/jobs/jobId/root.yaml
+  # /batches/{batchId}/jobs/{jobId}/cancel:
+  #   $ref: paths/batches/batchId/jobs/jobId/cancel.yaml
+  # /batches/{batchId}/jobs/{jobId}/refresh:
+  #   $ref: paths/batches/batchId/jobs/jobId/refresh.yaml
+  /scripts:
+    $ref: paths/scripts/root.yaml
+  /scripts/{scriptId}:
+    $ref: paths/scripts/scriptId.yaml

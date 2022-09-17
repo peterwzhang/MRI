@@ -1,0 +1,63 @@
+# TODO: 404 and other API errors
+get:
+  summary: Get script
+  description: Get all information for a single script
+  operationId: getScript
+  tags: [script]
+  parameters:
+    - in: path
+      name: scriptId
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: The script ID to get
+  responses:
+    "200":
+      description: The requested script
+      content:
+        application/json:
+          schema:
+            $ref: ../../schemas/scripts/script.yaml
+put:
+  summary: Update script
+  description: Edit/update a new script
+  operationId: updateScript
+  tags: [script]
+  parameters:
+    - in: path
+      name: scriptId
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: The script ID to replace
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../../schemas/scripts/script.yaml
+  responses:
+    "200":
+      description: The script was successfully updated
+      content:
+        application/json:
+          schema:
+            $ref: ../../schemas/scripts/script.yaml
+delete:
+  summary: Archive script
+  description: Archive an existing script
+  operationId: archiveScript
+  tags: [script]
+  parameters:
+    - in: path
+      name: scriptId
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: The script ID to archive
+  responses:
+    "204":
+      description: The script was successfully archived

@@ -197,6 +197,7 @@
               <configOptions>
                 <dateLibrary>custom</dateLibrary>
                 <interfaceOnly>true</interfaceOnly>
+                <useTags>true</useTags>
               </configOptions>
               <typeMappings>
                 <typeMapping>DateTime=Instant</typeMapping>

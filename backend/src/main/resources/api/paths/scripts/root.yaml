@@ -1,0 +1,30 @@
+get:
+  summary: Get all scripts
+  description: Get all scripts available to the current user.
+  operationId: getAllScripts
+  tags: [script]
+  responses:
+    "200":
+      description: The scripts available to the current user
+      content:
+        application/json:
+          schema:
+            $ref: ../../schemas/scripts/scriptCollection.yaml
+post:
+  summary: Create script
+  description: Create a new script
+  operationId: createScript
+  tags: [script]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../../schemas/scripts/script.yaml
+  responses:
+    "201":
+      description: The script was successfully created
+      content:
+        application/json:
+          schema:
+            $ref: ../../schemas/scripts/script.yaml

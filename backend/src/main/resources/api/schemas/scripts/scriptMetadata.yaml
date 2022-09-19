@@ -1,0 +1,35 @@
+description: The basic metadata for a single script
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+    description: A unique UUID identifying this script
+  username:
+    type: string
+    description: The username of this script's creator
+  name:
+    type: string
+    description: A descriptive name for the script
+  createdAt:
+    type: string
+    format: date-time
+    description: When this script was created
+  updatedAt:
+    type: string
+    format: date-time
+    description: When this script was created
+  globalTemplate:
+    type: boolean
+    description: If this script is a globally-available template
+  archived:
+    type: boolean
+    description: If this script has been archived
+additionalProperties: false
+required:
+  - username
+  - name
+  - createdAt
+  - updatedAt
+  - globalTemplate
+  - archived

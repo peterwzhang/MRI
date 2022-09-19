@@ -1,0 +1,17 @@
+description: A collection of script metadata
+type: object
+properties:
+  scripts:
+    type: array
+    description: The metadata of scripts fetched
+    items:
+      type: object
+      $ref: scriptMetadata.yaml
+  totalRecords:
+    type: integer
+    minimum: 0
+    description: Number of scripts returned in the response
+additionalProperties: false
+required:
+  - scripts
+  - totalRecords

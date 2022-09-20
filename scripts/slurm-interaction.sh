@@ -1,3 +1,10 @@
+# Start job
+sbatch --parsable < test.sh
+# outputs job ID by itself with an optional semicolon and cluster ID
+# for example:
+# 2931152
+# 2931152;compute-5-15
+
 # Run a single command on a compute node (e.g. /bin/bash, to open an interactive shell)
 srun --pty /bin/bash
 # Note, any Slurm configuration variables may be passed via parameters. `--pty` is required for any interactive/shell-based command
@@ -90,16 +97,8 @@ sacct -u ncovercash \
 # S SUSPENDED
 # TO TIMEOUT
 
-
 # Overall pretty graph of node usage
 slurmtop
-
-# Start job
-sbatch --parsable < test.sh
-# outputs job ID by itself with an optional semicolon and cluster ID
-# for example:
-# 2931152
-# 2931152;compute-5-15
 
 # Cancel job(s)
 scancel 2931154 2931153

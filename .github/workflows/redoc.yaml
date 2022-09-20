@@ -14,7 +14,7 @@ jobs:
       - uses: actions/setup-node@v3
       - run: npm install -g redoc-cli
       - run:
-          npx redoc-cli build src/main/resources/api/api.yaml -o
+          npx redoc-cli build backend/src/main/resources/api/api.yaml -o
           backend/api-doc.html
       - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
         with:

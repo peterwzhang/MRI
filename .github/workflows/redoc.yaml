@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
-      - run: npm install -g npx redoc-cli
+      - run: npm install -g redoc-cli
       - run:
           npx redoc-cli build src/main/resources/api/api.yaml -o
           backend/api-doc.html

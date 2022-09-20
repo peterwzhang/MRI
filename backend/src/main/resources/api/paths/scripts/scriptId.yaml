@@ -1,6 +1,6 @@
 # TODO: 404 and other API errors
 get:
-  summary: Get script
+  summary: Get a single script
   description: Get all information for a single script
   operationId: getScript
   tags: [script]
@@ -20,7 +20,7 @@ get:
           schema:
             $ref: ../../schemas/scripts/script.yaml
 put:
-  summary: Update script
+  summary: Update a single script
   description: Edit/update a new script
   operationId: updateScript
   tags: [script]

@@ -1,10 +1,13 @@
 import styled from 'styled-components';
+import { theme } from '../constants';
 
 const SectionDiv = styled.div`
-    padding: 2rem;
+    padding: 3rem;
     background: whitesmoke;
+    box-shadow: ${() => theme.BOXSHADOW} 0 .5rem 1.5rem;
     max-width: 60%;
-    border-radius: 1rem;
-    margin: 2rem;
+    min-width: 40%;
+    border-radius: 2rem;
+    margin: 4rem;
 `
 export default SectionDiv;

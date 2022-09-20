@@ -1,6 +1,7 @@
 import Link from "next/link";
 import styled from 'styled-components';
 import React, { useState } from "react";
+import { theme } from "../constants";
 
 const Navbar = () => (
     <NavbarFormat>
@@ -8,23 +9,23 @@ const Navbar = () => (
             <div className="nav_header">
                 <div className="nav_button">
                 <h1>
-                    <Link href="/">MRIREDCapHPCHCPGUI</Link>
+                    <Link href="/home">HPC Interface</Link>
                 </h1>
                 </div>
                 <div className="nav_button">
-                    <h2 className="nav_link">
-                        <Link href="/">Home</Link>
-                    </h2>
+                    <h3 className="nav_link">
+                        <Link href="/home">Home</Link>
+                    </h3>
                 </div>
                 <div className="nav_button">
-                    <h2 className="nav_link">
+                    <h3 className="nav_link">
                         <Link href="/create-job">Create Job</Link>
-                    </h2>
+                    </h3>
                 </div>
                 <div className="nav_button">
-                    <h2 className="nav_link">
+                    <h3 className="nav_link">
                         <Link href="/view-jobs">View Jobs</Link>
-                    </h2>
+                    </h3>
                 </div>
             </div>
         </header>
@@ -33,9 +34,10 @@ const Navbar = () => (
 
 const NavbarFormat = styled.div`
   display: inline-block;
+  border-bottom: .25rem solid ${() => theme.PRIMARY};
   vertical-align: middle;
   align-items: center;
-  background: #9e1b32;
+  color: ${() => theme.TERTIARY};
   min-height: 3rem;
   width: 100%;
   padding: .5rem 2rem;

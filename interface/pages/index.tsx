@@ -1,25 +1,29 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import HeroBanner from "../components/HeroBanner"
-import Navbar from '../components/Navbar'
+import styled from "styled-components";
+import HeroBanner from "../components/HeroBanner";
+import Login from "../components/Login";
 import SectionDiv from "../components/SectionDiv";
 
-const Home: NextPage = () => (
+const LoginPage: NextPage = () => (
   <div>
     <Head>
       <title>MRI Project</title>
       <meta name="description" content="CS 495 Capstone project" />
       <link rel="icon" href="/favicon.ico" />
     </Head>
-    <HeroBanner />
-    <Navbar />
-    <SectionDiv>
-      <h1>Welcome to MRIREDCapHPCHCPGUI!</h1>
-      <p>We have yet to come up with a real name for this!</p>
-    </SectionDiv>
+    <HeroBanner/>
+    <Wrapper>
+      <SectionDiv>
+        <Login/>
+      </SectionDiv>
+    </Wrapper>
   </div>
 );
 
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`
 
-export default Home;
-
+export default LoginPage;

@@ -4,6 +4,7 @@ const SectionDiv = styled.div`
     padding: 2rem;
     background: whitesmoke;
     max-width: 60%;
+    min-width: 40%;
     border-radius: 1rem;
     margin: 2rem;
 `

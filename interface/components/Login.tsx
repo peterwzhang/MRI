@@ -40,6 +40,7 @@ const Wrapper = styled.div`
   text-align: center; 
 `
 const Form = styled.form`
+  margin: 1rem;
   display: flex;
   flex-direction: column;
   width: 15rem;
@@ -47,7 +48,7 @@ const Form = styled.form`
 `
 const Input = styled.input`
   border: none;
-  box-shadow: 0 0 3.5rem 1rem gainsboro;
+  box-shadow: 0 .1rem .25rem ${() => theme.BOXSHADOW};
   border-radius: .5rem;
   padding: 1rem;
   width: 100%;

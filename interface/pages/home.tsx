@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import styled from "styled-components";
 import HeroBanner from "../components/HeroBanner"
-import Navbar from '../components/Navbar'
+import Navbar from '../components/Navbar';
 import SectionDiv from "../components/SectionDiv";
 
 const Home: NextPage = () => (

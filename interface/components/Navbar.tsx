@@ -1,6 +1,6 @@
+import React from "react";
 import Link from "next/link";
 import styled from 'styled-components';
-import React, { useState } from "react";
 import { theme } from "../constants";
 
 const Navbar = () => (
@@ -14,17 +14,12 @@ const Navbar = () => (
                 </div>
                 <div className="nav_button">
                     <h3 className="nav_link">
-                        <Link href="/home">Home</Link>
+                        <Link href="/dashboard">Dashboard</Link>
                     </h3>
                 </div>
                 <div className="nav_button">
                     <h3 className="nav_link">
-                        <Link href="/create-job">Create job</Link>
-                    </h3>
-                </div>
-                <div className="nav_button">
-                    <h3 className="nav_link">
-                        <Link href="/view-jobs">View jobs</Link>
+                        <Link href="/create-batch">Create batch</Link>
                     </h3>
                 </div>
                 <div className="nav_button">

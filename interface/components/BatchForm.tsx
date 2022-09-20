@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const JobForm = () => (
+const BatchForm = () => (
   <div>
     <h1>Create Job</h1>
     <form>
@@ -33,4 +33,4 @@ const Submit = styled.input`
 `
 
  
-export default JobForm;
+export default BatchForm;

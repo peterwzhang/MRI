@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0080-usernames-to-user-ids
+      author: ncovercash
+      comment: Change username columns to refer to user IDs
+      changes:
+        - modifyDataType:
+            tableName: scripts
+            columnName: USERNAME
+            newDataType: UUID
+        - renameColumn:
+            tableName: scripts
+            columnDataType: UUID
+            oldColumnName: USERNAME
+            newColumnName: USER_ID
+            remarks: The user ID of the script's creator
+        - modifyDataType:
+            tableName: batches
+            columnName: USERNAME
+            newDataType: UUID
+        - renameColumn:
+            tableName: batches
+            columnDataType: UUID
+            oldColumnName: USERNAME
+            newColumnName: USER_ID
+            remarks: The user ID of the batch's creator

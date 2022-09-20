@@ -23,4 +23,8 @@ spring:
 
 logging:
   level:
-    io.zonky.test.db.postgres: FATAL
+    io:
+      zonky:
+        test:
+          db:
+            postgres: FATAL

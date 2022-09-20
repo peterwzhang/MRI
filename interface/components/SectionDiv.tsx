@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
 const SectionDiv = styled.div`
-    padding: 2rem;
+    padding: 3rem;
     background: whitesmoke;
     max-width: 60%;
     min-width: 40%;
-    border-radius: 1rem;
-    margin: 2rem;
+    border-radius: 2rem;
+    margin: 4rem;
 `
 export default SectionDiv;

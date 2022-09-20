@@ -19,12 +19,17 @@ const Navbar = () => (
                 </div>
                 <div className="nav_button">
                     <h3 className="nav_link">
-                        <Link href="/create-job">Create Job</Link>
+                        <Link href="/create-job">Create job</Link>
                     </h3>
                 </div>
                 <div className="nav_button">
                     <h3 className="nav_link">
-                        <Link href="/view-jobs">View Jobs</Link>
+                        <Link href="/view-jobs">View jobs</Link>
+                    </h3>
+                </div>
+                <div className="nav_button">
+                    <h3 className="nav_link">
+                        <Link href="/">Sign out</Link>
                     </h3>
                 </div>
             </div>

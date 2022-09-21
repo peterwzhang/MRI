@@ -1,0 +1,31 @@
+post:
+  summary: Approve jobs
+  description:
+    For batches that require an approval step, and have status
+    AWAITING_APPROVAL, this endpoint will approve and start the provided list of
+    jobs.  Please note, this should only be done once per batch; to run multiple
+    subsets of jobs, use multiple batches (one for each subset of jobs).
+  operationId: approve
+  tags: [jobs]
+  parameters:
+    - in: path
+      name: batchId
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: The batch ID to get
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+            description: The ID of a job to approve
+          description: A list of all jobs to approve
+  responses:
+    "204":
+      description: The operation was successful

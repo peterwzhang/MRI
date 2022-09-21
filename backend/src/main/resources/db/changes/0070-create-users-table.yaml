@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0070-create-users-table
+      author: ncovercash
+      comment: Create the table for user storage
+      changes:
+        - createTable:
+            tableName: users
+            remarks:
+              Stores a user's myBama ID and the keypair used to interact with
+              the HPC server on their behalf.
+            columns:
+              - column:
+                  name: ID
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  remarks: Unique ID for this user
+              - column:
+                  name: USERNAME
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+                  remarks: The myBama ID for this user
+              - column:
+                  name: PRIVATE_KEY
+                  type: BYTEA
+                  constraints:
+                    nullable: false
+                  remarks:
+                    The private key that should be used to access the HPC
+                    cluster
+              - column:
+                  name: PUBLIC_KEY
+                  type: BYTEA
+                  constraints:
+                    nullable: false
+                  remarks:
+                    The public key that the user must install on the HPC cluster

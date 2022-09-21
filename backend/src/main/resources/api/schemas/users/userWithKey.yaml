@@ -8,6 +8,7 @@ properties:
     description:
       The public key to authenticate the user over SSH.  This key will be
       presented in a format ready for entry into .ssh/authorized_keys
+    example: ssh-rsa AAAABC123 myUsername@hpc-interface.ua.edu
 additionalProperties: false
 required:
   - publicKey

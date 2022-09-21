@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0130-add-email-column
+      author: ncovercash
+      comment: Add a column to store a user's email address
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              column:
+                name: EMAIL
+                type: VARCHAR(255)
+                constraints:
+                  nullable: false
+                remarks: The user's email address, for notifications

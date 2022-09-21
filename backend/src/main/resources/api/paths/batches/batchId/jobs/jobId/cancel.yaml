@@ -1,4 +1,4 @@
-get:
+post:
   summary: Cancel job
   description:
     Cancel a single job, ensuring it halts (if running) or will never run (if

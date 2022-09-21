@@ -1,5 +1,5 @@
 get:
-  summary: Get single batches
+  summary: Get single batch
   description:
     Get a single batch by ID, as well as summary information on all jobs within
   operationId: getBatch

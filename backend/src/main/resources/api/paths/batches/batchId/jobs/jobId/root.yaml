@@ -1,0 +1,28 @@
+get:
+  summary: Get single job
+  description:
+    Get a single job by ID; includes all information, including log file.
+  operationId: getJob
+  tags: [job]
+  parameters:
+    - in: path
+      name: batchId
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: The batch ID which this job is within
+    - in: path
+      name: jobId
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: The job ID to get
+  responses:
+    "200":
+      description: The full information for this job
+      content:
+        application/json:
+          schema:
+            $ref: ../../../../../schemas/jobs/job.yaml

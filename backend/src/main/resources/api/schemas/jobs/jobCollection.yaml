@@ -1,0 +1,4 @@
+type: array
+description: Summary information of multiple jobs
+items:
+  $ref: jobMetadata.yaml

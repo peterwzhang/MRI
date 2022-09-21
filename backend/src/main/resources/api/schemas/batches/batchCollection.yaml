@@ -1,5 +1,4 @@
 description: A collection of batch metadata
 type: array
 items:
-  type: object
   $ref: batchMetadataWithId.yaml

@@ -1,0 +1,18 @@
+post:
+  summary: Refresh batch info
+  description:
+    Trigger a refresh on all batch data.  This will queue a request to the
+    server to refresh all job data, including completion status and logfiles.
+  operationId: refresh
+  tags: [batch]
+  parameters:
+    - in: path
+      name: batchId
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: The batch ID to get
+  responses:
+    "204":
+      description: The refresh has been queued successfully

@@ -4,9 +4,6 @@ allOf:
 type: object
 properties:
   jobs:
-    type: array
-    description: Summary information of all jobs in this batch
-    items:
-      $ref: ../jobs/jobMetadata.yaml
+    $ref: ../jobs/jobCollection.yaml
 required:
   - jobs

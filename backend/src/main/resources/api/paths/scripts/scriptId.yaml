@@ -21,6 +21,10 @@ get:
             $ref: ../../schemas/scripts/script.yaml
     "404":
       description: Script not found
+      content:
+        application/json:
+          schema:
+            $ref: ../../schemas/errorResponse.yaml
 put:
   summary: Update a single script
   description: Edit/update a new script

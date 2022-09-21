@@ -200,8 +200,8 @@
               <inputSpec>src/main/resources/api/api.yaml</inputSpec>
               <output>${project.build.directory}/generated-sources/api</output>
               <generatorName>spring</generatorName>
-              <modelPackage>edu.ua.cs495.calendar.domain.dto</modelPackage>
-              <apiPackage>edu.ua.cs495.calendar.rest.resource</apiPackage>
+              <modelPackage>edu.ua.cs495.hpc_interface.domain.dto</modelPackage>
+              <apiPackage>edu.ua.cs495.hpc_interface.rest.resource</apiPackage>
               <templateDirectory>src/main/resources/templates</templateDirectory>
               <generateApis>true</generateApis>
               <generateApiTests>true</generateApiTests>

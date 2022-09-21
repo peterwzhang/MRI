@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0110-add-failed-batch-status
+      author: ncovercash
+      comment: Add batch status failed enum type
+      changes:
+        sql: |
+          ALTER TABLE batches
+            ALTER COLUMN status TYPE VARCHAR(255);
+          DROP TYPE IF EXISTS "batch_status";
+          CREATE TYPE "batch_status" AS ENUM (
+            'QUEUEING_SETUP',
+            'SETTING_UP',
+            'GENERATING',
+            'AWAITING_APPROVAL',
+            'QUEUEING',
+            'RUNNING',
+            'CLEANING_UP',
+            'COMPLETED',
+            'FAILED',
+            'CANCELLED'
+          );
+          ALTER TABLE batches
+            ALTER COLUMN status TYPE "batch_status"
+            USING (status::batch_status);
+      rollback:
+        - sql:
+            sql: |
+              ALTER TABLE batches
+                ALTER COLUMN status TYPE VARCHAR(255);
+              DROP TYPE IF EXISTS "batch_status";
+              CREATE TYPE "batch_status" AS ENUM (
+                'QUEUEING_SETUP',
+                'SETTING_UP',
+                'GENERATING',
+                'AWAITING_APPROVAL',
+                'QUEUEING',
+                'RUNNING',
+                'CLEANING_UP',
+                'COMPLETED',
+                'CANCELLED'
+              );
+              ALTER TABLE batches
+                ALTER COLUMN status TYPE "batch_status"
+                USING (status::batch_status);

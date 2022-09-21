@@ -1,8 +1,8 @@
 databaseChangeLog:
   - changeSet:
-      id: 0100-add-failed-job-state
+      id: 0120-add-cancelled-and-unapproved-job-state
       author: ncovercash
-      comment: Add job state enum type
+      comment: Add job state cancel and unapproved enum type
       changes:
         - sql:
             sql: |
@@ -15,7 +15,9 @@ databaseChangeLog:
                 'PENDING',
                 'RUNNING',
                 'TIMEOUT',
-                'FAILED'
+                'FAILED',
+                'CANCELLED',
+                'UNAPPROVED'
               );
               ALTER TABLE jobs
                 ALTER COLUMN state TYPE "job_state"
@@ -31,7 +33,8 @@ databaseChangeLog:
                 'QUEUEING',
                 'PENDING',
                 'RUNNING',
-                'TIMEOUT'
+                'TIMEOUT',
+                'FAILED'
               );
               ALTER TABLE jobs
                 ALTER COLUMN state TYPE "job_state"

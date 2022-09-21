@@ -5,6 +5,19 @@ const BatchForm = () => (
     <h1>Create Job</h1>
     <form>
       <InputsWrapper>
+        <label>Job Name</label>
+        <select name="jobType">
+            {/* These need to be pulled from the BE */}
+            <option value="abide_organizer.sh">Abide Organizer</option>
+            <option value="parallel_flanker.sh">Parallel Flanker</option>
+            <option value="recon_parallel_abide.sh">Recon Parallel Abide</option>
+            <option value="recon_single_sub.sh">Recon Single Sub</option>
+            <option value="slurm-interaction.sh">Slurm Interaction</option>            <option value="jobType">Recon Parallel Abide</option>
+            <option value="slurm-test.sh">Slurm Test</option>
+
+
+        </select>
+        {/* these parameters must be pulled from the BE */}
         <label>
           First name: 
           <Input type="text" name="name" />

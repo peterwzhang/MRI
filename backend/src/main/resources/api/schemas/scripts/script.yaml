@@ -1,6 +1,6 @@
 description: All data for a single script
 allOf:
-  - $ref: ./scriptMetadata.yaml
+  - $ref: scriptMetadata.yaml
 type: object
 properties:
   header:

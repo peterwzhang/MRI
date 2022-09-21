@@ -1,6 +1,6 @@
 description: All data for a single script, with required ID
 allOf:
-  - $ref: ./script.yaml
+  - $ref: script.yaml
 type: object
 properties:
   id:

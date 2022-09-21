@@ -1,6 +1,6 @@
 description: Batch metadata with required ID
 allOf:
-  - $ref: ./batchMetadata.yaml
+  - $ref: batchMetadata.yaml
 type: object
 properties:
   id:

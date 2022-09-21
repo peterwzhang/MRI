@@ -1,6 +1,6 @@
 description: A user's data, including their public key
 allOf:
-  - $ref: ./user.yaml
+  - $ref: user.yaml
 type: object
 properties:
   publicKey:

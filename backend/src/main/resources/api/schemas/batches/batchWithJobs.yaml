@@ -1,6 +1,6 @@
 description: All data for a single script
 allOf:
-  - $ref: ./batchMetadataWithId.yaml
+  - $ref: batchMetadataWithId.yaml
 type: object
 properties:
   jobs:

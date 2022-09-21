@@ -18,7 +18,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: ../../schemas/scripts/scriptWithId.yaml
+            $ref: ../../schemas/scripts/script.yaml
     "404":
       description: Script not found
 put:
@@ -46,7 +46,7 @@ put:
       content:
         application/json:
           schema:
-            $ref: ../../schemas/scripts/scriptWithId.yaml
+            $ref: ../../schemas/scripts/script.yaml
     "404":
       description: Script not found
 delete:

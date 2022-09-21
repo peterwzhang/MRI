@@ -19,6 +19,8 @@ get:
         application/json:
           schema:
             $ref: ../../schemas/scripts/script.yaml
+    "404":
+      description: Script not found
 put:
   summary: Update a single script
   description: Edit/update a new script
@@ -45,6 +47,8 @@ put:
         application/json:
           schema:
             $ref: ../../schemas/scripts/script.yaml
+    "404":
+      description: Script not found
 delete:
   summary: Archive script
   description: Archive an existing script
@@ -61,3 +65,5 @@ delete:
   responses:
     "204":
       description: The script was successfully archived
+    "404":
+      description: Script not found

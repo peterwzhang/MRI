@@ -25,3 +25,7 @@ paths:
     $ref: paths/scripts/root.yaml
   /scripts/{scriptId}:
     $ref: paths/scripts/scriptId.yaml
+  /users/me:
+    $ref: paths/users/me/root.yaml
+  /users/me/regenerate:
+    $ref: paths/users/me/regenerate.yaml

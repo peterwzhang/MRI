@@ -1,0 +1,15 @@
+post:
+  summary: Regenerate the current user's keypair
+  description:
+    This endpoint will regenerate the current user's keypair and invalidate any
+    previous keypair invalid.  The user must update their .ssh/authorized_keys
+    file afterwards with this new key.
+  operationId: regenerateCurrentUserKey
+  tags: [user]
+  responses:
+    "200":
+      description: The keypair was successfully regenerated
+      content:
+        application/json:
+          schema:
+            $ref: ../../../schemas/users/userWithKey.yaml

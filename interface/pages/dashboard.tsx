@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import HeroBanner from "../components/HeroBanner"
-import JobTable from '../components/JobTable';
+import BatchTable from '../components/BatchTable';
 import Navbar from '../components/Navbar';
 import SectionDiv from "../components/SectionDiv";
 
@@ -16,8 +16,10 @@ export default function Dashboard(){
             <HeroBanner />
             <Navbar/>
             <SectionDiv>
-                <JobTable />   
+                <h1>Batches</h1>
+                <BatchTable />   
             </SectionDiv>
         </div>
     )
 }
+

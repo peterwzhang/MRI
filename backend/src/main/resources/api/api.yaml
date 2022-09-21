@@ -9,8 +9,8 @@ paths:
     $ref: paths/batches/root.yaml
   /batches/{batchId}:
     $ref: paths/batches/batchId/root.yaml
-  /batches/{batchId}/approve:
-    $ref: paths/batches/batchId/approve.yaml
+  # /batches/{batchId}/approve:
+  #   $ref: paths/batches/batchId/approve.yaml
   # /batches/{batchId}/cancel:
   #   $ref: paths/batches/batchId/cancel.yaml
   # /batches/{batchId}/refresh:

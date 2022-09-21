@@ -7,6 +7,5 @@ properties:
     type: string
     format: uuid
     description: The ID of the batch
-additionalProperties: false
 required:
   - id

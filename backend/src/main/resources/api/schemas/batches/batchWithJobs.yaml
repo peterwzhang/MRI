@@ -8,6 +8,5 @@ properties:
     description: Summary information of all jobs in this batch
     items:
       $ref: ../jobs/jobMetadata.yaml
-additionalProperties: false
 required:
   - jobs

@@ -58,7 +58,6 @@ properties:
     description:
       A summary of the number of jobs by state.  Note that jobs which were not
       approved and/or not started are not included here.
-additionalProperties: false
 required:
   - user
   - name

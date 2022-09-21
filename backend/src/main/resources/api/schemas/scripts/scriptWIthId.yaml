@@ -7,6 +7,5 @@ properties:
     type: string
     format: uuid
     description: The script's ID
-additionalProperties: false
 required:
   - id

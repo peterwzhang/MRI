@@ -25,7 +25,6 @@ properties:
   archived:
     type: boolean
     description: If this script has been archived
-additionalProperties: false
 required:
   - username
   - name

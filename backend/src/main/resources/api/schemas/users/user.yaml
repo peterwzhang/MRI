@@ -8,7 +8,6 @@ properties:
   username:
     type: string
     description: The user's myBama ID
-additionalProperties: false
 required:
   - id
   - username

@@ -1,0 +1,69 @@
+description: The basic metadata for a single batch
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+    description: A unique UUID identifying this batch
+  user:
+    $ref: ../users/user.yaml
+  name:
+    type: string
+    description: The batch's name
+  status:
+    type: string
+    enum:
+      - QUEUEING_SETUP
+      - SETTING_UP
+      - GENERATING
+      - AWAITING_APPROVAL
+      - QUEUEING
+      - RUNNING
+      - CLEANING_UP
+      - COMPLETED
+      - CANCELLED
+      - FAILED
+    description: The current state of the batch
+  requiresApprovalStep:
+    type: boolean
+    description:
+      If this batch should wait to submit jobs pending a manual approval
+  scriptUsed:
+    type: string
+    format: uuid
+  startedAt:
+    type: string
+    format: date-time
+    description: When execution for this batch was started
+  statusSummary:
+    type: object
+    properties:
+      waiting:
+        type: integer
+        description:
+          The number of jobs waiting for setup, queueing, or pending (waiting
+          for a node to become available)
+      running:
+        type: integer
+        description: The number of jobs running
+      failed:
+        type: integer
+        description:
+          The number of jobs that have timed out, failed, or been cancelled
+    additionalProperties: false
+    required:
+      - waiting
+      - running
+      - failed
+    description:
+      A summary of the number of jobs by state.  Note that jobs which were not
+      approved and/or not started are not included here.
+additionalProperties: false
+required:
+  - user
+  - name
+  - status
+  - requiresApprovalStep
+  - scriptUsed
+  - startedAt
+  - statusSummary

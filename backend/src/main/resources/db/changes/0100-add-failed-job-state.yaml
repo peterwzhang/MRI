@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0100-add-failed-job-state
+      author: ncovercash
+      comment: Add job state enum type
+      changes:
+        - sql:
+            sql: ALTER TYPE "job_state" ADD VALUE 'FAILED';
+      rollback:
+        - sql:
+            sql: ALTER TYPE "job_state" REMOVE VALUE 'FAILED';

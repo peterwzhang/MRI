@@ -1,0 +1,30 @@
+get:
+  summary: Get all batches
+  description: Get all batches available to the current user.
+  operationId: getAllBatches
+  tags: [batch]
+  responses:
+    "200":
+      description: The batches available to the current user
+      content:
+        application/json:
+          schema:
+            $ref: ../../schemas/batches/batchCollection.yaml
+post:
+  summary: Create batch
+  description: Create a new batch
+  operationId: createBatch
+  tags: [batch]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../../schemas/batches/batchMetadata.yaml
+  responses:
+    "201":
+      description: The batch was successfully created
+      content:
+        application/json:
+          schema:
+            $ref: ../../schemas/batches/batchMetadata.yaml

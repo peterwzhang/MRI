@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0120-add-cancelled-job-state
+      author: ncovercash
+      comment: Add cancelled job state enum type
+      changes:
+        - sql:
+            sql: ALTER TYPE "job_state" ADD VALUE 'CANCELLED';
+      rollback:
+        - sql:
+            sql: ALTER TYPE "job_state" REMOVE VALUE 'CANCELLED';

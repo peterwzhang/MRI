@@ -1,0 +1,12 @@
+get:
+  summary: Get the current user
+  description: Get the current user's information, including the public key
+  operationId: getCurrentUserWithKey
+  tags: [user]
+  responses:
+    "200":
+      description: The currently logged in user's information
+      content:
+        application/json:
+          schema:
+            $ref: ../../../schemas/users/userWithKey.yaml

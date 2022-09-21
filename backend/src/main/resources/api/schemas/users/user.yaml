@@ -1,0 +1,14 @@
+description: Information about a user
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+    description: A unique UUID identifying this user
+  username:
+    type: string
+    description: The user's myBama ID
+additionalProperties: false
+required:
+  - id
+  - user

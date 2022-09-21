@@ -2,4 +2,4 @@ description: A collection of script metadata
 type: array
 items:
   type: object
-  $ref: scriptMetadata.yaml
+  $ref: scriptMetadataWithId.yaml

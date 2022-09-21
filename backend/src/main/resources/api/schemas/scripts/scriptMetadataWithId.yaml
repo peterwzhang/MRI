@@ -1,0 +1,11 @@
+description: Metadata for a single script, with required ID
+allOf:
+  - $ref: scriptMetadata.yaml
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+    description: The script's ID
+required:
+  - id

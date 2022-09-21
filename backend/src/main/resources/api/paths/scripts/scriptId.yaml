@@ -39,7 +39,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: ../../schemas/scripts/scriptWithId.yaml
+          $ref: ../../schemas/scripts/script.yaml
   responses:
     "200":
       description: The script was successfully updated

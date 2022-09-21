@@ -1,0 +1,21 @@
+get:
+  summary: Get single batches
+  description:
+    Get a single batch by ID, as well as summary information on all jobs within
+  operationId: getBatch
+  tags: [batch]
+  parameters:
+    - in: path
+      name: batchId
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: The batch ID to get
+  responses:
+    "200":
+      description: The full information for this batch
+      content:
+        application/json:
+          schema:
+            $ref: ../../../schemas/batches/batchWithJobs.yaml

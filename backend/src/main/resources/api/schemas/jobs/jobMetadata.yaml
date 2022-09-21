@@ -1,0 +1,89 @@
+description: The basic metadata for a single job
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+    description: A unique UUID identifying this job
+  slurmId:
+    type: integer
+    nullable: true
+    description: The ID slurm has assigned for this job, if available
+  state:
+    type: string
+    enum:
+      - WAITING_FOR_SETUP
+      - QUEUEING
+      - PENDING
+      - RUNNING
+      - TIMEOUT
+      - FAILED
+      - CANCELLED
+      - UNAPPROVED
+    description: The current state of the job
+  slurmState:
+    type: string
+    description:
+      The job's state, according to slurm.  This may provide more (or less)
+      information than the regular state.
+  variableId:
+    type: string
+    description:
+      A unique variable identifying this job, as derived from the setup script
+      (such as a patient ID).
+  specialJobType:
+    type: string
+    enum:
+      - NONE
+      - SETUP
+      - CLEANUP
+    description: If this job is a special part of a batch (setup, cleanup, etc)
+  queuedTime:
+    type: string
+    nullable: true
+    format: date-time
+    description: When this was formally queued into Slurm, if known
+  startTime:
+    type: string
+    nullable: true
+    format: date-time
+    description: When this job was started according to Slurm, if known
+  endTime:
+    type: string
+    nullable: true
+    format: date-time
+    description: When this job was finished according to Slurm, if known
+  timeLimit:
+    type: integer
+    nullable: true
+    format: date-time
+    description:
+      The maximum amount of time this job can be running, according to Slurm (if
+      known)
+  nodeList:
+    type: string
+    description:
+      What nodes the job is running/has ran on, according to Slurm (if known)
+  exitCode:
+    type: integer
+    description:
+      What exit code the script finished with, if known (zero if unknown)
+  lastSync:
+    type: string
+    format: date-time
+    description: When this job was last synced/updated with Slurm
+additionalProperties: false
+required:
+  - id
+  - slurmId
+  - state
+  - slurmState
+  - variableId
+  - specialJobType
+  - queuedTime
+  - startTime
+  - endTime
+  - timeLimit
+  - nodeList
+  - exitCode
+  - lastSync

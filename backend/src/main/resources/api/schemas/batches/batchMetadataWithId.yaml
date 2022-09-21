@@ -1,0 +1,12 @@
+description: Batch metadata with required ID
+allOf:
+  - $ref: ./batchMetadata.yaml
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+    description: The ID of the batch
+additionalProperties: false
+required:
+  - id

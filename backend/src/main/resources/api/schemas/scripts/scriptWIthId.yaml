@@ -1,0 +1,12 @@
+description: All data for a single script, with required ID
+allOf:
+  - $ref: ./script.yaml
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+    description: The script's ID
+additionalProperties: false
+required:
+  - id

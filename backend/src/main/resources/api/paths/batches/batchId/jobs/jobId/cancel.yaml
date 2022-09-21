@@ -1,8 +1,10 @@
 get:
-  summary: Get job
+  summary: Cancel job
   description:
-    Get a single job by ID; includes all information, including log file.
-  operationId: getJob
+    Cancel a single job, ensuring it halts (if running) or will never run (if
+    pending or not yet queued).  No action will be taken if the job is already
+    cancelled or completed.
+  operationId: cancelJob
   tags: [job]
   parameters:
     - in: path
@@ -18,11 +20,7 @@ get:
       schema:
         type: string
         format: uuid
-      description: The job ID to get
+      description: The job ID to cancel
   responses:
-    "200":
-      description: The full information for this job
-      content:
-        application/json:
-          schema:
-            $ref: ../../../../../schemas/jobs/job.yaml
+    "204":
+      description: The cancellation was successful

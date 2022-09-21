@@ -2,7 +2,8 @@ post:
   summary: Cancel a batch
   description:
     Cancel all jobs within a given batch, ensuring they leave the queue (or
-    never enter, as applicable).
+    never enter, as applicable).  No action will be taken if the batch is
+    already cancelled or completed.
   operationId: cancel
   tags: [batch]
   parameters:
@@ -12,7 +13,8 @@ post:
       schema:
         type: string
         format: uuid
-      description: The batch ID to get
+      description: The batch ID to cancel
   responses:
     "204":
-      description: The operation was successful; jobs were cancelled
+      description:
+        The operation was successful; all applicable jobs were cancelled

@@ -6,7 +6,7 @@ post:
     jobs.  Please note, this should only be done once per batch; to run multiple
     subsets of jobs, use multiple batches (one for each subset of jobs).
   operationId: approve
-  tags: [jobs]
+  tags: [batch]
   parameters:
     - in: path
       name: batchId
@@ -14,7 +14,7 @@ post:
       schema:
         type: string
         format: uuid
-      description: The batch ID to get
+      description: The batch ID to use
   requestBody:
     required: true
     content:

@@ -58,6 +58,11 @@ properties:
     description:
       A summary of the number of jobs by state.  Note that jobs which were not
       approved and/or not started are not included here.
+  lastSynced:
+    type: string
+    format: date-time
+    description:
+      The last time this batch's data was synchronized with the server.
 required:
   - user
   - name

@@ -23,7 +23,7 @@ properties:
     description:
       The file which is responsible for queueing the script in scriptPath; this
       will contain Slurm configuration, as applicable.
-    example: /scratch/hpc-interface/9f0db810-d365-56fc-b9f1-3370871035c3/63a62864-4858-5f74-aa6b-ee83636a4221/queue.sh
+    example: /scratch/hpc-interface/9f0db810-d365-56fc-b9f1-3370871035c3/63a62864-4858-5f74-aa6b-ee83636a4221/queuer.sh
 required:
   - logPath
   - logTail

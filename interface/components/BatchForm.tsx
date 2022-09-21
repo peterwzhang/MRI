@@ -2,11 +2,11 @@ import styled from 'styled-components';
 
 const BatchForm = () => (
   <div>
-    <h1>Create Job</h1>
+    <h1>Create Batch</h1>
     <form>
       <InputsWrapper>
-        <label>Job Name</label>
-        <select name="jobType">
+        <label>Batch Name</label>
+        <select name="batchType">
             {/* These need to be pulled from the BE */}
             <option value="abide_organizer.sh">Abide Organizer</option>
             <option value="parallel_flanker.sh">Parallel Flanker</option>
@@ -19,12 +19,12 @@ const BatchForm = () => (
         </select>
         {/* these parameters must be pulled from the BE */}
         <label>
-          First name: 
-          <Input type="text" name="name" />
+          Param 1: 
+          <Input type="text" name="param1" />
         </label>
         <label>
-          Last name: 
-          <Input type="text" name="name" />
+          Param 2: 
+          <Input type="text" name="param2" />
         </label>
         <Submit type="submit" value="Submit" />
       </InputsWrapper>

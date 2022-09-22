@@ -20,7 +20,7 @@ const rows = [
 ];
 
 const BatchTable = () => (
-    <div style={{ height: 370, width: '50%' }}>
+    <div style={{ height: 370, width: 400 }}>
       <DataGrid
         rows={rows}
         columns={columns}

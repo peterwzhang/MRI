@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar';
 import SectionDiv from "../components/SectionDiv";
 import styled from "styled-components";
 import ProgressBar from "../components/ProgressBar";
+import { theme } from "../constants";
 
 export default function Dashboard(){
     return(
@@ -17,37 +18,50 @@ export default function Dashboard(){
             </Head>
             <HeroBanner />
             <Navbar/>
-            <SectionDiv>
-                <h1>Batches</h1>
-                <ProgressBar/>
-                <Wrapper>
-                    <BatchTable />   
-                    <Buttons>
-                        <Button>Cancel</Button>
-                        <Button>Refresh</Button>
-                        <Button>View</Button>
-                    </Buttons>
-                </Wrapper>
-            </SectionDiv>
+            <RowWrapper>
+                <Widget>
+                    <h2>Batches</h2>
+                    <ProgressBar/>
+                    <Wrapper>
+                        <BatchTable />   
+                        <Buttons>
+                            <Button>View</Button>
+                            <Button>Cancel</Button>
+                            <Button>Refresh</Button>
+                        </Buttons>
+                    </Wrapper>
+                </Widget>
+                <Widget>
+                    <h2>Batch Information</h2>
+                    <h4>Snow; ID: 1</h4>
+                </Widget>
+            </RowWrapper>
         </div>
     )
 }
 
-const Wrapper = styled.div`
+const RowWrapper = styled.div`
     display: flex;
     flex-direction: row;
     width: 100%;
+`
+const Widget = styled(SectionDiv)`
+    margin: 2rem;
+`
+const Wrapper = styled(RowWrapper)`
     gap: 4rem;
 `
 const Buttons = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    gap: 1rem;
     width: 20rem;
 `
 const Button = styled.button`
-    border: none;
-    height: 4rem;
-    font-size: 1em;
+    border-width: .05rem;
+    border-radius: .5rem;
+    padding: 1rem;
+    width: 80%;
+    font-size: 1rem;
 `
 

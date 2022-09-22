@@ -7,6 +7,7 @@ import SectionDiv from "../components/SectionDiv";
 import styled from "styled-components";
 import ProgressBar from "../components/ProgressBar";
 import { theme } from "../constants";
+import Popup from 'reactjs-popup';
 
 export default function Dashboard(){
     return(
@@ -18,24 +19,39 @@ export default function Dashboard(){
             </Head>
             <HeroBanner />
             <Navbar/>
-            <RowWrapper>
-                <Widget>
-                    <h2>Batches</h2>
-                    <ProgressBar/>
-                    <Wrapper>
-                        <BatchTable />   
-                        <Buttons>
-                            <Button>View</Button>
-                            <Button>Cancel</Button>
-                            <Button>Refresh</Button>
-                        </Buttons>
-                    </Wrapper>
-                </Widget>
-                <Widget>
-                    <h2>Batch Information</h2>
-                    <h4>Snow; ID: 1</h4>
-                </Widget>
-            </RowWrapper>
+            <SectionDiv>
+                <h1>Batches</h1>
+                <ProgressBar/>
+                <Wrapper>
+                    <BatchTable />   
+                    <Buttons>
+                        <Button>Refresh</Button>
+                        <Popup trigger={<Button>View</Button>} position="right center">
+                            <h3>Snow Batch Information</h3>
+                            <h4>ID: 1</h4>
+                            <InfoTable>
+                                <tr>
+                                    <InfoHeader>Job</InfoHeader>
+                                    <InfoHeader>Status</InfoHeader>
+                                </tr>
+                                <tr>
+                                    <InfoCell>Sun</InfoCell>
+                                    <InfoCell>Complete</InfoCell>
+                                </tr>
+                                <tr>
+                                    <InfoCell>Rain</InfoCell>
+                                    <InfoCell>Running</InfoCell>
+                                </tr>
+                                <tr>
+                                    <InfoCell>Hail</InfoCell>
+                                    <InfoCell>Failed</InfoCell>
+                                </tr>
+                            </InfoTable>
+                        </Popup>
+                        <Button>Cancel</Button>
+                    </Buttons>
+                </Wrapper>
+            </SectionDiv>
         </div>
     )
 }
@@ -56,6 +72,18 @@ const Buttons = styled.div`
     flex-direction: column;
     gap: 1rem;
     width: 20rem;
+`
+const InfoTable = styled.table`
+    border: 1px solid black;
+`
+const InfoHeader = styled.th`
+    border: 1px solid black;
+    textAlign: center;
+`
+const InfoCell = styled.td`
+    border: 1px solid black;
+    textAlign: left;
+    padding: 5px;
 `
 const Button = styled.button`
     border-width: .05rem;

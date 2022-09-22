@@ -5,6 +5,8 @@ spring:
     name: hpc-interface
   jackson:
     default-property-inclusion: NON_NULL
+    serialization:
+      write-dates-as-timestamps: false
   liquibase:
     enabled: true
     change-log: classpath:db/changelog-master.yaml

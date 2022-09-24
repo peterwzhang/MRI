@@ -17,6 +17,8 @@ public enum JobState {
   PENDING("PENDING"),
   /** The job is actively running on compute node(s) */
   RUNNING("RUNNING"),
+  /** The job has completed successfully */
+  SUCCESS("SUCCESS"),
   /** The job has run for longer than it was permitted */
   TIMEOUT("TIMEOUT"),
   /** The job failed (non-zero exit code) */
@@ -31,6 +33,26 @@ public enum JobState {
   UNAPPROVED("UNAPPROVED");
 
   private String value;
+
+  public boolean isWaiting() {
+    return this == JobState.QUEUEING || this == JobState.PENDING;
+  }
+
+  public boolean isRunning() {
+    return this == JobState.RUNNING;
+  }
+
+  public boolean isFailed() {
+    return (
+      this == JobState.CANCELLED ||
+      this == JobState.FAILED ||
+      this == JobState.TIMEOUT
+    );
+  }
+
+  public boolean isCompleted() {
+    return this == JobState.SUCCESS;
+  }
 
   @JsonCreator
   public static JobState from(String value) {

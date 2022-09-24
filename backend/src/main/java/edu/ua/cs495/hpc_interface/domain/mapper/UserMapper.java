@@ -26,7 +26,7 @@ public interface UserMapper {
   UserWithKeyDTO toDtoWithKey(User source);
 
   @Named("convertPublicKeyToString")
-  default String convertPublicKeyToString(byte[] publicKey) {
+  static String convertPublicKeyToString(byte[] publicKey) {
     // TODO: implement this
     return "TODO";
   }

@@ -15,6 +15,7 @@ properties:
       - QUEUEING
       - PENDING
       - RUNNING
+      - SUCCESS
       - TIMEOUT
       - FAILED
       - CANCELLED
@@ -25,7 +26,7 @@ properties:
     description:
       The job's state, according to slurm.  This may provide more (or less)
       information than the regular state.
-  variableId:
+  identifier:
     type: string
     description:
       A unique variable identifying this job, as derived from the setup script

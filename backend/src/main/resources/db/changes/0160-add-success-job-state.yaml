@@ -1,8 +1,8 @@
 databaseChangeLog:
   - changeSet:
-      id: 0150-remove-waiting-for-setup-job-state
+      id: 0160-add-success-job-state
       author: ncovercash
-      comment: Remove waiting for setup job state
+      comment: Add job state for successfully completed jobs
       changes:
         - sql:
             sql: |
@@ -13,6 +13,7 @@ databaseChangeLog:
                 'QUEUEING',
                 'PENDING',
                 'RUNNING',
+                'SUCCESS',
                 'TIMEOUT',
                 'FAILED',
                 'CANCELLED',
@@ -28,7 +29,6 @@ databaseChangeLog:
                 ALTER COLUMN state TYPE VARCHAR(255);
               DROP TYPE IF EXISTS "job_state";
               CREATE TYPE "job_state" AS ENUM (
-                'WAITING_FOR_SETUP',
                 'QUEUEING',
                 'PENDING',
                 'RUNNING',

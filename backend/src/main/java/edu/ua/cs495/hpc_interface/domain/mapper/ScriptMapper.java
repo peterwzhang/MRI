@@ -9,7 +9,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { UserMapper.class })
 public interface ScriptMapper {
   ScriptMapper INSTANCE = Mappers.getMapper(ScriptMapper.class);
 
@@ -18,11 +18,32 @@ public interface ScriptMapper {
   ScriptMetadataWithIdDTO toMetadataDtoWithId(Script source);
   ScriptWithIdDTO toFullDtoWithId(Script source);
 
-  @Mapping(target = "user.privateKey", ignore = true)
-  @Mapping(target = "user.publicKey", ignore = true)
-  Script fromDtoWithoutId(ScriptDTO source);
+  Script fromFullDtoWithoutId(ScriptDTO source);
+  Script fromFullDtoWithId(ScriptWithIdDTO source);
 
-  @Mapping(target = "user.privateKey", ignore = true)
-  @Mapping(target = "user.publicKey", ignore = true)
-  Script fromDtoWithId(ScriptWithIdDTO source);
+  @Mapping(target = "cleanupMode", ignore = true)
+  @Mapping(target = "cleanupScript", ignore = true)
+  @Mapping(target = "cleanupSlurmConfig", ignore = true)
+  @Mapping(target = "header", ignore = true)
+  @Mapping(target = "idVariable", ignore = true)
+  @Mapping(target = "jobTemplate", ignore = true)
+  @Mapping(target = "loopWrapperBottom", ignore = true)
+  @Mapping(target = "loopWrapperTop", ignore = true)
+  @Mapping(target = "setupScript", ignore = true)
+  @Mapping(target = "setupScriptSlurmConfig", ignore = true)
+  @Mapping(target = "slurmTemplate", ignore = true)
+  Script fromMetadataDtoWithoutId(ScriptMetadataDTO source);
+
+  @Mapping(target = "cleanupMode", ignore = true)
+  @Mapping(target = "cleanupScript", ignore = true)
+  @Mapping(target = "cleanupSlurmConfig", ignore = true)
+  @Mapping(target = "header", ignore = true)
+  @Mapping(target = "idVariable", ignore = true)
+  @Mapping(target = "jobTemplate", ignore = true)
+  @Mapping(target = "loopWrapperBottom", ignore = true)
+  @Mapping(target = "loopWrapperTop", ignore = true)
+  @Mapping(target = "setupScript", ignore = true)
+  @Mapping(target = "setupScriptSlurmConfig", ignore = true)
+  @Mapping(target = "slurmTemplate", ignore = true)
+  Script fromMetadataDtoWithId(ScriptMetadataWithIdDTO source);
 }

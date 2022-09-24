@@ -40,10 +40,10 @@ public class Batch implements Serializable {
   @Column(name = "id")
   private UUID id;
 
-  /** The jobs that are part of this batch */
-  @Singular
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "batch")
-  private Set<Job> jobs;
+  /** A name for the batch */
+  @NotNull
+  @Column(name = "name")
+  private String name;
 
   /** The batch's creator */
   @NotNull
@@ -57,6 +57,10 @@ public class Batch implements Serializable {
   @Enumerated(EnumType.STRING)
   private BatchStatus status;
 
+  /** If this batch requires approval for starting jobs */
+  @Column(name = "needs_approval")
+  private boolean needsApproval;
+
   /** The script used for this batch */
   @NotNull
   @JoinColumn(name = "script_used")
@@ -66,5 +70,10 @@ public class Batch implements Serializable {
   /** When the batch was initially submitted */
   @NotNull
   @Column(name = "start_time")
-  private Instant startTime;
+  private Instant startedAt;
+
+  /** The jobs that are part of this batch */
+  @Singular
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "batch")
+  private Set<Job> jobs;
 }

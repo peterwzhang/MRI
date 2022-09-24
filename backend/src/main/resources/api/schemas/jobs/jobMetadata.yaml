@@ -12,7 +12,6 @@ properties:
   state:
     type: string
     enum:
-      - WAITING_FOR_SETUP
       - QUEUEING
       - PENDING
       - RUNNING

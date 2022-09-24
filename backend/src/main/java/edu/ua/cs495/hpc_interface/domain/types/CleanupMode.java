@@ -11,8 +11,18 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public enum CleanupMode {
+  /**
+   * After all jobs have ended, even if there were failures.
+   * Note: this will not include cancelled batches; these will never cleanup
+   */
   ALL_ENDED("ALL_ENDED"),
+  /**
+   * After all jobs successfully completed
+   */
   ALL_SUCCESS("ALL_SUCCESS"),
+  /**
+   * Never run a cleanup script
+   */
   NEVER("NEVER");
 
   private String value;

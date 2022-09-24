@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0130-add-admin-column
+      author: ncovercash
+      comment: Add a column to store a user's admin status
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              column:
+                name: ADMIN
+                type: boolean
+                remarks: If the user is an administrator

@@ -15,7 +15,7 @@ properties:
       This script is used to setup the environment for the processing.  This
       will typically include extraction of archives, creation of folders,
       etc.  This, if provided, will be ran on compute nodes.
-  setupSlurmConfig:
+  setupScriptSlurmConfig:
     type: string
     description:
       Slurm configuration to use to run the setup script, not including the

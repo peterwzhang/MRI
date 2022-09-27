@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import HeroBanner from "../components/HeroBanner"
 import BatchTable from '../components/BatchTable';
@@ -6,9 +6,11 @@ import Navbar from '../components/Navbar';
 import SectionDiv from "../components/SectionDiv";
 import styled from "styled-components";
 import ProgressBar from "../components/ProgressBar";
-import { theme } from "../constants";
+import JobsTable from "../components/JobsTable";
 
 export default function Dashboard(){
+    const [hide, setHide] = useState(true);
+
     return(
         <div>
             <Head>
@@ -25,16 +27,22 @@ export default function Dashboard(){
                     <Wrapper>
                         <BatchTable />   
                         <Buttons>
-                            <Button>View</Button>
+                            <Button onClick={() => setHide(!hide)}>View</Button>
                             <Button>Cancel</Button>
                             <Button>Refresh</Button>
                         </Buttons>
                     </Wrapper>
                 </Widget>
-                <Widget>
-                    <h2>Batch Information</h2>
-                    <h4>Snow; ID: 1</h4>
-                </Widget>
+                {!hide && (
+                    <Widget>
+                        <h2>Batch Information</h2>
+                        <p>ID: 1</p>
+                        <p>Name: Snow</p>
+                        <p>Total runtime: 1hr 3s</p>
+                        <p>Script used: Abide Organizer</p>
+                        <JobsTable/>
+                    </Widget>
+                )}
             </RowWrapper>
         </div>
     )
@@ -47,6 +55,8 @@ const RowWrapper = styled.div`
 `
 const Widget = styled(SectionDiv)`
     margin: 2rem;
+    min-width: 30%;
+    padding-bottom: 1rem;
 `
 const Wrapper = styled(RowWrapper)`
     gap: 4rem;

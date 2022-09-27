@@ -29,8 +29,7 @@ properties:
     description:
       If this batch should wait to submit jobs pending a manual approval
   scriptUsed:
-    type: string
-    format: uuid
+    $ref: ../scripts/scriptMetadataWithId.yaml
   startedAt:
     type: string
     format: date-time
@@ -41,11 +40,14 @@ properties:
       waiting:
         type: integer
         description:
-          The number of jobs waiting for setup, queueing, or pending (waiting
-          for a node to become available)
+          The number of jobs queueing or pending (waiting for a node to become
+          available)
       running:
         type: integer
         description: The number of jobs running
+      success:
+        type: integer
+        description: The number of jobs which completed successfully
       failed:
         type: integer
         description:

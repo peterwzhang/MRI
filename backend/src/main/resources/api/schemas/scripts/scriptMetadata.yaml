@@ -5,9 +5,8 @@ properties:
     type: string
     format: uuid
     description: A unique UUID identifying this script
-  username:
-    type: string
-    description: The username of this script's creator
+  user:
+    $ref: ../users/user.yaml
   name:
     type: string
     description: A descriptive name for the script

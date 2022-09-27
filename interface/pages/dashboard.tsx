@@ -67,6 +67,18 @@ const Buttons = styled.div`
     gap: 1rem;
     width: 20rem;
 `
+const InfoTable = styled.table`
+    border: 1px solid black;
+`
+const InfoHeader = styled.th`
+    border: 1px solid black;
+    textAlign: center;
+`
+const InfoCell = styled.td`
+    border: 1px solid black;
+    textAlign: left;
+    padding: 5px;
+`
 const Button = styled.button`
     border-width: .05rem;
     border-radius: .5rem;

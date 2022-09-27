@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0150-remove-waiting-for-setup-job-state
+      author: ncovercash
+      comment: Remove waiting for setup job state
+      changes:
+        - sql:
+            sql: |
+              ALTER TABLE jobs
+                ALTER COLUMN state TYPE VARCHAR(255);
+              DROP TYPE IF EXISTS "job_state";
+              CREATE TYPE "job_state" AS ENUM (
+                'QUEUEING',
+                'PENDING',
+                'RUNNING',
+                'TIMEOUT',
+                'FAILED',
+                'CANCELLED',
+                'UNAPPROVED'
+              );
+              ALTER TABLE jobs
+                ALTER COLUMN state TYPE "job_state"
+                USING (state::job_state);
+      rollback:
+        - sql:
+            sql: |
+              ALTER TABLE jobs
+                ALTER COLUMN state TYPE VARCHAR(255);
+              DROP TYPE IF EXISTS "job_state";
+              CREATE TYPE "job_state" AS ENUM (
+                'WAITING_FOR_SETUP',
+                'QUEUEING',
+                'PENDING',
+                'RUNNING',
+                'TIMEOUT',
+                'FAILED',
+                'CANCELLED',
+                'UNAPPROVED'
+              );
+              ALTER TABLE jobs
+                ALTER COLUMN state TYPE "job_state"
+                USING (state::job_state);

@@ -71,7 +71,7 @@ properties:
 required:
   - header
   - setupScript
-  - setupSlurmConfig
+  - setupScriptSlurmConfig
   - loopWrapperTop
   - idVariable
   - jobTemplate

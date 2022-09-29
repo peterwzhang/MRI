@@ -24,6 +24,11 @@ const Navbar = () => (
                 </div>
                 <div className="nav_button">
                     <h3 className="nav_link">
+                        <Link href="/script-library">Script library</Link>
+                    </h3>
+                </div>
+                <div className="nav_button">
+                    <h3 className="nav_link">
                         <Link href="/view-batch">View batch</Link>
                     </h3>
                 </div>

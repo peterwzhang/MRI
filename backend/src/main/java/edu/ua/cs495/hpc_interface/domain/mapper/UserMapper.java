@@ -3,6 +3,7 @@ package edu.ua.cs495.hpc_interface.domain.mapper;
 import edu.ua.cs495.hpc_interface.domain.dto.UserDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.UserWithKeyDTO;
 import edu.ua.cs495.hpc_interface.domain.entity.User;
+import java.util.Base64;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -27,7 +28,12 @@ public interface UserMapper {
 
   @Named("convertPublicKeyToString")
   static String convertPublicKeyToString(byte[] publicKey) {
-    // TODO: implement this
-    return "TODO";
+    StringBuilder builder = new StringBuilder();
+
+    builder.append("-----BEGIN RSA PUBLIC KEY-----\n");
+    builder.append(Base64.getEncoder().encodeToString(publicKey));
+    builder.append("\n-----END RSA PUBLIC KEY-----\n");
+
+    return builder.toString();
   }
 }

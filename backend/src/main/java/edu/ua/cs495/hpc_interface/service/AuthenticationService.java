@@ -2,6 +2,7 @@ package edu.ua.cs495.hpc_interface.service;
 
 import edu.ua.cs495.hpc_interface.domain.entity.User;
 import edu.ua.cs495.hpc_interface.exception.NeedsAuthenticationException;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.saml2.provider.service.authentication.Saml2AuthenticatedPrincipal;
@@ -9,9 +10,9 @@ import org.springframework.security.saml2.provider.service.authentication.Saml2A
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor(onConstructor_ = { @Autowired })
 public class AuthenticationService {
 
-  @Autowired
   private UserService userService;
 
   public boolean isAuthenticated() {

@@ -1,0 +1,16 @@
+description: The basic metadata needed to submit a batch
+type: object
+properties:
+  name:
+    type: string
+    description: The batch's name
+  requiresApprovalStep:
+    type: boolean
+    description:
+      If this batch should wait to submit jobs pending a manual approval
+  script: # Allow full overriding, as desired
+    $ref: ../scripts/script.yaml
+required:
+  - name
+  - requiresApprovalStep
+  - script

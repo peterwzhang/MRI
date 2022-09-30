@@ -6,7 +6,6 @@ import edu.ua.cs495.hpc_interface.domain.mapper.UserMapper;
 import edu.ua.cs495.hpc_interface.rest.resource.UserApi;
 import edu.ua.cs495.hpc_interface.service.AuthenticationService;
 import edu.ua.cs495.hpc_interface.service.UserService;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

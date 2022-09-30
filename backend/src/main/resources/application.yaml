@@ -39,9 +39,8 @@ spring:
 logging:
   level:
     io.zonky.test.db.postgres: FATAL
-    org.springframework.security: TRACE
-    # log4j.logger.org.springframework.security.saml: DEBUG
-    # log4j.logger.org.opensaml: DEBUG
+    # org.springframework.security: TRACE
+    # org.opensaml: DEBUG
 
 # MUST use SSL for SAML
 server:

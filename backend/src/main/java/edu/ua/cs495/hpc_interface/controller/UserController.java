@@ -1,7 +1,6 @@
 package edu.ua.cs495.hpc_interface.controller;
 
 import edu.ua.cs495.hpc_interface.domain.dto.UserWithKeyDTO;
-import edu.ua.cs495.hpc_interface.domain.entity.User;
 import edu.ua.cs495.hpc_interface.domain.mapper.UserMapper;
 import edu.ua.cs495.hpc_interface.rest.resource.UserApi;
 import edu.ua.cs495.hpc_interface.service.AuthenticationService;
@@ -27,16 +26,18 @@ public class UserController implements UserApi {
   /** {@inheritDoc} */
   @Override
   public ResponseEntity<UserWithKeyDTO> getCurrentUserWithKey() {
-    User user = authenticationService.getAuthenticatedUser();
-    return ResponseEntity.ok(userMapper.toDtoWithKey(user));
+    return ResponseEntity.ok(
+      userMapper.toDtoWithKey(authenticationService.getAuthenticatedUser())
+    );
   }
 
   /** {@inheritDoc} */
   @Override
   public ResponseEntity<UserWithKeyDTO> regenerateCurrentUserKey() {
-    User user = authenticationService.getAuthenticatedUser();
     return ResponseEntity.ok(
-      userMapper.toDtoWithKey(userService.regenerateKey(user))
+      userMapper.toDtoWithKey(
+        userService.regenerateKey(authenticationService.getAuthenticatedUser())
+      )
     );
   }
 }

@@ -5,27 +5,27 @@ info:
 servers:
   - url: /
 paths:
-  /batches:
+  /api/batches:
     $ref: paths/batches/root.yaml
-  /batches/{batchId}:
+  /api/batches/{batchId}:
     $ref: paths/batches/batchId/root.yaml
-  /batches/{batchId}/approve:
+  /api/batches/{batchId}/approve:
     $ref: paths/batches/batchId/approve.yaml
-  /batches/{batchId}/cancel:
+  /api/batches/{batchId}/cancel:
     $ref: paths/batches/batchId/cancel.yaml
-  /batches/{batchId}/jobs:
+  /api/batches/{batchId}/jobs:
     $ref: paths/batches/batchId/jobs/root.yaml
-  /batches/{batchId}/jobs/{jobId}:
+  /api/batches/{batchId}/jobs/{jobId}:
     $ref: paths/batches/batchId/jobs/jobId/root.yaml
-  /batches/{batchId}/jobs/{jobId}/cancel:
+  /api/batches/{batchId}/jobs/{jobId}/cancel:
     $ref: paths/batches/batchId/jobs/jobId/cancel.yaml
-  /batches/{batchId}/jobs/{jobId}/refresh:
+  /api/batches/{batchId}/jobs/{jobId}/refresh:
     $ref: paths/batches/batchId/jobs/jobId/refresh.yaml
-  /scripts:
+  /api/scripts:
     $ref: paths/scripts/root.yaml
-  /scripts/{scriptId}:
+  /api/scripts/{scriptId}:
     $ref: paths/scripts/scriptId.yaml
-  /users/me:
+  /api/users/me:
     $ref: paths/users/me/root.yaml
-  /users/me/regenerate:
+  /api/users/me/regenerate:
     $ref: paths/users/me/regenerate.yaml

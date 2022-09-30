@@ -43,9 +43,8 @@ public class User implements Serializable {
   private String email;
 
   /** If the user is an administrator */
-  @Builder.Default
   @Column(name = "admin")
-  private boolean admin = false;
+  private Boolean admin;
 
   /**
    * The private key that should be used to access the HPC cluster on the user's behalf

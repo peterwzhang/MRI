@@ -144,9 +144,9 @@ public class Script implements Serializable {
 
   /** If this script is a global template that should be accessible to all users */
   @Column(name = "global_template")
-  private boolean globalTemplate;
+  private Boolean globalTemplate;
 
   /** If the script has been archived (viewable but not editable) */
   @Column(name = "archived")
-  private boolean archived;
+  private Boolean archived;
 }

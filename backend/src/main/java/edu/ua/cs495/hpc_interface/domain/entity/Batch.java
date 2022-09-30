@@ -59,7 +59,7 @@ public class Batch implements Serializable {
 
   /** If this batch requires approval for starting jobs */
   @Column(name = "needs_approval")
-  private boolean needsApproval;
+  private Boolean needsApproval;
 
   /** The script used for this batch */
   @NotNull

@@ -6,13 +6,11 @@ import edu.ua.cs495.hpc_interface.domain.mapper.UserMapper;
 import edu.ua.cs495.hpc_interface.rest.resource.UserApi;
 import edu.ua.cs495.hpc_interface.service.AuthenticationService;
 import edu.ua.cs495.hpc_interface.service.UserService;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Log4j2
 @RestController
 @RequestMapping(value = "/")
 public class UserController implements UserApi {

@@ -20,6 +20,8 @@ public class PageAccessConfig {
           authorize
             .mvcMatchers("/api/**")
             .permitAll()
+            .mvcMatchers("/logout")
+            .permitAll()
             .anyRequest()
             .authenticated()
       )

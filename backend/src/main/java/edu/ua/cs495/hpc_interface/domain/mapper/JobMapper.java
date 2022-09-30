@@ -31,10 +31,10 @@ public interface JobMapper {
 
   @Named("getMetadataSpecialJobType")
   static JobMetadataDTO.SpecialJobTypeEnum getSpecialJobType(Job source) {
-    if (source.isSetupJob()) {
+    if (Boolean.TRUE.equals(source.getSetupJob())) {
       return JobMetadataDTO.SpecialJobTypeEnum.SETUP;
     }
-    if (source.isCleanupJob()) {
+    if (Boolean.TRUE.equals(source.getCleanupJob())) {
       return JobMetadataDTO.SpecialJobTypeEnum.CLEANUP;
     }
     return JobMetadataDTO.SpecialJobTypeEnum.NONE;
@@ -42,10 +42,10 @@ public interface JobMapper {
 
   @Named("getFullSpecialJobType")
   static JobDTO.SpecialJobTypeEnum getFullSpecialJobType(Job source) {
-    if (source.isSetupJob()) {
+    if (Boolean.TRUE.equals(source.getSetupJob())) {
       return JobDTO.SpecialJobTypeEnum.SETUP;
     }
-    if (source.isCleanupJob()) {
+    if (Boolean.TRUE.equals(source.getCleanupJob())) {
       return JobDTO.SpecialJobTypeEnum.CLEANUP;
     }
     return JobDTO.SpecialJobTypeEnum.NONE;

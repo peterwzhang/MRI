@@ -36,6 +36,20 @@ public class UserService {
     return repository.save(user);
   }
 
+  public User regenerateKey(User source) {
+    log.info(
+      String.format("Regenerating keypair for user ID %s", source.getId())
+    );
+
+    KeyPair newKeyPair = sshService.generateKeyPair();
+
+    User user = source
+      .withPrivateKey(newKeyPair.getPrivate().getEncoded())
+      .withPublicKey(newKeyPair.getPublic().getEncoded());
+
+    return repository.save(user);
+  }
+
   public User createUserIfNotExists(String email) {
     Optional<User> dbResult = repository.findOne(
       Example.of(

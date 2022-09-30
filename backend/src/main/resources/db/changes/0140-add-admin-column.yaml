@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 0130-add-admin-column
+      id: 0140-add-admin-column
       author: ncovercash
       comment: Add a column to store a user's admin status
       changes:
@@ -11,3 +11,5 @@ databaseChangeLog:
                 name: ADMIN
                 type: boolean
                 remarks: If the user is an administrator
+                constraints:
+                  nullable: false

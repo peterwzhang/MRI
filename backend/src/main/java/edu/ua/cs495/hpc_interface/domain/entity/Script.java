@@ -24,7 +24,7 @@ import lombok.With;
 @Data
 @With
 @Entity
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "scripts")

@@ -1,6 +1,7 @@
 package edu.ua.cs495.hpc_interface.controller;
 
 import edu.ua.cs495.hpc_interface.domain.dto.ScriptDTO;
+import edu.ua.cs495.hpc_interface.domain.dto.ScriptForCreationDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.ScriptMetadataWithIdDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.ScriptWithIdDTO;
 import edu.ua.cs495.hpc_interface.exception.NotImplementedException;
@@ -36,15 +37,17 @@ public class ScriptController implements ScriptApi {
 
   /** {@inheritDoc} */
   @Override
-  public ResponseEntity<ScriptWithIdDTO> createScript(ScriptDTO script) {
+  public ResponseEntity<ScriptWithIdDTO> createScript(
+    ScriptForCreationDTO script
+  ) {
     throw new NotImplementedException(httpServletRequest);
   }
 
   /** {@inheritDoc} */
   @Override
-  public ResponseEntity<ScriptDTO> updateScript(
+  public ResponseEntity<ScriptWithIdDTO> updateScript(
     UUID scriptId,
-    ScriptDTO newScript
+    ScriptForCreationDTO newScript
   ) {
     throw new NotImplementedException(httpServletRequest);
   }

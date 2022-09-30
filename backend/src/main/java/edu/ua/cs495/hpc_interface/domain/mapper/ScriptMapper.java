@@ -1,6 +1,7 @@
 package edu.ua.cs495.hpc_interface.domain.mapper;
 
 import edu.ua.cs495.hpc_interface.domain.dto.ScriptDTO;
+import edu.ua.cs495.hpc_interface.domain.dto.ScriptForCreationDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.ScriptMetadataDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.ScriptMetadataWithIdDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.ScriptWithIdDTO;
@@ -20,6 +21,8 @@ public interface ScriptMapper {
 
   Script fromFullDtoWithoutId(ScriptDTO source);
   Script fromFullDtoWithId(ScriptWithIdDTO source);
+
+  Script fromCreationDto(ScriptForCreationDTO source);
 
   @Mapping(target = "cleanupMode", ignore = true)
   @Mapping(target = "cleanupScript", ignore = true)

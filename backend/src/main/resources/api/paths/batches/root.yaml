@@ -20,7 +20,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: ../../schemas/batches/batchSubmissionMetadata.yaml
+          $ref: ../../schemas/batches/batchForSubmission.yaml
   responses:
     "201":
       description: The batch was successfully created

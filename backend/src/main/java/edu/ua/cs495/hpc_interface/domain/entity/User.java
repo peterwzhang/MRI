@@ -19,7 +19,7 @@ import org.hibernate.annotations.Type;
 @Data
 @With
 @Entity
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")

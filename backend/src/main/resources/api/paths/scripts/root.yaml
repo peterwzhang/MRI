@@ -20,7 +20,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: ../../schemas/scripts/script.yaml
+          $ref: ../../schemas/scripts/scriptForCreation.yaml
   responses:
     "201":
       description: The script was successfully created

@@ -1,8 +1,7 @@
 package edu.ua.cs495.hpc_interface.controller;
 
-import edu.ua.cs495.hpc_interface.domain.dto.BatchMetadataDTO;
+import edu.ua.cs495.hpc_interface.domain.dto.BatchForSubmissionDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.BatchMetadataWithIdDTO;
-import edu.ua.cs495.hpc_interface.domain.dto.BatchSubmissionMetadataDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.BatchWithJobsDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.JobMetadataDTO;
 import edu.ua.cs495.hpc_interface.exception.NotImplementedException;
@@ -45,7 +44,7 @@ public class BatchController implements BatchApi {
   /** {@inheritDoc} */
   @Override
   public ResponseEntity<BatchMetadataWithIdDTO> createBatch(
-    BatchSubmissionMetadataDTO batch
+    BatchForSubmissionDTO batch
   ) {
     throw new NotImplementedException(httpServletRequest);
   }

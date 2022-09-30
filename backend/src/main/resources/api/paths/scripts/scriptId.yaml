@@ -43,14 +43,14 @@ put:
     content:
       application/json:
         schema:
-          $ref: ../../schemas/scripts/script.yaml
+          $ref: ../../schemas/scripts/scriptForCreation.yaml
   responses:
     "200":
       description: The script was successfully updated
       content:
         application/json:
           schema:
-            $ref: ../../schemas/scripts/script.yaml
+            $ref: ../../schemas/scripts/scriptWithId.yaml
     "404":
       description: Script not found
 delete:

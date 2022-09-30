@@ -4,8 +4,11 @@ import edu.ua.cs495.hpc_interface.domain.dto.ScriptDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.ScriptForCreationDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.ScriptMetadataWithIdDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.ScriptWithIdDTO;
+import edu.ua.cs495.hpc_interface.domain.mapper.ScriptMapper;
 import edu.ua.cs495.hpc_interface.exception.NotImplementedException;
 import edu.ua.cs495.hpc_interface.rest.resource.ScriptApi;
+import edu.ua.cs495.hpc_interface.service.AuthenticationService;
+import edu.ua.cs495.hpc_interface.service.ScriptService;
 import java.util.List;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/")
 public class ScriptController implements ScriptApi {
+
+  @Autowired
+  private AuthenticationService authenticationService;
+
+  @Autowired
+  private ScriptService scriptService;
+
+  @Autowired
+  private ScriptMapper scriptMapper;
 
   @Autowired
   private HttpServletRequest httpServletRequest;
@@ -40,7 +52,14 @@ public class ScriptController implements ScriptApi {
   public ResponseEntity<ScriptWithIdDTO> createScript(
     ScriptForCreationDTO script
   ) {
-    throw new NotImplementedException(httpServletRequest);
+    return ResponseEntity.ok(
+      scriptMapper.toFullDtoWithId(
+        scriptService.createFromDTO(
+          script,
+          authenticationService.getAuthenticatedUser()
+        )
+      )
+    );
   }
 
   /** {@inheritDoc} */

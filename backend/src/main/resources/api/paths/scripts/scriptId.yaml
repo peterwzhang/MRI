@@ -57,6 +57,12 @@ put:
         application/json:
           schema:
             $ref: ../../schemas/scripts/script.yaml
+    "201":
+      description: The script was successfully created, with a RANDOM ID
+      content:
+        application/json:
+          schema:
+            $ref: ../../schemas/scripts/script.yaml
     "404":
       description: Script not found
 delete:

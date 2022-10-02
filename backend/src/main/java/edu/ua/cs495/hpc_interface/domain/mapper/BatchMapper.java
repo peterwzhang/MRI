@@ -1,6 +1,6 @@
 package edu.ua.cs495.hpc_interface.domain.mapper;
 
-import edu.ua.cs495.hpc_interface.domain.dto.BatchMetadataDTO;
+import edu.ua.cs495.hpc_interface.domain.dto.BatchForSubmissionDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.BatchMetadataStatusSummaryDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.BatchMetadataWithIdDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.BatchWithJobsDTO;
@@ -32,19 +32,6 @@ public interface BatchMapper {
     source = "jobs",
     qualifiedByName = "getLastSyncFromJobs"
   )
-  BatchMetadataDTO toMetadataDtoWithoutId(Batch source);
-
-  @Mapping(target = "requiresApprovalStep", source = "needsApproval")
-  @Mapping(
-    target = "statusSummary",
-    source = "jobs",
-    qualifiedByName = "getStatusSummaryFromJobs"
-  )
-  @Mapping(
-    target = "lastSynced",
-    source = "jobs",
-    qualifiedByName = "getLastSyncFromJobs"
-  )
   BatchMetadataWithIdDTO toMetadataDtoWithId(Batch source);
 
   @Mapping(target = "requiresApprovalStep", source = "needsApproval")
@@ -62,11 +49,16 @@ public interface BatchMapper {
   @Mapping(target = "job", ignore = true)
   BatchWithJobsDTO toFullDtoWithJobs(Batch source);
 
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "status", ignore = true)
+  @Mapping(target = "user", ignore = true)
+  @Mapping(target = "startedAt", ignore = true)
+  @Mapping(target = "scriptUsed", source = "script")
   @Mapping(target = "needsApproval", source = "requiresApprovalStep")
   @Mapping(target = "jobs", ignore = true)
   // not sure why it thinks this property exists...
   @Mapping(target = "job", ignore = true)
-  Batch fromDto(BatchMetadataDTO source);
+  Batch fromSubmissionDto(BatchForSubmissionDTO source);
 
   @Named("getStatusSummaryFromJobs")
   static BatchMetadataStatusSummaryDTO getStatusSummaryFromJobs(

@@ -23,8 +23,10 @@ public enum BatchStatus {
   QUEUEING("QUEUEING"),
   /** Jobs are queued */
   RUNNING("RUNNING"),
-  /** Jobs have finished; the cleanup script is now in the process of running/queueing */
-  CLEANING_UP("CLEANING_UP"),
+  /** Jobs have finished; the cleanup script is now in the process of queueing */
+  CLEAN_UP_QUEUEING("CLEAN_UP_QUEUEING"),
+  /** The cleanup script is now in the process of running */
+  CLEAN_UP_RUNNING("CLEAN_UP_RUNNING"),
   /** The batch has completed running (with or without failing jobs) */
   COMPLETED("COMPLETED"),
   /**

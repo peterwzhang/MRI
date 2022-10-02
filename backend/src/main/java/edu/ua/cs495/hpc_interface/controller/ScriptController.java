@@ -1,8 +1,8 @@
 package edu.ua.cs495.hpc_interface.controller;
 
+import edu.ua.cs495.hpc_interface.domain.dto.ScriptDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.ScriptForCreationDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.ScriptMetadataWithIdDTO;
-import edu.ua.cs495.hpc_interface.domain.dto.ScriptWithIdDTO;
 import edu.ua.cs495.hpc_interface.domain.entity.Script;
 import edu.ua.cs495.hpc_interface.domain.mapper.ScriptMapper;
 import edu.ua.cs495.hpc_interface.exception.NotFoundException;
@@ -51,7 +51,7 @@ public class ScriptController implements ScriptApi {
 
   /** {@inheritDoc} */
   @Override
-  public ResponseEntity<ScriptWithIdDTO> getScript(UUID scriptId) {
+  public ResponseEntity<ScriptDTO> getScript(UUID scriptId) {
     return ResponseEntity.ok(
       scriptMapper.toFullDtoWithId(
         scriptService.getForUserById(
@@ -64,9 +64,7 @@ public class ScriptController implements ScriptApi {
 
   /** {@inheritDoc} */
   @Override
-  public ResponseEntity<ScriptWithIdDTO> createScript(
-    ScriptForCreationDTO script
-  ) {
+  public ResponseEntity<ScriptDTO> createScript(ScriptForCreationDTO script) {
     return new ResponseEntity<>(
       scriptMapper.toFullDtoWithId(
         scriptService.createFromDTO(
@@ -80,7 +78,7 @@ public class ScriptController implements ScriptApi {
 
   /** {@inheritDoc} */
   @Override
-  public ResponseEntity<ScriptWithIdDTO> updateScript(
+  public ResponseEntity<ScriptDTO> updateScript(
     UUID scriptId,
     ScriptForCreationDTO newScript
   ) {

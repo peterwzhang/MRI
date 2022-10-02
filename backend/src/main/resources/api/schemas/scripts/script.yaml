@@ -1,4 +1,4 @@
-description: All data for a single script
+description: All data for a single script, with required ID
 allOf:
   - $ref: scriptMetadata.yaml
 type: object
@@ -69,9 +69,10 @@ properties:
       "This dictates when the cleanup script should be run: if it should run
       after all jobs have ended (regardless of success), all jobs have"
 required:
+  - id
   - header
   - setupScript
-  - setupScriptSlurmConfig
+  - setupSlurmConfig
   - loopWrapperTop
   - idVariable
   - jobTemplate

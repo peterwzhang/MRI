@@ -35,4 +35,4 @@ post:
       content:
         application/json:
           schema:
-            $ref: ../../schemas/scripts/scriptWithId.yaml
+            $ref: ../../schemas/scripts/script.yaml

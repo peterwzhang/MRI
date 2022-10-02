@@ -4,7 +4,6 @@ import edu.ua.cs495.hpc_interface.domain.dto.ScriptDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.ScriptForCreationDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.ScriptMetadataDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.ScriptMetadataWithIdDTO;
-import edu.ua.cs495.hpc_interface.domain.dto.ScriptWithIdDTO;
 import edu.ua.cs495.hpc_interface.domain.entity.Script;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,10 +16,10 @@ public interface ScriptMapper {
   ScriptDTO toFullDtoWithoutId(Script source);
   ScriptMetadataDTO toMetadataDtoWithoutId(Script source);
   ScriptMetadataWithIdDTO toMetadataDtoWithId(Script source);
-  ScriptWithIdDTO toFullDtoWithId(Script source);
+  ScriptDTO toFullDtoWithId(Script source);
 
   Script fromFullDtoWithoutId(ScriptDTO source);
-  Script fromFullDtoWithId(ScriptWithIdDTO source);
+  Script fromFullDtoWithId(ScriptDTO source);
 
   Script fromCreationDto(ScriptForCreationDTO source);
 

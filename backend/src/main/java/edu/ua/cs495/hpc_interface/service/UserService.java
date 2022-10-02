@@ -29,8 +29,8 @@ public class UserService {
       .username(email.split("@")[0])
       .email(email)
       .admin(false)
-      .privateKey(keyPair.getPrivate().getEncoded())
-      .publicKey(keyPair.getPublic().getEncoded())
+      .privateKey(sshService.privateKeyToString(keyPair.getPrivate()))
+      .publicKey(sshService.publicKeyToString(keyPair.getPublic()))
       .build();
 
     return repository.save(user);
@@ -44,8 +44,8 @@ public class UserService {
     KeyPair newKeyPair = sshService.generateKeyPair();
 
     User user = source
-      .withPrivateKey(newKeyPair.getPrivate().getEncoded())
-      .withPublicKey(newKeyPair.getPublic().getEncoded());
+      .withPrivateKey(sshService.privateKeyToString(newKeyPair.getPrivate()))
+      .withPublicKey(sshService.publicKeyToString(newKeyPair.getPublic()));
 
     return repository.save(user);
   }

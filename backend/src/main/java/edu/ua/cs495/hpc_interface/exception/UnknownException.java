@@ -14,6 +14,21 @@ import org.springframework.http.HttpStatus;
 public class UnknownException extends AbstractException {
 
   /**
+   * Create an UnknownException for an internal server error.
+   *
+   * @param cause The exception which caused this (should not be null due to
+   *              the ambiguity of this exception)
+   */
+  public UnknownException(Throwable cause) {
+    this(
+      cause,
+      HttpStatus.INTERNAL_SERVER_ERROR,
+      ErrorCode.UNKNOWN_ERROR,
+      cause.getMessage()
+    );
+  }
+
+  /**
    * Create an UnknownException with the given error code and message. This constructor assumes a HTTP code of 400 Bad Request
    *
    * @param cause     The exception which caused this (should not be null due to

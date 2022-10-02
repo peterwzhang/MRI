@@ -49,16 +49,12 @@ public class User implements Serializable {
   /**
    * The private key that should be used to access the HPC cluster on the user's behalf
    */
-  @Lob
   @NotNull
   @Column(name = "private_key")
-  @Type(type = "org.hibernate.type.BinaryType")
-  private byte[] privateKey;
+  private String privateKey;
 
   /** The public key that should be installed on the HPC cluster by the user */
-  @Lob
   @NotNull
   @Column(name = "public_key")
-  @Type(type = "org.hibernate.type.BinaryType")
-  private byte[] publicKey;
+  private String publicKey;
 }

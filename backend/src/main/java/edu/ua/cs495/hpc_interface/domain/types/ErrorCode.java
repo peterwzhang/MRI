@@ -10,6 +10,8 @@ public enum ErrorCode {
   ENDPOINT_NOT_FOUND("ENDPOINT_NOT_FOUND"),
   ENDPOINT_INVALID_METHOD("ENDPOINT_INVALID_METHOD"),
   AUTHENTICATION_REQUIRED("AUTHENTICATION_REQUIRED"),
+  FORBIDDEN("FORBIDDEN"),
+  NOT_FOUND("NOT_FOUND"),
   /**
    * Catch-all for any invalid request.  Should be used as little as possible,
    * only really when Spring cannot parse the request parameters whatsoever

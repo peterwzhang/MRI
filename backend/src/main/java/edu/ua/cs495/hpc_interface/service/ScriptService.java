@@ -5,13 +5,17 @@ import edu.ua.cs495.hpc_interface.domain.entity.Script;
 import edu.ua.cs495.hpc_interface.domain.entity.User;
 import edu.ua.cs495.hpc_interface.domain.mapper.ScriptMapper;
 import edu.ua.cs495.hpc_interface.domain.repository.ScriptRepository;
+import edu.ua.cs495.hpc_interface.exception.NotFoundException;
+import edu.ua.cs495.hpc_interface.exception.UnauthorizedException;
 import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Log4j2
 @Service
 @AllArgsConstructor(onConstructor_ = { @Autowired })
 public class ScriptService {
@@ -19,7 +23,10 @@ public class ScriptService {
   private ScriptRepository repository;
   private ScriptMapper scriptMapper;
 
-  public Script createFromDTO(ScriptForCreationDTO source, User creator) {
+  public Script createFromDTO(
+    ScriptForCreationDTO source,
+    @NotNull User creator
+  ) {
     return repository.save(
       scriptMapper
         .fromCreationDto(source)
@@ -27,9 +34,71 @@ public class ScriptService {
         .user(creator)
         .createdAt(Instant.now())
         .updatedAt(Instant.now())
-        .globalTemplate(false)
         .archived(false)
         .build()
     );
+  }
+
+  public Script updateFromDTO(
+    Script originalScript,
+    ScriptForCreationDTO source,
+    @NotNull User user
+  ) {
+    if (
+      (
+        !originalScript.getUser().equals(user) &&
+        Boolean.FALSE.equals(user.getAdmin())
+      ) ||
+      Boolean.TRUE.equals(originalScript.getArchived())
+    ) {
+      throw new UnauthorizedException();
+    }
+
+    return repository.save(
+      scriptMapper
+        .fromCreationDto(source)
+        .toBuilder()
+        .id(originalScript.getId())
+        .user(user)
+        .createdAt(originalScript.getCreatedAt())
+        .updatedAt(Instant.now())
+        .archived(false)
+        .build()
+    );
+  }
+
+  public Script getForUserById(UUID scriptId, @NotNull User authenticatedUser) {
+    Optional<Script> dbResult = repository.findById(scriptId);
+
+    if (dbResult.isEmpty()) {
+      throw new NotFoundException();
+    }
+
+    Script script = dbResult.get();
+
+    if (
+      Boolean.FALSE.equals(script.getGlobalTemplate()) &&
+      !script.getUser().equals(authenticatedUser) &&
+      Boolean.FALSE.equals(authenticatedUser.getAdmin())
+    ) {
+      throw new UnauthorizedException();
+    }
+
+    return script;
+  }
+
+  public void archiveScript(UUID scriptId, User authenticatedUser) {
+    Script script = getForUserById(scriptId, authenticatedUser);
+
+    // only the owner may delete the script
+    if (!script.getUser().equals(authenticatedUser)) {
+      throw new UnauthorizedException();
+    }
+
+    repository.save(script.withArchived(true).withUpdatedAt(Instant.now()));
+  }
+
+  public List<Script> getAllForUser(User user, boolean includeArchived) {
+    return repository.findGlobalAndUserOwnedScripts(user, includeArchived);
   }
 }

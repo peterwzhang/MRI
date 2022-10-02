@@ -69,6 +69,9 @@ properties:
     description:
       "This dictates when the cleanup script should be run: if it should run
       after all jobs have ended (regardless of success), all jobs have"
+  globalTemplate:
+    type: boolean
+    description: If this script is a globally-available template
 required:
   - name
   - header
@@ -82,3 +85,4 @@ required:
   - cleanupScript
   - cleanupSlurmConfig
   - cleanupMode
+  - globalTemplate

@@ -3,6 +3,14 @@ get:
   description: Get all scripts available to the current user.
   operationId: getAllScripts
   tags: [script]
+  parameters:
+    - in: query
+      name: includeArchived
+      required: false
+      schema:
+        type: boolean
+        default: false
+      description: If archived/hidden scripts should be returned
   responses:
     "200":
       description: The scripts available to the current user

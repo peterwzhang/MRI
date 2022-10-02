@@ -18,7 +18,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: ../../schemas/scripts/script.yaml
+            $ref: ../../schemas/scripts/scriptWithId.yaml
     "404":
       description: Script not found
       content:
@@ -27,7 +27,13 @@ get:
             $ref: ../../schemas/errorResponse.yaml
 put:
   summary: Update a single script
-  description: Edit/update a new script
+  description:
+    Edit/update a new script.  This endpoint can create scripts, however, this
+    is not recommended; if this endpoint is used for this purpose, the server
+    will NOT guarantee that the newly-created ID will be the same as what was
+    included in the request.  Any client using this endpoint to create scripts
+    should keep this in mind; in the instance that a script is created rather
+    than updated, a 201 is returned.
   operationId: updateScript
   tags: [script]
   parameters:

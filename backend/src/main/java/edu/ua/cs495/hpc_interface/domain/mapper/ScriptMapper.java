@@ -21,6 +21,11 @@ public interface ScriptMapper {
   Script fromFullDtoWithoutId(ScriptDTO source);
   Script fromFullDtoWithId(ScriptDTO source);
 
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "user", ignore = true)
+  @Mapping(target = "createdAt", ignore = true)
+  @Mapping(target = "updatedAt", ignore = true)
+  @Mapping(target = "archived", ignore = true)
   Script fromCreationDto(ScriptForCreationDTO source);
 
   @Mapping(target = "cleanupMode", ignore = true)

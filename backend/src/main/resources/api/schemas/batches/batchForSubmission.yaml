@@ -8,7 +8,9 @@ properties:
     type: boolean
     description:
       If this batch should wait to submit jobs pending a manual approval
-  script: # Allow full overriding, as desired -- will be based off templates, but copied and archived
+  # Allow full overriding, as desired -- will be based off templates
+  # but copied and archived upon batch submission
+  script:
     $ref: ../scripts/scriptForCreation.yaml
 required:
   - name

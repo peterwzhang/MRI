@@ -68,7 +68,8 @@ properties:
       - NEVER
     description:
       "This dictates when the cleanup script should be run: if it should run
-      after all jobs have ended (regardless of success), all jobs have"
+      after all jobs have ended (regardless of success), after all jobs have
+      successfully completed, or not at all"
   globalTemplate:
     type: boolean
     description: If this script is a globally-available template

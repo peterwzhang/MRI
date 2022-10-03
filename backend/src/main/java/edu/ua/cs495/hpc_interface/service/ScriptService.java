@@ -20,14 +20,14 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor(onConstructor_ = { @Autowired })
 public class ScriptService {
 
-  private ScriptRepository repository;
+  private ScriptRepository scriptRepository;
   private ScriptMapper scriptMapper;
 
   public Script createFromDTO(
     ScriptForCreationDTO source,
     @NotNull User creator
   ) {
-    return repository.save(
+    return scriptRepository.save(
       scriptMapper
         .fromCreationDto(source)
         .toBuilder()
@@ -54,7 +54,7 @@ public class ScriptService {
       throw new UnauthorizedException();
     }
 
-    return repository.save(
+    return scriptRepository.save(
       scriptMapper
         .fromCreationDto(source)
         .toBuilder()
@@ -68,7 +68,7 @@ public class ScriptService {
   }
 
   public Script getForUserById(UUID scriptId, @NotNull User authenticatedUser) {
-    Optional<Script> dbResult = repository.findById(scriptId);
+    Optional<Script> dbResult = scriptRepository.findById(scriptId);
 
     if (dbResult.isEmpty()) {
       throw new NotFoundException();
@@ -95,10 +95,15 @@ public class ScriptService {
       throw new UnauthorizedException();
     }
 
-    repository.save(script.withArchived(true).withUpdatedAt(Instant.now()));
+    scriptRepository.save(
+      script.withArchived(true).withUpdatedAt(Instant.now())
+    );
   }
 
   public List<Script> getAllForUser(User user, boolean includeArchived) {
-    return repository.findGlobalAndUserOwnedScripts(user, includeArchived);
+    return scriptRepository.findGlobalAndUserOwnedScripts(
+      user,
+      includeArchived
+    );
   }
 }

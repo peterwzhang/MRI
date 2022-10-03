@@ -2,6 +2,7 @@ package edu.ua.cs495.hpc_interface.service;
 
 import edu.ua.cs495.hpc_interface.domain.entity.User;
 import edu.ua.cs495.hpc_interface.domain.repository.UserRepository;
+import edu.ua.cs495.hpc_interface.util.KeyUtils;
 import java.security.KeyPair;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -17,20 +18,19 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
   private UserRepository repository;
-  private SSHService sshService;
 
   protected User createUser(String email) {
     log.info(String.format("Creating user with email %s", email));
 
-    KeyPair keyPair = sshService.generateKeyPair();
+    KeyPair keyPair = KeyUtils.generateKeyPair();
 
     User user = User
       .builder()
       .username(email.split("@")[0])
       .email(email)
       .admin(false)
-      .privateKey(sshService.privateKeyToString(keyPair.getPrivate()))
-      .publicKey(sshService.publicKeyToString(keyPair.getPublic()))
+      .privateKey(KeyUtils.privateKeyToString(keyPair.getPrivate()))
+      .publicKey(KeyUtils.publicKeyToString(keyPair.getPublic()))
       .build();
 
     return repository.save(user);
@@ -41,11 +41,11 @@ public class UserService {
       String.format("Regenerating keypair for user ID %s", source.getId())
     );
 
-    KeyPair newKeyPair = sshService.generateKeyPair();
+    KeyPair newKeyPair = KeyUtils.generateKeyPair();
 
     User user = source
-      .withPrivateKey(sshService.privateKeyToString(newKeyPair.getPrivate()))
-      .withPublicKey(sshService.publicKeyToString(newKeyPair.getPublic()));
+      .withPrivateKey(KeyUtils.privateKeyToString(newKeyPair.getPrivate()))
+      .withPublicKey(KeyUtils.publicKeyToString(newKeyPair.getPublic()));
 
     return repository.save(user);
   }

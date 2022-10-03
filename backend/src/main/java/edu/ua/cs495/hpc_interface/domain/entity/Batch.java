@@ -30,7 +30,7 @@ import lombok.With;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
+@Table(name = "batches")
 public class Batch implements Serializable {
 
   /** Unique ID for this batch */

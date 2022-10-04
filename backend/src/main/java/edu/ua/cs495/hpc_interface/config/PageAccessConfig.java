@@ -49,6 +49,8 @@ public class PageAccessConfig implements WebMvcConfigurer {
   public void addCorsMappings(CorsRegistry registry) {
     registry
       .addMapping("/**")
+      .allowCredentials(true)
+      .allowedMethods("HEAD", "GET", "POST", "PUT", "DELETE")
       .allowedOrigins(
         "https://localhost:3000",
         "http://localhost:3000",

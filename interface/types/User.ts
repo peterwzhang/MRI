@@ -14,4 +14,8 @@ export interface User {
    * The user's email address
    */
   email?: string;
+  /**
+   * If the user is an administrator
+   */
+  admin?: boolean;
 }

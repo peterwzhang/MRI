@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 public class NotImplementedException extends AbstractException {
 
   /**
-   * Create an NotImplementedException from the given request context
+   * Create a NotImplementedException from the given request context
    *
    * @param context the servlet context containing information about this request
    */

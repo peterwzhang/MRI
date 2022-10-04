@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -14,12 +13,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.With;
-import org.hibernate.annotations.Type;
 
 @Data
 @With
 @Entity
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
@@ -43,23 +41,18 @@ public class User implements Serializable {
   private String email;
 
   /** If the user is an administrator */
-  @Builder.Default
   @Column(name = "admin")
-  private boolean admin = false;
+  private Boolean admin;
 
   /**
    * The private key that should be used to access the HPC cluster on the user's behalf
    */
-  @Lob
   @NotNull
   @Column(name = "private_key")
-  @Type(type = "org.hibernate.type.BinaryType")
-  private byte[] privateKey;
+  private String privateKey;
 
   /** The public key that should be installed on the HPC cluster by the user */
-  @Lob
   @NotNull
   @Column(name = "public_key")
-  @Type(type = "org.hibernate.type.BinaryType")
-  private byte[] publicKey;
+  private String publicKey;
 }

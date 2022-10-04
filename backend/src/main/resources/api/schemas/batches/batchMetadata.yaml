@@ -19,7 +19,8 @@ properties:
       - AWAITING_APPROVAL
       - QUEUEING
       - RUNNING
-      - CLEANING_UP
+      - CLEAN_UP_QUEUEING
+      - CLEAN_UP_RUNNING
       - COMPLETED
       - CANCELLED
       - FAILED

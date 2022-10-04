@@ -1,8 +1,9 @@
-description: All data for a single script, with required ID
-allOf:
-  - $ref: scriptMetadata.yaml
+description: All data needed to create a script
 type: object
 properties:
+  name:
+    type: string
+    description: A descriptive name for the script
   header:
     type: string
     description:
@@ -67,12 +68,16 @@ properties:
       - NEVER
     description:
       "This dictates when the cleanup script should be run: if it should run
-      after all jobs have ended (regardless of success), all jobs have"
+      after all jobs have ended (regardless of success), after all jobs have
+      successfully completed, or not at all"
+  globalTemplate:
+    type: boolean
+    description: If this script is a globally-available template
 required:
-  - id
+  - name
   - header
   - setupScript
-  - setupSlurmConfig
+  - setupScriptSlurmConfig
   - loopWrapperTop
   - idVariable
   - jobTemplate
@@ -81,3 +86,4 @@ required:
   - cleanupScript
   - cleanupSlurmConfig
   - cleanupMode
+  - globalTemplate

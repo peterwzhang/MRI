@@ -124,7 +124,8 @@ databaseChangeLog:
                   remarks:
                     "This dictates when the cleanup script should be run: if it
                     should run after all jobs have ended (regardless of
-                    success), all jobs have"
+                    success), after all jobs have successfully completed, or not
+                    at all"
               - column:
                   name: CREATED_TS
                   type: timestamp

@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0170-use-string-user-keys
+      author: ncovercash
+      comment:
+        Change private/public key columns to expect PEM-encoded keys rather than
+        byte blobs
+      changes:
+        - modifyDataType:
+            tableName: users
+            columnName: PRIVATE_KEY
+            newDataType: TEXT
+        - modifyDataType:
+            tableName: users
+            columnName: PUBLIC_KEY
+            newDataType: TEXT

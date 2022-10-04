@@ -8,6 +8,7 @@
     <relativePath />
   </parent>
 
+
   <groupId>edu.ua.cs495</groupId>
   <artifactId>hpc_interface</artifactId>
   <version>0.0.1-SNAPSHOT</version>
@@ -33,6 +34,34 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+      <version>2.7.4</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-saml2-service-provider</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.opensaml</groupId>
+      <artifactId>opensaml-core</artifactId>
+      <version>4.2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.opensaml</groupId>
+      <artifactId>opensaml-saml-api</artifactId>
+      <version>4.2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.opensaml</groupId>
+      <artifactId>opensaml-saml-impl</artifactId>
+      <version>4.2.0</version>
     </dependency>
 
     <dependency>
@@ -75,6 +104,12 @@
     </dependency>
 
     <dependency>
+      <groupId>com.github.mwiede</groupId>
+      <artifactId>jsch</artifactId>
+      <version>0.2.4</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <scope>runtime</scope>
@@ -89,6 +124,12 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-test</artifactId>
       <scope>test</scope>
     </dependency>
 
@@ -134,6 +175,14 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <repositories>
+    <repository>
+      <id>Shibboleth</id>
+      <name>Shibboleth</name>
+      <url>https://build.shibboleth.net/nexus/content/repositories/releases/</url>
+    </repository>
+  </repositories>
 
   <build>
     <plugins>

@@ -27,10 +27,10 @@ import lombok.With;
 @Data
 @With
 @Entity
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
+@Table(name = "batches")
 public class Batch implements Serializable {
 
   /** Unique ID for this batch */
@@ -59,7 +59,7 @@ public class Batch implements Serializable {
 
   /** If this batch requires approval for starting jobs */
   @Column(name = "needs_approval")
-  private boolean needsApproval;
+  private Boolean needsApproval;
 
   /** The script used for this batch */
   @NotNull

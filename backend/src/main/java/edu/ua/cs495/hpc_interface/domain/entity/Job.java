@@ -28,7 +28,7 @@ import lombok.With;
 @Data
 @With
 @Entity
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "jobs")
@@ -95,11 +95,11 @@ public class Job implements Serializable {
 
   /** If this job is used as the setup for a batch */
   @Column(name = "is_setup_job")
-  private boolean setupJob;
+  private Boolean setupJob;
 
   /** If this job is used as the cleanup for a batch */
   @Column(name = "is_cleanup_job")
-  private boolean cleanupJob;
+  private Boolean cleanupJob;
 
   /** When this job entered the Slurm queue */
   @CheckForNull
@@ -128,7 +128,7 @@ public class Job implements Serializable {
 
   /** The exit code of the script, if known.  If unknown, this will be 0 */
   @Column(name = "exit_code")
-  private int exitCode;
+  private Integer exitCode;
 
   /** When this job was last synchronized with Slurm */
   @NotNull

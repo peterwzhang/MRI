@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 0050-create-foreign-keys
+      id: 0090-create-user-foreign-keys
       author: ncovercash
       comment: Defines all foreign key relationships between tables
       changes:

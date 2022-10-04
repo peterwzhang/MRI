@@ -15,12 +15,13 @@ const rows = [
 ];
 
 const JobsTable = () => (
-    <div style={{ height: 320, width: 300 }}>
+    <div style={{ height: 320, width: 400 }}>
       <DataGrid
         rows={rows}
         columns={columns}
         pageSize={4}
         rowsPerPageOptions={[4]}
+        checkboxSelection
       />
     </div>
 );

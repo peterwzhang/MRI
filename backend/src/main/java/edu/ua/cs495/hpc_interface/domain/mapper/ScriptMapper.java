@@ -1,9 +1,9 @@
 package edu.ua.cs495.hpc_interface.domain.mapper;
 
 import edu.ua.cs495.hpc_interface.domain.dto.ScriptDTO;
+import edu.ua.cs495.hpc_interface.domain.dto.ScriptForCreationDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.ScriptMetadataDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.ScriptMetadataWithIdDTO;
-import edu.ua.cs495.hpc_interface.domain.dto.ScriptWithIdDTO;
 import edu.ua.cs495.hpc_interface.domain.entity.Script;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,10 +16,17 @@ public interface ScriptMapper {
   ScriptDTO toFullDtoWithoutId(Script source);
   ScriptMetadataDTO toMetadataDtoWithoutId(Script source);
   ScriptMetadataWithIdDTO toMetadataDtoWithId(Script source);
-  ScriptWithIdDTO toFullDtoWithId(Script source);
+  ScriptDTO toFullDtoWithId(Script source);
 
   Script fromFullDtoWithoutId(ScriptDTO source);
-  Script fromFullDtoWithId(ScriptWithIdDTO source);
+  Script fromFullDtoWithId(ScriptDTO source);
+
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "user", ignore = true)
+  @Mapping(target = "createdAt", ignore = true)
+  @Mapping(target = "updatedAt", ignore = true)
+  @Mapping(target = "archived", ignore = true)
+  Script fromCreationDto(ScriptForCreationDTO source);
 
   @Mapping(target = "cleanupMode", ignore = true)
   @Mapping(target = "cleanupScript", ignore = true)

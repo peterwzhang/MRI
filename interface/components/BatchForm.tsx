@@ -12,7 +12,8 @@ const BatchForm = () => (
             <option value="parallel_flanker.sh">Parallel Flanker</option>
             <option value="recon_parallel_abide.sh">Recon Parallel Abide</option>
             <option value="recon_single_sub.sh">Recon Single Sub</option>
-            <option value="slurm-interaction.sh">Slurm Interaction</option>            <option value="jobType">Recon Parallel Abide</option>
+            <option value="slurm-interaction.sh">Slurm Interaction</option>            
+            <option value="jobType">Recon Parallel Abide</option>
             <option value="slurm-test.sh">Slurm Test</option>
 
 

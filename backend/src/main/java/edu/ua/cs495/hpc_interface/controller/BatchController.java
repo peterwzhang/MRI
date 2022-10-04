@@ -1,16 +1,20 @@
 package edu.ua.cs495.hpc_interface.controller;
 
-import edu.ua.cs495.hpc_interface.domain.dto.BatchMetadataDTO;
+import edu.ua.cs495.hpc_interface.domain.dto.BatchForSubmissionDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.BatchMetadataWithIdDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.BatchWithJobsDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.JobMetadataDTO;
+import edu.ua.cs495.hpc_interface.domain.mapper.BatchMapper;
 import edu.ua.cs495.hpc_interface.exception.NotImplementedException;
 import edu.ua.cs495.hpc_interface.rest.resource.BatchApi;
+import edu.ua.cs495.hpc_interface.service.AuthenticationService;
+import edu.ua.cs495.hpc_interface.service.BatchService;
 import java.util.List;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +23,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/")
 public class BatchController implements BatchApi {
+
+  @Autowired
+  private AuthenticationService authenticationService;
+
+  @Autowired
+  private BatchService batchService;
+
+  @Autowired
+  private BatchMapper batchMapper;
 
   @Autowired
   private HttpServletRequest httpServletRequest;
@@ -44,9 +57,17 @@ public class BatchController implements BatchApi {
   /** {@inheritDoc} */
   @Override
   public ResponseEntity<BatchMetadataWithIdDTO> createBatch(
-    BatchMetadataDTO batch
+    BatchForSubmissionDTO batch
   ) {
-    throw new NotImplementedException(httpServletRequest);
+    return new ResponseEntity<>(
+      batchMapper.toMetadataDtoWithId(
+        batchService.createFromDTO(
+          batch,
+          authenticationService.getAuthenticatedUser()
+        )
+      ),
+      HttpStatus.CREATED
+    );
   }
 
   /** {@inheritDoc} */

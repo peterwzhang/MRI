@@ -3,6 +3,14 @@ get:
   description: Get all scripts available to the current user.
   operationId: getAllScripts
   tags: [script]
+  parameters:
+    - in: query
+      name: includeArchived
+      required: false
+      schema:
+        type: boolean
+        default: false
+      description: If archived/hidden scripts should be returned
   responses:
     "200":
       description: The scripts available to the current user
@@ -20,11 +28,11 @@ post:
     content:
       application/json:
         schema:
-          $ref: ../../schemas/scripts/script.yaml
+          $ref: ../../schemas/scripts/scriptForCreation.yaml
   responses:
     "201":
       description: The script was successfully created
       content:
         application/json:
           schema:
-            $ref: ../../schemas/scripts/scriptWithId.yaml
+            $ref: ../../schemas/scripts/script.yaml

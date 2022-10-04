@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Link from "next/link";
 import BatchTable from '../components/BatchTable';
 import Navbar from '../components/Navbar';
 import SectionDiv from "../components/SectionDiv";
@@ -33,6 +34,10 @@ export default function Dashboard(){
                         <p>Total runtime: 1hr 3s</p>
                         <p>Script used: Abide Organizer</p>
                         <JobsTable/>
+                        <br></br>
+                        <Link href="/view-job">
+                            <Button style={{ width: 400 }}>View Job</Button>
+                        </Link>
                     </Widget>
                 )}
             </RowWrapper>

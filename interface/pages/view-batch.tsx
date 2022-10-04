@@ -8,7 +8,7 @@ export default function ViewBatch(){
             <Navbar/>
             <SectionDiv>
                 <h1>View Batch</h1>
-                <label>Select batch to view:</label>
+                <label>Select batch to view: </label>
                 <select name="batchName">
                     <option value="slurm-test.sh">Slurm Test</option>
                 </select>

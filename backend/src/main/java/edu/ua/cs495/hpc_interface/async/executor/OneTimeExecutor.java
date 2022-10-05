@@ -1,6 +1,6 @@
 package edu.ua.cs495.hpc_interface.async.executor;
 
-import edu.ua.cs495.hpc_interface.async.jobs.AbstractSubmissionJob;
+import edu.ua.cs495.hpc_interface.async.jobs.AbstractOneTimeJob;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import javax.annotation.PreDestroy;
@@ -9,15 +9,15 @@ import org.springframework.stereotype.Component;
 
 @Log4j2
 @Component
-public class SubmissionExecutor {
+public class OneTimeExecutor {
 
   private ThreadPoolExecutor executor;
 
-  public SubmissionExecutor() {
+  public OneTimeExecutor() {
     this.executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
   }
 
-  public void submit(AbstractSubmissionJob job) {
+  public void submit(AbstractOneTimeJob job) {
     log.info("Submitting job " + job.getId());
     this.executor.submit(job);
   }

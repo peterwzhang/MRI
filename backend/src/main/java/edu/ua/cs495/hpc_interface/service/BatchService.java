@@ -1,6 +1,6 @@
 package edu.ua.cs495.hpc_interface.service;
 
-import edu.ua.cs495.hpc_interface.async.executor.SubmissionExecutor;
+import edu.ua.cs495.hpc_interface.async.executor.OneTimeExecutor;
 import edu.ua.cs495.hpc_interface.async.jobs.SubmitSetupJob;
 import edu.ua.cs495.hpc_interface.domain.dto.BatchForSubmissionDTO;
 import edu.ua.cs495.hpc_interface.domain.entity.Batch;
@@ -30,7 +30,7 @@ public class BatchService {
 
   private SSHService sshService;
 
-  private SubmissionExecutor submissionExecutor;
+  private OneTimeExecutor submissionExecutor;
 
   public Batch createFromDTO(BatchForSubmissionDTO batch, User creator) {
     Script script = scriptMapper

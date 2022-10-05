@@ -65,6 +65,23 @@
     </dependency>
 
     <dependency>
+      <groupId>com.sshtools</groupId>
+      <artifactId>maverick-synergy-client</artifactId>
+      <version>3.0.6</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcpkix-jdk18on</artifactId>
+      <version>1.72</version>
+    </dependency>
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk18on</artifactId>
+      <version>1.72</version>
+    </dependency>
+
+    <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-boot-starter</artifactId>
       <version>3.0.0</version>
@@ -101,12 +118,6 @@
       <groupId>org.mapstruct</groupId>
       <artifactId>mapstruct</artifactId>
       <version>1.4.2.Final</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.github.mwiede</groupId>
-      <artifactId>jsch</artifactId>
-      <version>0.2.4</version>
     </dependency>
 
     <dependency>

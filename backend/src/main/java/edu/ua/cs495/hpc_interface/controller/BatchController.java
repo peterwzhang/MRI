@@ -3,7 +3,6 @@ package edu.ua.cs495.hpc_interface.controller;
 import edu.ua.cs495.hpc_interface.domain.dto.BatchForSubmissionDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.BatchMetadataWithIdDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.BatchWithJobsDTO;
-import edu.ua.cs495.hpc_interface.domain.dto.JobMetadataDTO;
 import edu.ua.cs495.hpc_interface.domain.mapper.BatchMapper;
 import edu.ua.cs495.hpc_interface.exception.NotImplementedException;
 import edu.ua.cs495.hpc_interface.rest.resource.BatchApi;
@@ -39,19 +38,26 @@ public class BatchController implements BatchApi {
   /** {@inheritDoc} */
   @Override
   public ResponseEntity<List<BatchMetadataWithIdDTO>> getAllBatches() {
-    throw new NotImplementedException(httpServletRequest);
+    return ResponseEntity.ok(
+      batchService
+        .getAllForUser(authenticationService.getAuthenticatedUser())
+        .stream()
+        .map(batchMapper::toMetadataDtoWithId)
+        .toList()
+    );
   }
 
   /** {@inheritDoc} */
   @Override
   public ResponseEntity<BatchWithJobsDTO> getBatch(UUID batchId) {
-    throw new NotImplementedException(httpServletRequest);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public ResponseEntity<List<JobMetadataDTO>> getAllJobs(UUID batchId) {
-    throw new NotImplementedException(httpServletRequest);
+    return ResponseEntity.ok(
+      batchMapper.toFullDtoWithJobs(
+        batchService.getForUserById(
+          batchId,
+          authenticationService.getAuthenticatedUser()
+        )
+      )
+    );
   }
 
   /** {@inheritDoc} */

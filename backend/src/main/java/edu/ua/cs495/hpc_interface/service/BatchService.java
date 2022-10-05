@@ -11,11 +11,17 @@ import edu.ua.cs495.hpc_interface.domain.mapper.ScriptMapper;
 import edu.ua.cs495.hpc_interface.domain.repository.BatchRepository;
 import edu.ua.cs495.hpc_interface.domain.repository.ScriptRepository;
 import edu.ua.cs495.hpc_interface.domain.types.BatchStatus;
+import edu.ua.cs495.hpc_interface.exception.NotFoundException;
+import edu.ua.cs495.hpc_interface.exception.UnauthorizedException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -67,5 +73,27 @@ public class BatchService {
     submissionExecutor.submit(new SubmitSetupJob(sshService, newBatch));
 
     return newBatch;
+  }
+
+  public List<Batch> getAllForUser(User user) {
+    return batchRepository.findAll(
+      Example.of(Batch.builder().user(user).build())
+    );
+  }
+
+  public Batch getForUserById(UUID id, User user) {
+    Optional<Batch> dbResult = batchRepository.findById(id);
+
+    if (dbResult.isEmpty()) {
+      throw new NotFoundException();
+    }
+
+    Batch batch = dbResult.get();
+
+    if (!batch.getUser().equals(user)) {
+      throw new UnauthorizedException();
+    }
+
+    return batch;
   }
 }

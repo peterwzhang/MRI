@@ -2,6 +2,10 @@ package edu.ua.cs495.hpc_interface.config;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.catalina.Context;
+import org.apache.tomcat.util.http.Rfc6265CookieProcessor;
+import org.apache.tomcat.util.http.SameSiteCookies;
+import org.springframework.boot.web.embedded.tomcat.TomcatContextCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -56,5 +60,14 @@ public class PageAccessConfig implements WebMvcConfigurer {
         "http://localhost:3000",
         "https://localhost:8443"
       );
+  }
+
+  @Bean
+  public TomcatContextCustomizer sameSiteCookiesConfig() {
+    return (Context context) -> {
+      final Rfc6265CookieProcessor cookieProcessor = new Rfc6265CookieProcessor();
+      cookieProcessor.setSameSiteCookies(SameSiteCookies.NONE.getValue());
+      context.setCookieProcessor(cookieProcessor);
+    };
   }
 }

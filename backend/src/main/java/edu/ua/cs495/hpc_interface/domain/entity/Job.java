@@ -127,8 +127,9 @@ public class Job implements Serializable {
   private String nodeList;
 
   /** The exit code of the script, if known.  If unknown, this will be 0 */
+  @Builder.Default
   @Column(name = "exit_code")
-  private Integer exitCode;
+  private Integer exitCode = 0;
 
   /** When this job was last synchronized with Slurm */
   @NotNull

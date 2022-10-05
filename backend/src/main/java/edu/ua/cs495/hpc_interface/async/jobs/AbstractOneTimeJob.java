@@ -6,7 +6,7 @@ import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public abstract class AbstractSubmissionJob implements Runnable {
+public abstract class AbstractOneTimeJob implements Runnable {
 
   @Getter
   protected final UUID id;
@@ -15,7 +15,7 @@ public abstract class AbstractSubmissionJob implements Runnable {
 
   protected final Logger log;
 
-  protected AbstractSubmissionJob(SSHService sshService) {
+  protected AbstractOneTimeJob(SSHService sshService) {
     this.id = UUID.randomUUID();
     this.service = sshService;
 

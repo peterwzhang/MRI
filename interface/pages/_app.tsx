@@ -1,20 +1,19 @@
 import "../styles/globals.css";
 import Head from "next/head";
 import type { AppProps } from "next/app";
-import HeroBanner from "../components/HeroBanner";
+import { QueryClient, QueryClientProvider} from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 function App({ Component, pageProps }: AppProps) {
+
+  const queryClient = new QueryClient()
+
   return (
-    <div>
-      <Head>
-        <title>MRI Project</title>
-        <meta name="description" content="CS 495 Capstone project" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <HeroBanner />
+    <QueryClientProvider client={queryClient}>
       <Component {...pageProps} />
-    </div>
-  );
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+    );
 }
 
 export default App;

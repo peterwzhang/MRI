@@ -137,33 +137,3 @@ public final class SubmitSetupTask extends AbstractOneTimeTask {
     }
   }
 }
-            .withState(JobState.PENDING)
-            .withQueuedTime(Instant.now())
-            .withLastSync(Instant.now())
-        );
-
-      this.service.getBatchRepository()
-        .save(this.batch.withStatus(BatchStatus.SETTING_UP));
-    } catch (IOException | SshException | InvalidPassphraseException e) {
-      log.info("Batch has FAILED");
-
-      log.error(e);
-      e.printStackTrace();
-
-      // mark batch and all jobs as failures
-      this.service.getBatchRepository().refresh(this.batch);
-
-      this.service.getBatchRepository()
-        .save(this.batch.withStatus(BatchStatus.FAILED));
-
-      this.batch.getJobs()
-        .forEach(
-          job ->
-            this.service.getJobRepository().save(job.withState(JobState.FAILED))
-        );
-    } finally {
-      this.service.cleanupFile(localScript);
-      this.service.cleanupFile(localSlurm);
-    }
-  }
-}

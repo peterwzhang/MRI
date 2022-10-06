@@ -1,6 +1,6 @@
 package edu.ua.cs495.hpc_interface.async.executor;
 
-import edu.ua.cs495.hpc_interface.async.jobs.AbstractOneTimeJob;
+import edu.ua.cs495.hpc_interface.async.tasks.AbstractOneTimeTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import javax.annotation.PreDestroy;
@@ -17,7 +17,7 @@ public class OneTimeExecutor {
     this.executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
   }
 
-  public void submit(AbstractOneTimeJob job) {
+  public void submit(AbstractOneTimeTask job) {
     log.info("Submitting job " + job.getId());
     this.executor.submit(job);
   }

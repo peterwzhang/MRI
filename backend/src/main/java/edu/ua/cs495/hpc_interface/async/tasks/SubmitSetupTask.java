@@ -1,4 +1,4 @@
-package edu.ua.cs495.hpc_interface.async.jobs;
+package edu.ua.cs495.hpc_interface.async.tasks;
 
 import com.sshtools.client.SshClient;
 import com.sshtools.common.publickey.InvalidPassphraseException;
@@ -16,11 +16,11 @@ import java.time.Instant;
 /**
  * This job submits the setup portion of a batch to be run on compute via Slurm.
  */
-public final class SubmitSetupJob extends AbstractOneTimeJob {
+public final class SubmitSetupTask extends AbstractOneTimeTask {
 
   private Batch batch;
 
-  public SubmitSetupJob(SSHService sshService, Batch batch) {
+  public SubmitSetupTask(SSHService sshService, Batch batch) {
     super(sshService);
     this.batch = batch;
   }
@@ -107,6 +107,36 @@ public final class SubmitSetupJob extends AbstractOneTimeJob {
         .save(
           job
             .withSlurmId(slurmId)
+            .withState(JobState.PENDING)
+            .withQueuedTime(Instant.now())
+            .withLastSync(Instant.now())
+        );
+
+      this.service.getBatchRepository()
+        .save(this.batch.withStatus(BatchStatus.SETTING_UP));
+    } catch (IOException | SshException | InvalidPassphraseException e) {
+      log.info("Batch has FAILED");
+
+      log.error(e);
+      e.printStackTrace();
+
+      // mark batch and all jobs as failures
+      this.service.getBatchRepository().refresh(this.batch);
+
+      this.service.getBatchRepository()
+        .save(this.batch.withStatus(BatchStatus.FAILED));
+
+      this.batch.getJobs()
+        .forEach(
+          job ->
+            this.service.getJobRepository().save(job.withState(JobState.FAILED))
+        );
+    } finally {
+      this.service.cleanupFile(localScript);
+      this.service.cleanupFile(localSlurm);
+    }
+  }
+}
             .withState(JobState.PENDING)
             .withQueuedTime(Instant.now())
             .withLastSync(Instant.now())

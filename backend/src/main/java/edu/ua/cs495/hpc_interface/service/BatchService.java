@@ -1,7 +1,7 @@
 package edu.ua.cs495.hpc_interface.service;
 
 import edu.ua.cs495.hpc_interface.async.executor.OneTimeExecutor;
-import edu.ua.cs495.hpc_interface.async.jobs.SubmitSetupJob;
+import edu.ua.cs495.hpc_interface.async.tasks.SubmitSetupTask;
 import edu.ua.cs495.hpc_interface.domain.dto.BatchForSubmissionDTO;
 import edu.ua.cs495.hpc_interface.domain.entity.Batch;
 import edu.ua.cs495.hpc_interface.domain.entity.Script;
@@ -70,7 +70,7 @@ public class BatchService {
         .build()
     );
 
-    submissionExecutor.submit(new SubmitSetupJob(sshService, newBatch));
+    submissionExecutor.submit(new SubmitSetupTask(sshService, newBatch));
 
     return newBatch;
   }

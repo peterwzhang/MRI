@@ -1,3 +1,5 @@
+import { JobCollection } from "./JobCollection";
+import { ScriptMetadataWithId } from "./ScriptMetadataWithId";
 import { User } from "./User";
 
 /**
@@ -8,6 +10,13 @@ export interface BatchMetadata {
    * A unique UUID identifying this batch
    */
   id?: string;
+    /**
+   * Summary information of multiple jobs
+   */
+  jobs: JobCollection;
+      /**
+   * Information about a user
+   */
   user: User;
   /**
    * The batch's name
@@ -23,15 +32,19 @@ export interface BatchMetadata {
     | "AWAITING_APPROVAL"
     | "QUEUEING"
     | "RUNNING"
-    | "CLEANING_UP"
-    | "COMPLETED"
-    | "CANCELLED"
+    | "CLEAN_UP_QUEUEING" 
+    | "CLEAN_UP_RUNNING" 
+    | "COMPLETED" 
+    | "CANCELLED" 
     | "FAILED";
   /**
    * If this batch should wait to submit jobs pending a manual approval
    */
   requiresApprovalStep: boolean;
-  scriptUsed: string;
+  /**
+   * Metadata for a single script, with required ID
+   */
+  scriptUsed: ScriptMetadataWithId;
   /**
    * When execution for this batch was started
    */
@@ -49,6 +62,10 @@ export interface BatchMetadata {
      * The number of jobs running
      */
     running: number;
+    /**
+     * The number of jobs which completed successfully
+     */
+    success?: number;
     /**
      * The number of jobs that have timed out, failed, or been cancelled
      */

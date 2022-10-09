@@ -1,18 +1,5 @@
 import styled from 'styled-components';
-import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
-
-function TestLoad(){
-    const { isLoading, error, data } = useQuery(['batchs'], () =>
-    fetch('https://localhost:8443/api/scripts').then(res =>
-      res.json()
-    )
-  )
-
-  if (isLoading) return <h1>Loading...</h1>
-
-  if (error) return <h1>Error</h1>
-  return data[0].name
-}
+import QuerySelect from './QuerySelect';
 
 const BatchForm = () => (
   <div>
@@ -20,19 +7,7 @@ const BatchForm = () => (
     <form>
       <InputsWrapper>
         <label>Batch Name</label>
-        <select name="batchType">
-            {/* These need to be pulled from the BE */}
-            <option value="abide_organizer.sh"><TestLoad></TestLoad></option>
-            <option value="abide_organizer.sh">Abide Organizer</option>
-            <option value="parallel_flanker.sh">Parallel Flanker</option>
-            <option value="recon_parallel_abide.sh">Recon Parallel Abide</option>
-            <option value="recon_single_sub.sh">Recon Single Sub</option>
-            <option value="slurm-interaction.sh">Slurm Interaction</option>            
-            <option value="jobType">Recon Parallel Abide</option>
-            <option value="slurm-test.sh">Slurm Test</option>
-
-
-        </select>
+        <QuerySelect restUrl='https://localhost:8443/api/scripts'></QuerySelect>
         {/* these parameters must be pulled from the BE */}
         <label>
           Param 1: 

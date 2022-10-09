@@ -21,10 +21,6 @@ sacct -j 2931152 \
 # |2931152.batch|batch||RUNNING||2022-09-15T19:24:06|Unknown|00:02:42|||1|1|compute-5-15
 # |2931152.extern|extern||RUNNING||2022-09-15T19:24:06|Unknown|00:02:42|||2|2|compute-5-15,compute-20-0
 
-sacct -j 2931152 \
-  --format=JobID,state,Timelimit,start,end,elapsed,nodelist,DerivedExitcode,Reason \
-  --parsable2
-
 # Get information for a user's jobs
 sacct -u ncovercash \
   --format=User,JobID,Jobname,partition,state,time,start,end,elapsed,MaxRss,MaxVMSize,nnodes,ncpus,nodelist \

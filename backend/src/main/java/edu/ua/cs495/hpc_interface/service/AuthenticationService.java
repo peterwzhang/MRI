@@ -16,7 +16,6 @@ public class AuthenticationService {
   private UserService userService;
 
   public boolean isAuthenticated() {
-    // return true;
     return (
       SecurityContextHolder
         .getContext()
@@ -30,7 +29,6 @@ public class AuthenticationService {
    * @return the current user
    */
   public User getAuthenticatedUser() {
-    // return userService.createUserIfNotExists("ncovercash@crimson.ua.edu");
     if (!isAuthenticated()) {
       throw new NeedsAuthenticationException();
     }

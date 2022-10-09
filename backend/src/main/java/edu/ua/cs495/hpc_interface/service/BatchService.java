@@ -1,7 +1,7 @@
 package edu.ua.cs495.hpc_interface.service;
 
-import edu.ua.cs495.hpc_interface.async.executor.SubmissionExecutor;
-import edu.ua.cs495.hpc_interface.async.jobs.SubmitSetupJob;
+import edu.ua.cs495.hpc_interface.async.executor.OneTimeExecutor;
+import edu.ua.cs495.hpc_interface.async.tasks.SubmitSetupTask;
 import edu.ua.cs495.hpc_interface.domain.dto.BatchForSubmissionDTO;
 import edu.ua.cs495.hpc_interface.domain.entity.Batch;
 import edu.ua.cs495.hpc_interface.domain.entity.Script;
@@ -11,11 +11,17 @@ import edu.ua.cs495.hpc_interface.domain.mapper.ScriptMapper;
 import edu.ua.cs495.hpc_interface.domain.repository.BatchRepository;
 import edu.ua.cs495.hpc_interface.domain.repository.ScriptRepository;
 import edu.ua.cs495.hpc_interface.domain.types.BatchStatus;
+import edu.ua.cs495.hpc_interface.exception.NotFoundException;
+import edu.ua.cs495.hpc_interface.exception.UnauthorizedException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,7 +36,7 @@ public class BatchService {
 
   private SSHService sshService;
 
-  private SubmissionExecutor submissionExecutor;
+  private OneTimeExecutor submissionExecutor;
 
   public Batch createFromDTO(BatchForSubmissionDTO batch, User creator) {
     Script script = scriptMapper
@@ -64,8 +70,30 @@ public class BatchService {
         .build()
     );
 
-    submissionExecutor.submit(new SubmitSetupJob(sshService, newBatch));
+    submissionExecutor.submit(new SubmitSetupTask(sshService, newBatch));
 
     return newBatch;
+  }
+
+  public List<Batch> getAllForUser(User user) {
+    return batchRepository.findAll(
+      Example.of(Batch.builder().user(user).build())
+    );
+  }
+
+  public Batch getForUserById(UUID id, User user) {
+    Optional<Batch> dbResult = batchRepository.findById(id);
+
+    if (dbResult.isEmpty()) {
+      throw new NotFoundException();
+    }
+
+    Batch batch = dbResult.get();
+
+    if (!batch.getUser().equals(user)) {
+      throw new UnauthorizedException();
+    }
+
+    return batch;
   }
 }

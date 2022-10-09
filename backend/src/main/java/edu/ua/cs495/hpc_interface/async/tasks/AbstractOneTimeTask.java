@@ -1,4 +1,4 @@
-package edu.ua.cs495.hpc_interface.async.jobs;
+package edu.ua.cs495.hpc_interface.async.tasks;
 
 import edu.ua.cs495.hpc_interface.service.SSHService;
 import java.util.UUID;
@@ -6,7 +6,7 @@ import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public abstract class AbstractSubmissionJob implements Runnable {
+public abstract class AbstractOneTimeTask implements Runnable {
 
   @Getter
   protected final UUID id;
@@ -15,7 +15,7 @@ public abstract class AbstractSubmissionJob implements Runnable {
 
   protected final Logger log;
 
-  protected AbstractSubmissionJob(SSHService sshService) {
+  protected AbstractOneTimeTask(SSHService sshService) {
     this.id = UUID.randomUUID();
     this.service = sshService;
 

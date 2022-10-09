@@ -2,7 +2,7 @@ get:
   summary: Get all jobs
   description: Get all jobs within a given batch
   operationId: getAllJobs
-  tags: [batch]
+  tags: [job]
   parameters:
     - in: path
       name: batchId

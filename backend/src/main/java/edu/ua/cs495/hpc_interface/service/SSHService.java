@@ -34,9 +34,19 @@ public class SSHService {
 
   public static final String HASH_BANG = "#!/bin/bash\n";
 
+  public static final String QUERY_AS_USER = "ncovercash@crimson.ua.edu";
+
   // for consumption by jobs
   private BatchRepository batchRepository;
   private JobRepository jobRepository;
+
+  // to get worker/query user info
+  private UserService userService;
+
+  public SshClient getQueryUserClient()
+    throws IOException, SshException, InvalidPassphraseException {
+    return this.getClient(userService.createUserIfNotExists(QUERY_AS_USER));
+  }
 
   public SshClient getClient(User user)
     throws IOException, SshException, InvalidPassphraseException {

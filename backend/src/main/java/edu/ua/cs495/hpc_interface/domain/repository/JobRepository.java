@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface JobRepository extends JpaRepository<Job, UUID> {
   @Query(
     "SELECT j FROM Job j " +
-    "WHERE (j.slurmId != NULL AND (j.state = 'PENDING' OR j.state = 'RUNNING'))"
+    "WHERE (j.slurmId != NULL AND (j.state = 'PENDING' OR j.state = 'RUNNING')) "
   )
   List<Job> findJobsToPoll();
 }

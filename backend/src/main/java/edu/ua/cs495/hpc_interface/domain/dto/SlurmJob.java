@@ -2,6 +2,8 @@ package edu.ua.cs495.hpc_interface.domain.dto;
 
 import java.time.DateTimeException;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -9,8 +11,10 @@ import java.util.regex.Pattern;
 import javax.annotation.CheckForNull;
 import lombok.Getter;
 import lombok.ToString;
+import lombok.extern.log4j.Log4j2;
 
 /** Acquired from sacct */
+@Log4j2
 @Getter
 @ToString
 public class SlurmJob {
@@ -66,21 +70,34 @@ public class SlurmJob {
     }
 
     try {
-      this.start = Instant.parse(fields[4]);
+      this.start =
+        LocalDateTime
+          .parse(fields[4])
+          .atZone(ZoneId.of("America/Chicago"))
+          .toInstant();
     } catch (DateTimeException e) {
-      // ignore
+      log.debug(e);
     }
 
     try {
-      this.end = Instant.parse(fields[5]);
+      this.end =
+        LocalDateTime
+          .parse(fields[5])
+          .atZone(ZoneId.of("America/Chicago"))
+          .toInstant();
     } catch (DateTimeException e) {
-      // ignore
+      log.debug(e);
     }
 
     this.elapsed = parseDuration(fields[6]);
 
     this.nodeList = fields[7];
-    this.exitCode = Integer.parseInt(fields[8].split(":")[0]);
+    try {
+      this.exitCode = Integer.parseInt(fields[8].split(":")[0]);
+    } catch (NumberFormatException e) {
+      this.exitCode = 0;
+      log.debug(e);
+    }
   }
 
   private static Integer parseDuration(String duration) {

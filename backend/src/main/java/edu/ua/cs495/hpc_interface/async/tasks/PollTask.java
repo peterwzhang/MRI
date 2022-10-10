@@ -3,13 +3,13 @@ package edu.ua.cs495.hpc_interface.async.tasks;
 import com.sshtools.client.SshClient;
 import com.sshtools.common.publickey.InvalidPassphraseException;
 import com.sshtools.common.ssh.SshException;
-import edu.ua.cs495.hpc_interface.domain.dto.SlurmJob;
+import edu.ua.cs495.hpc_interface.domain.entity.Batch;
 import edu.ua.cs495.hpc_interface.domain.entity.Job;
 import edu.ua.cs495.hpc_interface.service.SSHService;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
+import java.util.TreeSet;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -28,8 +28,8 @@ public final class PollTask implements Runnable {
 
   private SSHService service;
 
-  @SuppressWarnings({ "java:S1612" })
-  protected void runJob() throws InterruptedException {
+  @SuppressWarnings({ "java:S1151", "java:S1612" })
+  protected void runPollTasks() throws InterruptedException {
     log.info("Starting");
 
     List<Job> jobs = (this.service.getJobRepository().findJobsToPoll());
@@ -39,26 +39,23 @@ public final class PollTask implements Runnable {
     }
 
     try (SshClient ssh = this.service.getQueryUserClient()) {
-      String jobList = jobs
+      log.info("Polling all job states");
+      new PollJobStateTask(this.service, ssh, jobs).run();
+
+      log.info("Syncing all job logs");
+      jobs
         .stream()
-        .map(Job::getSlurmId)
-        .map(i -> i.toString())
-        .collect(Collectors.joining(","));
+        .forEach(j -> new SyncJobLogTask(this.service, ssh, j).run());
 
-      log.info("Querying " + jobList);
+      Set<Batch> batches = new TreeSet<>(
+        (a, b) -> a.getId().compareTo(b.getId())
+      );
+      jobs.stream().map(Job::getBatch).forEach(b -> batches.add(b));
 
-      String response =
-        this.service.guaranteeCommand(
-            ssh,
-            String.format(SACCT_COMMAND, jobList),
-            "Unable to poll sacct"
-          );
-
-      Arrays
-        .stream(response.split("\n"))
-        .map(String::trim)
-        .map(SlurmJob::new)
-        .forEach(j -> log.info(j));
+      log.info("Syncing all batch states");
+      batches
+        .stream()
+        .forEach(b -> new SyncBatchStateTask(this.service, b).run());
     } catch (IOException | SshException | InvalidPassphraseException e) {
       log.error("Unable to poll jobs");
 
@@ -69,7 +66,7 @@ public final class PollTask implements Runnable {
 
   public void run() {
     try {
-      this.runJob();
+      this.runPollTasks();
     } catch (InterruptedException e) {
       log.error(String.format("Job was interrupted: %s", e.getMessage()));
       e.printStackTrace();

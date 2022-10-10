@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class PollExecutor {
 
   /** how long to wait for the first poll (ms) */
-  public static final int INITIAL_DELAY = 100;
+  public static final int INITIAL_DELAY = 10000;
   /** how long to wait between polls (ms) */
   public static final int RERUN_DELAY = 10000;
 

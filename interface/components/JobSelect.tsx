@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 import QuerySelect from './QuerySelect';
 
-const BatchSelect = () => (
+const JobSelect = () => (
   <div>
-    <h1>View Batch</h1>
+    <h1>View Job</h1>
     <form>
       <InputsWrapper>
-        <label>Select batch to view: </label>
+        <label>Select job to view: </label>
         <QuerySelect restUrl='https://localhost:8443/api/batches'></QuerySelect>
         {/* these parameters must be pulled from the BE */}
-        <Submit type="submit" value="Refresh Batch Status" />
+        <Submit type="submit" value="Refresh Job Status" />
       </InputsWrapper>
     </form>
   </div>
@@ -30,4 +30,4 @@ const Submit = styled.input`
 `
 
  
-export default BatchSelect;
+export default JobSelect;

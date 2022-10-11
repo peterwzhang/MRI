@@ -3,7 +3,7 @@ import Prism from "react-syntax-highlighter";
 import Navbar from '../components/Navbar';
 import SectionDiv from "../components/SectionDiv";
 import ProgressBar from "../components/ProgressBar";
-import styled from "styled-components";
+import JobSelect from "../components/JobSelect";
 
 export default function ViewJob(){
 
@@ -11,13 +11,7 @@ export default function ViewJob(){
         <div>
             <Navbar/>
             <SectionDiv>
-                <h1>View Job</h1>
-                <label>Select job to view: </label>
-                <select name="jobName">
-                    <option value="slurm-job-test.sh">Job 1</option>
-                </select>
-                <h4></h4>
-                <Button>Refresh Job Status</Button>
+                <JobSelect/>
             </SectionDiv>
             <SectionDiv>
                 <h3>Member Batch</h3>
@@ -36,11 +30,3 @@ export default function ViewJob(){
         </div>
     )
 }
-
-const Button = styled.button`
-    border-width: .05rem;
-    border-radius: .5rem;
-    padding: 1rem;
-    width: 20%;
-    font-size: 1rem;
-`

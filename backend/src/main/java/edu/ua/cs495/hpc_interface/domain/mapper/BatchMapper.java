@@ -102,7 +102,7 @@ public interface BatchMapper {
     return jobs
       .stream()
       .map(Job::getLastSync)
-      .min(Instant::compareTo)
+      .max(Instant::compareTo)
       .orElse(Instant.now());
   }
 }

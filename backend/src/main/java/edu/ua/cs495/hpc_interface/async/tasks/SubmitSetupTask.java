@@ -92,28 +92,28 @@ public final class SubmitSetupTask extends AbstractOneTimeTask {
         .build();
       this.service.getJobRepository().save(job);
 
-      SshClient ssh = this.service.getClient(this.batch.getUser());
+      try (SshClient ssh = this.service.getClient(this.batch.getUser())) {
+        this.service.copyScript(ssh, localScript);
+        this.service.copyScript(ssh, localSlurm);
 
-      this.service.copyScript(ssh, localScript);
-      this.service.copyScript(ssh, localSlurm);
+        String logLocation = "log." + job.getId();
 
-      String logLocation = "log." + job.getId();
+        job.setLogPath(logLocation);
 
-      job.setLogPath(logLocation);
+        int slurmId = this.service.submitJobToSlurm(ssh, job);
 
-      int slurmId = this.service.submitJobToSlurm(ssh, job);
+        this.service.getJobRepository()
+          .save(
+            job
+              .withSlurmId(slurmId)
+              .withState(JobState.PENDING)
+              .withQueuedTime(Instant.now())
+              .withLastSync(Instant.now())
+          );
 
-      this.service.getJobRepository()
-        .save(
-          job
-            .withSlurmId(slurmId)
-            .withState(JobState.PENDING)
-            .withQueuedTime(Instant.now())
-            .withLastSync(Instant.now())
-        );
-
-      this.service.getBatchRepository()
-        .save(this.batch.withStatus(BatchStatus.SETTING_UP));
+        this.service.getBatchRepository()
+          .save(this.batch.withStatus(BatchStatus.SETTING_UP));
+      }
     } catch (IOException | SshException | InvalidPassphraseException e) {
       log.info("Batch has FAILED");
 

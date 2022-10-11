@@ -49,7 +49,7 @@ public class Job implements Serializable {
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   @JoinColumn(name = "batch_id")
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   private Batch batch;
 
   /** The slurm ID for the job, if known */

@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0180-add-generator-job-type
+      author: ncovercash
+      comment: Add a column to store if a job is being used to generate others
+      changes:
+        - addColumn:
+            tableName: jobs
+            columns:
+              column:
+                name: IS_GENERATOR_JOB
+                type: BOOLEAN
+                defaultValueBoolean: false
+                constraints:
+                  nullable: false
+                remarks:
+                  If this job is being used to generate all jobs for the batch

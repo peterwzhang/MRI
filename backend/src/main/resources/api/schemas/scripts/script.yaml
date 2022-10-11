@@ -73,7 +73,7 @@ required:
   - id
   - header
   - setupScript
-  - setupSlurmConfig
+  - setupScriptSlurmConfig
   - loopWrapperTop
   - idVariable
   - jobTemplate

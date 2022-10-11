@@ -20,7 +20,7 @@ public class UserService {
   private UserRepository repository;
 
   protected User createUser(String email) {
-    log.info(String.format("Creating user with email %s", email));
+    log.info("Creating user with email {}", email);
 
     KeyPair keyPair = KeyUtils.generateKeyPair();
 

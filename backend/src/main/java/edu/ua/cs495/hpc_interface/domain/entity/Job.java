@@ -101,6 +101,10 @@ public class Job implements Serializable {
   @Column(name = "is_cleanup_job")
   private Boolean cleanupJob;
 
+  /** If this job is used as the generation job for a batch */
+  @Column(name = "is_generator_job")
+  private Boolean generatorJob;
+
   /** When this job entered the Slurm queue */
   @CheckForNull
   @Column(name = "queued_time")

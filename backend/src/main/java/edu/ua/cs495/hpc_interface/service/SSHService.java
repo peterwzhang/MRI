@@ -6,6 +6,7 @@ import com.sshtools.common.publickey.SshKeyUtils;
 import com.sshtools.common.publickey.SshPrivateKeyFileFactory;
 import com.sshtools.common.ssh.SshException;
 import com.sshtools.common.ssh.components.SshKeyPair;
+import edu.ua.cs495.hpc_interface.async.executor.OneTimeExecutor;
 import edu.ua.cs495.hpc_interface.domain.entity.Job;
 import edu.ua.cs495.hpc_interface.domain.entity.User;
 import edu.ua.cs495.hpc_interface.domain.repository.BatchRepository;
@@ -39,6 +40,7 @@ public class SSHService {
   // for consumption by jobs
   private BatchRepository batchRepository;
   private JobRepository jobRepository;
+  private OneTimeExecutor oneTimeExecutor;
 
   // to get worker/query user info
   private UserService userService;
@@ -59,10 +61,10 @@ public class SSHService {
     throws IOException, SshException {
     String fullPath = SSHService.SCRATCH_SCRIPT_LOCATION + file.getName();
 
-    log.info(String.format("Copying %s to server", file.getName()));
+    log.info("Copying {} to server", file.getName());
     ssh.putFile(file, fullPath);
 
-    log.info(String.format("Marking %s as executable", file.getName()));
+    log.info("Marking {} as executable", file.getName());
 
     guaranteeCommand(
       ssh,

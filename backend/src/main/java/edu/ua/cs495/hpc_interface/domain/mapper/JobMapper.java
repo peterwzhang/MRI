@@ -37,6 +37,9 @@ public interface JobMapper {
     if (Boolean.TRUE.equals(source.getCleanupJob())) {
       return JobMetadataDTO.SpecialJobTypeEnum.CLEANUP;
     }
+    if (Boolean.TRUE.equals(source.getGeneratorJob())) {
+      return JobMetadataDTO.SpecialJobTypeEnum.GENERATOR;
+    }
     return JobMetadataDTO.SpecialJobTypeEnum.NONE;
   }
 
@@ -47,6 +50,9 @@ public interface JobMapper {
     }
     if (Boolean.TRUE.equals(source.getCleanupJob())) {
       return JobDTO.SpecialJobTypeEnum.CLEANUP;
+    }
+    if (Boolean.TRUE.equals(source.getGeneratorJob())) {
+      return JobDTO.SpecialJobTypeEnum.GENERATOR;
     }
     return JobDTO.SpecialJobTypeEnum.NONE;
   }

@@ -1,0 +1,15 @@
+{
+  "name": "Abide and recon script",
+  "header": "export alri=/grps2/alri\nexport scratch=/scratch/$USER\nexport abide=$scratch/abide\n",
+  "setupScript": "# Create a scratch directory for user if it doesn't exist\n# If loop starts with conditions in brackets, followed by 'then' and ending with 'fi'\nif [ ! -d $abide ]; then\n    echo ... Creating $abide\n    mkdir -p $abide;\nfi\n\necho ... Copying abide data to scratch directory\ncp -r $alri/abide $scratch\ncd $abide\n\n## === This is the section where you must be logged in to compute node ===\n\necho ... Extracting ABIDE data\ntar -xvzf NYU_a.tgz\ntar -xvzf NYU_d.tgz\n\n# === Create a directory for segmentation. This will be used for Freesurfer data ===\nsegdir=$abide/segmentation\nmkdir -p $segdir\n\n# Copy all the mprage.nii.gz files from NYU and name them subjid.nii.gz\ncd $abide/NYU\n\n## === This loop searches all the mprage.nii.gz files from NYU directory\n## === Locates the subjectID by cutting the file path into separate fields\n## === Creates name for output file as subjectID.nii.gz using subjectID from previous line\n## === Copies the mprage from NYU to the segmentation folder with the name subjectID.nii.gz\n\n## for loops starts with 'do' and ends with 'done' and runs on the list\n## specified in variable (struct in our case)\n\nfor struct in `find . -name 'mprage.nii.gz'`; do\n    subject=`echo $struct | cut -d '/' -f2`;\n    outfile=`printf \"%s.nii.gz\" $subject`;\n    echo ... Copying $struct to $segdir/$outfile\n    cp $struct $segdir/$outfile;\ndone\n",
+  "setupScriptSlurmConfig": "#SBATCH -J test # job name\n#SBATCH -n 1 # number of tasks to use (usually 1)\n#SBATCH -c 1 # number of threads you are going to use\n#SBATCH -p main # main partition\n#SBATCH --qos debug # queue, 15min limit\n",
+  "loopWrapperTop": "#!/bin/bash\n\nsubjectsDirectory=/scratch/$USER/abide/segmentation\n\ncd $subjectsDirectory\nif [ -d jobs ]; then\n    rm -Rf jobs\nfi\n\nif [ ! -d jobs ]; then\n    mkdir jobs\nfi\n\n# The important bit!!\nfor subs in `ls [005]*.nii.gz | sort | tail -10`\ndo\n  # this is inside the loop, but before the part being used to generate the job text\n  # since the job script required $subject, this goes here\n  subject=`echo $subs | cut -d '.' -f1`;\n",
+  "idVariable": "$subs",
+  "jobTemplate": "#!/bin/bash\n\nmodule load bio/freesurfer/7.1.1;\nsource /share/apps/freesurfer_7_1_1/freesurfer/SetUpFreeSurfer.sh\n\nexport SUBJECTS_DIR=/scratch/$USER/abide/segmentation;\nexport FS_LICENSE=/grps2/alri/workshop/.license.txt\nrecon-all -i ${subject}.nii.gz -subjid ${subject} -all -qcache\n",
+  "slurmTemplate": "#!/bin/bash\n\n#SBATCH --job-name=$subject\n#SBATCH --output=res_$subject.txt\n#SBATCH --ntasks=1\n#SBATCH --cpus-per-task=2\n#SBATCH --partition=main\n#SBATCH --mem-per-cpu=8192\n#\n# Time format = HH:MM:SS, DD-HH:MM:SS\n#\n#SBATCH --time=20:00:00\n",
+  "loopWrapperBottom": "done\n",
+  "cleanupScript": "n/a",
+  "cleanupSlurmConfig": "n/a",
+  "cleanupMode": "NEVER",
+  "globalTemplate": true
+}

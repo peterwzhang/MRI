@@ -8,7 +8,6 @@ export default function ViewJob(){
 
     return(
         <div>
-            <Navbar/>
             <SectionDiv>
                 <JobSelect/>
             </SectionDiv>

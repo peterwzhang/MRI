@@ -6,7 +6,6 @@ import UserInfo from "../components/UserInfo";
 
 const Home: NextPage = () => (
   <div>
-    <Navbar />
     <SectionDiv>
       <h1>Welcome to the HPC Interface!</h1>
       <Text>&emsp;Welcome to the interface for the image processing pipeline that runs on the University of Alabama's HPC. 

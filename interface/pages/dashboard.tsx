@@ -12,7 +12,6 @@ export default function Dashboard(){
 
     return(
         <div>
-            <Navbar/>
             <RowWrapper>
                 <Widget>
                     <h2>Batches</h2>

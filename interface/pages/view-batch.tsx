@@ -7,7 +7,6 @@ import BatchInfo from "../components/BatchInfo";
 export default function ViewBatch(){
     return(
         <div>
-            <Navbar/>
             <SectionDiv>
                 <BatchSelect/>
             </SectionDiv>

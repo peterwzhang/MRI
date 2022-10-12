@@ -6,7 +6,6 @@ import SectionDiv from "../components/SectionDiv";
 export default function CreateBatch(){
     return(
         <div>
-            <Navbar/>
             <SectionDiv>
                 <BatchForm />
             </SectionDiv>

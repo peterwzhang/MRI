@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from '../components/Navbar';
 import SectionDiv from "../components/SectionDiv";
 import JobSelect from "../components/JobSelect";
 import JobInfo from "../components/JobInfo";

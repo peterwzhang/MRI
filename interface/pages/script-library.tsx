@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from '../components/Navbar';
 import SectionDiv from "../components/SectionDiv";
 
 export default function ScriptLibrary(){

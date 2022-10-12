@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import BatchTable from '../components/BatchTable';
-import Navbar from '../components/Navbar';
 import SectionDiv from "../components/SectionDiv";
 import styled from "styled-components";
 import ProgressBar from "../components/ProgressBar";

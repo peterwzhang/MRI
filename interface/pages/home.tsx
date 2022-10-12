@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import styled from "styled-components";
-import Navbar from '../components/Navbar';
 import SectionDiv from "../components/SectionDiv";
 import UserInfo from "../components/UserInfo";
 

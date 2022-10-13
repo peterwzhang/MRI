@@ -6,7 +6,7 @@ const BatchForm = () => (
     <h1>Create Batch</h1>
     <form>
       <InputsWrapper>
-        <label>Batch Name</label>
+        <label>Script Name</label>
         <QuerySelect restUrl='https://localhost:8443/api/scripts'></QuerySelect>
         {/* these parameters must be pulled from the BE */}
         <label>

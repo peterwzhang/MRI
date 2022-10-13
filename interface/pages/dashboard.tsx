@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import BatchTable from '../components/BatchTable';
-import Navbar from '../components/Navbar';
 import SectionDiv from "../components/SectionDiv";
 import styled from "styled-components";
 import ProgressBar from "../components/ProgressBar";
@@ -12,7 +11,6 @@ export default function Dashboard(){
 
     return(
         <div>
-            <Navbar/>
             <RowWrapper>
                 <Widget>
                     <h2>Batches</h2>

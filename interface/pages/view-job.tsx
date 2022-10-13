@@ -1,6 +1,5 @@
 import React from "react";
 import Prism from "react-syntax-highlighter";
-import Navbar from '../components/Navbar';
 import SectionDiv from "../components/SectionDiv";
 import ProgressBar from "../components/ProgressBar";
 import styled from "styled-components";
@@ -9,7 +8,6 @@ export default function ViewJob(){
 
     return(
         <div>
-            <Navbar/>
             <SectionDiv>
                 <h1>View Job</h1>
                 <label>Select job to view: </label>

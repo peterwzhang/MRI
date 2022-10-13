@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import QuerySelect from './QuerySelect';
 
 const BatchForm = () => (
   <div>
@@ -6,18 +7,7 @@ const BatchForm = () => (
     <form>
       <InputsWrapper>
         <label>Batch Name</label>
-        <select name="batchType">
-            {/* These need to be pulled from the BE */}
-            <option value="abide_organizer.sh">Abide Organizer</option>
-            <option value="parallel_flanker.sh">Parallel Flanker</option>
-            <option value="recon_parallel_abide.sh">Recon Parallel Abide</option>
-            <option value="recon_single_sub.sh">Recon Single Sub</option>
-            <option value="slurm-interaction.sh">Slurm Interaction</option>            
-            <option value="jobType">Recon Parallel Abide</option>
-            <option value="slurm-test.sh">Slurm Test</option>
-
-
-        </select>
+        <QuerySelect restUrl='https://localhost:8443/api/scripts'></QuerySelect>
         {/* these parameters must be pulled from the BE */}
         <label>
           Param 1: 

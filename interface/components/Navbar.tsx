@@ -19,9 +19,9 @@ const Navbar = () => {
             <header>
                 <div className="nav_header">
                     <div className="nav_button">
-                    <h1>
-                        <Link href="/">HPC Interface</Link>
-                    </h1>
+                        <h1>
+                            <Link href="/home">HPC Interface</Link>
+                        </h1>
                     </div>
                     <div className="nav_button">
                         <h3 className="nav_link">
@@ -46,11 +46,6 @@ const Navbar = () => {
                     <div className="nav_button">
                         <h3 className="nav_link">
                             <Link href="/view-job">View job</Link>
-                        </h3>
-                    </div>
-                    <div className="nav_button">
-                        <h3 className="nav_link">
-                            <Link href="/me">View job</Link>
                         </h3>
                     </div>
                     <div className="nav_button">

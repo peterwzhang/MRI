@@ -19,9 +19,9 @@ const Navbar = () => {
             <header>
                 <div className="nav_header">
                     <div className="nav_button">
-                    <h1>
-                        <Link href="/home">HPC Interface</Link>
-                    </h1>
+                        <h1>
+                            <Link href="/home">HPC Interface</Link>
+                        </h1>
                     </div>
                     <div className="nav_button">
                         <h3 className="nav_link">

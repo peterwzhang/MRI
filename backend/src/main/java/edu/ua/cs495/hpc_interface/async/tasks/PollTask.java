@@ -55,7 +55,9 @@ public final class PollTask implements Runnable {
       log.info("Syncing all batch states");
       batches
         .stream()
-        .forEach(b -> new SyncBatchStateTask(this.service, b).run());
+        .forEach(b -> new SyncBatchStatusTask(this.service, b).run());
+
+      log.info("Done");
     } catch (IOException | SshException | InvalidPassphraseException e) {
       log.error("Unable to poll jobs");
 
@@ -68,12 +70,12 @@ public final class PollTask implements Runnable {
     try {
       this.runPollTasks();
     } catch (InterruptedException e) {
-      log.error(String.format("Job was interrupted: %s", e.getMessage()));
+      log.error("Job was interrupted: {}", e.getMessage());
       e.printStackTrace();
 
       Thread.currentThread().interrupt();
     } catch (RuntimeException e) {
-      log.error(String.format("Job failed: %s", e.getMessage()));
+      log.error("Job failed: {}", e.getMessage());
       e.printStackTrace();
     }
   }

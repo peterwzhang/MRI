@@ -5,6 +5,7 @@ import java.util.UUID;
 import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.transaction.annotation.Transactional;
 
 public abstract class AbstractOneTimeTask implements Runnable {
 
@@ -21,22 +22,23 @@ public abstract class AbstractOneTimeTask implements Runnable {
 
     this.log =
       LogManager.getLogger(
-        this.getClass().getSimpleName() + " " + this.getId().toString()
+        this.getId().toString() + " " + this.getClass().getSimpleName()
       );
   }
 
   protected abstract void runJob() throws InterruptedException;
 
+  @Transactional
   public void run() {
     try {
       this.runJob();
     } catch (InterruptedException e) {
-      log.error(String.format("Job was interrupted: %s", e.getMessage()));
+      log.error("Job was interrupted: {}", e.getMessage());
       e.printStackTrace();
 
       Thread.currentThread().interrupt();
     } catch (RuntimeException e) {
-      log.error(String.format("Job failed: %s", e.getMessage()));
+      log.error("Job failed: {}", e.getMessage());
       e.printStackTrace();
     }
   }

@@ -12,7 +12,7 @@ public class IndexController {
   public void method(HttpServletResponse httpServletResponse) {
     httpServletResponse.setHeader(
       "Location",
-      "http://localhost:3000/home"
+      "http://localhost:3000/"
     );
     httpServletResponse.setStatus(HttpStatus.MOVED_PERMANENTLY.value());
   }

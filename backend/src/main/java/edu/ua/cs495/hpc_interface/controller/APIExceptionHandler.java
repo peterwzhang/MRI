@@ -4,6 +4,8 @@ import edu.ua.cs495.hpc_interface.domain.dto.ErrorResponseDTO;
 import edu.ua.cs495.hpc_interface.domain.types.ErrorCode;
 import edu.ua.cs495.hpc_interface.exception.AbstractException;
 import edu.ua.cs495.hpc_interface.exception.UnknownException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Arrays;
 import javax.servlet.ServletException;
 import lombok.extern.log4j.Log4j2;
@@ -130,6 +132,9 @@ public class APIExceptionHandler {
   ) {
     log.error(exception);
     log.error(exception.getMessage());
+    StringWriter trace = new StringWriter();
+    exception.printStackTrace(new PrintWriter(trace));
+    log.error(trace);
 
     // As a note, NullPointerException can be thrown deep in the servlet code if parsing invalid JSON.
     // However, NPE is far too generic to catch and always attribute to bad input.

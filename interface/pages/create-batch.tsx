@@ -4,10 +4,8 @@ import SectionDiv from "../components/SectionDiv";
 
 export default function CreateBatch(){
     return(
-        <div>
-            <SectionDiv>
-                <BatchForm />
-            </SectionDiv>
-        </div>
+        <SectionDiv>
+            <BatchForm />
+        </SectionDiv>
     )
 }

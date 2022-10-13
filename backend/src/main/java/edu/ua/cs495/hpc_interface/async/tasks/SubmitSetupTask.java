@@ -32,11 +32,16 @@ public final class SubmitSetupTask extends AbstractOneTimeTask {
     Script script = this.batch.getScriptUsed();
     if (script.getSetupScript().isEmpty()) {
       log.info(
-        "This batch has no setup script.  Moving straight to GENERATING stage..."
+        "This batch has no setup script.  Moving straight to GENERATING stage and spawning a generation job"
       );
+
       this.service.getBatchRepository()
         .save(this.batch.withStatus(BatchStatus.GENERATING));
-      // TODO: queue a generation job
+
+      this.service.getOneTimeExecutor()
+        .submit(new GenerateJobsTask(this.service, batch));
+
+      return;
     }
 
     StringBuilder setupScriptBuilder = new StringBuilder();
@@ -87,6 +92,7 @@ public final class SubmitSetupTask extends AbstractOneTimeTask {
         .scriptPath(localScript.getName())
         .slurmQueueScriptPath(localSlurm.getName())
         .setupJob(true)
+        .generatorJob(false)
         .cleanupJob(false)
         .lastSync(Instant.now())
         .build();

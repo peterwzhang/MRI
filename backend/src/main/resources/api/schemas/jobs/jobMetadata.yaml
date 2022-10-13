@@ -36,6 +36,7 @@ properties:
     enum:
       - NONE
       - SETUP
+      - GENERATOR
       - CLEANUP
     description: If this job is a special part of a batch (setup, cleanup, etc)
   queuedTime:

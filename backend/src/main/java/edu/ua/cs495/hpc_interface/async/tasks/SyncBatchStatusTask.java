@@ -14,7 +14,7 @@ import lombok.extern.log4j.Log4j2;
  */
 @Log4j2
 @AllArgsConstructor
-public class SyncBatchStateTask {
+public class SyncBatchStatusTask {
 
   private SSHService service;
   private Batch batch;
@@ -27,11 +27,14 @@ public class SyncBatchStateTask {
         .allMatch(j -> j.getState().isCompleted())
     ) {
       log.info(
-        "setup complete, moving batch " + this.batch.getId() + " to GENERATING"
+        "setup complete, moving batch " +
+        this.batch.getId() +
+        " to GENERATING and spawning generation job"
       );
       batch.setStatus(BatchStatus.GENERATING);
       this.service.getBatchRepository().save(batch);
-      // TODO: spawn generating task
+      this.service.getOneTimeExecutor()
+        .submit(new GenerateJobsTask(this.service, batch));
     } else if (
       this.batch.getJobs()
         .stream()

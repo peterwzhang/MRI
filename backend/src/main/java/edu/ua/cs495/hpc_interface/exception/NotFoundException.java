@@ -14,8 +14,8 @@ public class NotFoundException extends AbstractException {
   public NotFoundException() {
     super(
       null,
-      HttpStatus.NOT_IMPLEMENTED,
-      ErrorCode.NOT_IMPLEMENTED,
+      HttpStatus.NOT_FOUND,
+      ErrorCode.NOT_FOUND,
       "The requested entity could not be found.",
       null
     );

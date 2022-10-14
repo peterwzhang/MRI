@@ -77,14 +77,14 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{#defaultValue}}{{^isArray}}@Builder.Default{{/isArray}}{{/defaultValue}}
   {{#isArray}}
   @Singular{{#vendorExtensions.x-singular-name}}("{{{.}}}"){{/vendorExtensions.x-singular-name}}
-  private {{>nullableDataType}} {{name}};
+  private {{{datatypeWithEnum}}} {{name}};
   {{/isArray}}
   {{^isArray}}
   {{#openApiNullable}}
-  private {{>nullableDataType}} {{name}} = {{#isNullable}}JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#required}}{{{defaultValue}}}{{/required}}{{^required}}null{{/required}}{{/isNullable}};
+  private {{{datatypeWithEnum}}} {{name}} = {{#isNullable}}null{{/isNullable}}{{^isNullable}}{{#required}}{{{defaultValue}}}{{/required}}{{^required}}null{{/required}}{{/isNullable}};
   {{/openApiNullable}}
   {{^openApiNullable}}
-  private {{>nullableDataType}} {{name}} = {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null{{/required}};
+  private {{{datatypeWithEnum}}} {{name}} = {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null{{/required}};
   {{/openApiNullable}}
   {{/isArray}}
   {{/isContainer}}
@@ -99,10 +99,10 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{#isNullable}}
   @Builder.Default
   {{/isNullable}}
-  private {{>nullableDataType}} {{name}}{{#isNullable}} = JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
+  private {{{datatypeWithEnum}}} {{name}}{{#isNullable}} = null{{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
   {{/openApiNullable}}
   {{^openApiNullable}}
-  private {{>nullableDataType}} {{name}}{{#isNullable}} = null{{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
+  private {{{datatypeWithEnum}}} {{name}}{{#isNullable}} = null{{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
   {{/openApiNullable}}
   {{/isContainer}}
   {{/vars}}

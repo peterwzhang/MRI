@@ -3,12 +3,11 @@ package edu.ua.cs495.hpc_interface.domain.mapper;
 import edu.ua.cs495.hpc_interface.domain.dto.JobDTO;
 import edu.ua.cs495.hpc_interface.domain.dto.JobMetadataDTO;
 import edu.ua.cs495.hpc_interface.domain.entity.Job;
-import java.time.Instant;
+import edu.ua.cs495.hpc_interface.service.SSHService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
-import org.openapitools.jackson.nullable.JsonNullable;
 
 @Mapper(componentModel = "spring")
 public interface JobMapper {
@@ -26,7 +25,21 @@ public interface JobMapper {
     source = ".",
     qualifiedByName = "getFullSpecialJobType"
   )
-  @Mapping(target = "scriptPathSlurmQueuer", source = "slurmQueueScriptPath")
+  @Mapping(
+    target = "logPath",
+    source = "logPath",
+    qualifiedByName = "prefixPath"
+  )
+  @Mapping(
+    target = "scriptPath",
+    source = "scriptPath",
+    qualifiedByName = "prefixPath"
+  )
+  @Mapping(
+    target = "scriptPathSlurmQueuer",
+    source = "slurmQueueScriptPath",
+    qualifiedByName = "prefixPath"
+  )
   JobDTO toFullDto(Job source);
 
   @Named("getMetadataSpecialJobType")
@@ -57,11 +70,8 @@ public interface JobMapper {
     return JobDTO.SpecialJobTypeEnum.NONE;
   }
 
-  static JsonNullable<Instant> toJsonNullableInstant(Instant source) {
-    return JsonNullable.of(source);
-  }
-
-  static JsonNullable<Integer> toJsonNullableInteger(Integer source) {
-    return JsonNullable.of(source);
+  @Named("prefixPath")
+  static String prefixPath(String src) {
+    return SSHService.SCRATCH_SCRIPT_LOCATION + src;
   }
 }

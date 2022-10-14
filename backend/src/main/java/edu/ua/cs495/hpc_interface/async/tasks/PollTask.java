@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.hibernate.Session;
 
 /**
  * This job submits the setup portion of a batch to be run on compute via Slurm.
@@ -30,22 +31,24 @@ public final class PollTask implements Runnable {
 
   @SuppressWarnings({ "java:S1151", "java:S1612" })
   protected void runPollTasks() throws InterruptedException {
+    Session session = this.service.getSessionFactory().openSession();
     log.info("Starting");
 
     List<Job> jobs = (this.service.getJobRepository().findJobsToPoll());
     if (jobs.isEmpty()) {
       log.info("No jobs to poll...");
+      session.close();
       return;
     }
 
     try (SshClient ssh = this.service.getQueryUserClient()) {
       log.info("Polling all job states");
-      new PollJobStateTask(this.service, ssh, jobs).run();
+      new PollJobStateSubTask(this.service, ssh, jobs).run();
 
       log.info("Syncing all job logs");
       jobs
         .stream()
-        .forEach(j -> new SyncJobLogTask(this.service, ssh, j).run());
+        .forEach(j -> new SyncJobLogSubTask(this.service, ssh, j).run());
 
       Set<Batch> batches = new TreeSet<>(
         (a, b) -> a.getId().compareTo(b.getId())
@@ -55,7 +58,7 @@ public final class PollTask implements Runnable {
       log.info("Syncing all batch states");
       batches
         .stream()
-        .forEach(b -> new SyncBatchStatusTask(this.service, b).run());
+        .forEach(b -> new SyncBatchStatusSubTask(this.service, b).run());
 
       log.info("Done");
     } catch (IOException | SshException | InvalidPassphraseException e) {
@@ -64,6 +67,7 @@ public final class PollTask implements Runnable {
       log.error(e);
       e.printStackTrace();
     }
+    session.close();
   }
 
   public void run() {

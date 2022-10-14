@@ -48,7 +48,7 @@ public class Batch implements Serializable {
   /** The batch's creator */
   @NotNull
   @JoinColumn(name = "user_id")
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.LAZY)
   private User user;
 
   /** The batch's current status */

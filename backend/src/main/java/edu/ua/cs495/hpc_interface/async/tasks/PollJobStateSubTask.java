@@ -18,7 +18,7 @@ import lombok.extern.log4j.Log4j2;
  */
 @Log4j2
 @AllArgsConstructor
-public final class PollJobStateTask {
+public final class PollJobStateSubTask {
 
   public static final String SACCT_COMMAND =
     "sacct -j %s " +

@@ -12,7 +12,7 @@ import lombok.extern.log4j.Log4j2;
  */
 @Log4j2
 @AllArgsConstructor
-public final class SyncJobLogTask {
+public final class SyncJobLogSubTask {
 
   public static final int TAIL_BYTES = 50 * 1024; // 50kb
   public static final String TAIL_COMMAND =
@@ -31,7 +31,8 @@ public final class SyncJobLogTask {
     try {
       String response =
         this.ssh.executeCommand(
-            String.format(TAIL_COMMAND, this.job.getLogPath())
+            String.format(TAIL_COMMAND, this.job.getLogPath()),
+            SSHService.TIMEOUT
           );
       log.info("Got " + response.length() + "B of log for job " + job.getId());
       job.setLogTail(response);

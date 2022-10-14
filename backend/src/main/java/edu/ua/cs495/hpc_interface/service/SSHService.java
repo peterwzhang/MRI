@@ -30,6 +30,8 @@ public class SSHService {
 
   public static final String HOSTNAME = "uahpc.ua.edu";
   public static final int PORT = 22;
+  // timeout for commands, in millis
+  public static final int TIMEOUT = 30000;
 
   public static final String SCRATCH_SCRIPT_LOCATION =
     "/scratch/cs495/hpc-interface/";
@@ -64,7 +66,7 @@ public class SSHService {
     String fullPath = SSHService.SCRATCH_SCRIPT_LOCATION + file.getName();
 
     log.info("Copying {} to server", file.getName());
-    ssh.putFile(file, fullPath);
+    ssh.putFile(file, fullPath, TIMEOUT);
 
     log.info("Marking {} as executable", file.getName());
 
@@ -97,7 +99,7 @@ public class SSHService {
   public String guaranteeCommand(SshClient ssh, String command, String error)
     throws IOException {
     StringBuffer buffer = new StringBuffer();
-    if (ssh.executeCommandWithResult(command, buffer) != 0) {
+    if (ssh.executeCommandWithResult(command, buffer, TIMEOUT) != 0) {
       throw new IOException(error);
     }
     return buffer.toString();

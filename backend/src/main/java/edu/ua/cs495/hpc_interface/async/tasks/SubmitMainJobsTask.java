@@ -5,17 +5,16 @@ import com.sshtools.common.publickey.InvalidPassphraseException;
 import com.sshtools.common.ssh.SshException;
 import edu.ua.cs495.hpc_interface.domain.entity.Batch;
 import edu.ua.cs495.hpc_interface.domain.entity.Job;
-import edu.ua.cs495.hpc_interface.domain.entity.Script;
 import edu.ua.cs495.hpc_interface.domain.types.BatchStatus;
 import edu.ua.cs495.hpc_interface.domain.types.JobState;
 import edu.ua.cs495.hpc_interface.service.SSHService;
-import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
+import org.hibernate.Session;
 
 /**
- * This job submits the setup portion of a batch to be run on compute via Slurm.
+ * This job submits the generated jobs of a batch to be run on compute via Slurm.
  */
 public final class SubmitMainJobsTask extends AbstractOneTimeTask {
 
@@ -34,54 +33,54 @@ public final class SubmitMainJobsTask extends AbstractOneTimeTask {
 
   @SuppressWarnings({ "java:S2093", "java:S2629", "java:S4042" })
   protected void runJob() throws InterruptedException {
-    log.info("Starting");
-    // if (this.jobs.isEmpty()) {
-    //   log.info("No jobs were generated");
+    try (Session session = this.service.getSessionFactory().openSession()) {
+      this.batch = session.get(Batch.class, this.batch.getId());
+      this.jobs =
+        this.jobs.stream().map(j -> session.get(Job.class, j.getId())).toList();
 
-    //   this.service.getBatchRepository()
-    //     .save(this.batch.withStatus(BatchStatus.COMPLETED));
+      log.info("Submitting jobs {}", this.jobs);
 
-    //   return;
-    // }
+      try (SshClient ssh = this.service.getClient(this.batch.getUser())) {
+        for (Job job : this.jobs) {
+          this.service.getJobRepository()
+            .save(
+              job
+                .withSlurmId(this.service.submitJobToSlurm(ssh, job))
+                .withState(JobState.PENDING)
+                .withQueuedTime(Instant.now())
+                .withLastSync(Instant.now())
+            );
+        }
 
-    // try (SshClient ssh = this.service.getClient(this.batch.getUser())) {
-    //   String logLocation = "log." + job.getId();
+        this.service.getBatchRepository()
+          .save(this.batch.withStatus(BatchStatus.RUNNING));
+      } catch (IOException | SshException | InvalidPassphraseException e) {
+        log.info("Batch has FAILED");
 
-    //   job.setLogPath(logLocation);
+        log.error(e);
+        e.printStackTrace();
 
-    //   int slurmId = this.service.submitJobToSlurm(ssh, job);
+        // mark batch and all jobs as failures
+        // refresh batch
+        this.batch = session.get(Batch.class, this.batch.getId());
+        session.refresh(this.batch);
 
-    //   this.service.getJobRepository()
-    //     .save(
-    //       job
-    //         .withSlurmId(slurmId)
-    //         .withState(JobState.PENDING)
-    //         .withQueuedTime(Instant.now())
-    //         .withLastSync(Instant.now())
-    //     );
+        this.service.getBatchRepository()
+          .save(this.batch.withStatus(BatchStatus.FAILED));
 
-    //   this.service.getBatchRepository()
-    //     .save(this.batch.withStatus(BatchStatus.SETTING_UP));
-    // } catch (IOException | SshException | InvalidPassphraseException e) {
-    //   log.info("Batch has FAILED");
-
-    //   log.error(e);
-    //   e.printStackTrace();
-
-    //   // mark batch and all jobs as failures
-    //   this.service.getBatchRepository().refresh(this.batch);
-
-    //   this.service.getBatchRepository()
-    //     .save(this.batch.withStatus(BatchStatus.FAILED));
-
-    //   this.batch.getJobs()
-    //     .forEach(
-    //       job ->
-    //         this.service.getJobRepository().save(job.withState(JobState.FAILED))
-    //     );
-    // } finally {
-    //   this.service.cleanupFile(localScript);
-    //   this.service.cleanupFile(localSlurm);
-    // }
+        this.batch.getJobs()
+          .forEach(
+            (Job job) -> {
+              if (
+                Boolean.FALSE.equals(job.getSetupJob()) &&
+                Boolean.FALSE.equals(job.getGeneratorJob())
+              ) {
+                this.service.getJobRepository()
+                  .save(job.withState(JobState.FAILED));
+              }
+            }
+          );
+      }
+    }
   }
 }

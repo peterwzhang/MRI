@@ -12,62 +12,64 @@ import edu.ua.cs495.hpc_interface.service.SSHService;
 import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
+import org.hibernate.Session;
 
 /**
- * This job submits the setup portion of a batch to be run on compute via Slurm.
+ * This job submits the cleanup portion of a batch to be run on compute via Slurm.
  */
-public final class SubmitSetupTask extends AbstractOneTimeTask {
+public final class SubmitCleanupTask extends AbstractOneTimeTask {
 
   private Batch batch;
 
-  public SubmitSetupTask(SSHService sshService, Batch batch) {
+  public SubmitCleanupTask(SSHService sshService, Batch batch) {
     super(sshService);
     this.batch = batch;
   }
 
   @SuppressWarnings({ "java:S2093", "java:S2629", "java:S4042" })
   protected void runJob() throws InterruptedException {
+    Session session = this.service.getSessionFactory().openSession();
+    this.batch = session.get(Batch.class, this.batch.getId());
+
     log.info("Starting");
 
     Script script = this.batch.getScriptUsed();
-    if (script.getSetupScript().isEmpty()) {
+    if (script.getCleanupScript().isEmpty()) {
       log.info(
-        "This batch has no setup script.  Moving straight to GENERATING stage and spawning a generation job"
+        "This batch has no cleanup script.  Moving straight to COMPLETED stage"
       );
 
       this.service.getBatchRepository()
-        .save(this.batch.withStatus(BatchStatus.GENERATING));
+        .save(this.batch.withStatus(BatchStatus.COMPLETED));
 
-      this.service.getOneTimeExecutor()
-        .submit(new GenerateJobsTask(this.service, batch));
-
+      session.close();
       return;
     }
 
-    StringBuilder setupScriptBuilder = new StringBuilder();
-    setupScriptBuilder.append(SSHService.HASH_BANG);
-    setupScriptBuilder.append("\n");
-    setupScriptBuilder.append(script.getHeader());
-    setupScriptBuilder.append("\n\n");
-    setupScriptBuilder.append(script.getSetupScript());
-    setupScriptBuilder.append("\n");
+    StringBuilder cleanupScriptBuilder = new StringBuilder();
+    cleanupScriptBuilder.append(SSHService.HASH_BANG);
+    cleanupScriptBuilder.append("\n");
+    cleanupScriptBuilder.append(script.getHeader());
+    cleanupScriptBuilder.append("\n\n");
+    cleanupScriptBuilder.append(script.getCleanupScript());
+    cleanupScriptBuilder.append("\n");
 
-    String setupScript = setupScriptBuilder.toString();
+    String cleanupScript = cleanupScriptBuilder.toString();
 
     File localScript = null;
     File localSlurm = null;
     try {
       localScript =
         this.service.createTempFileWithContents(
-            "setup-script-",
+            "cleanup-script-",
             String.format("-%s.sh", this.batch.getId()),
-            setupScript
+            cleanupScript
           );
 
       StringBuilder slurmScriptBuilder = new StringBuilder();
       slurmScriptBuilder.append(SSHService.HASH_BANG);
       slurmScriptBuilder.append("\n");
-      slurmScriptBuilder.append(script.getSetupScriptSlurmConfig());
+      slurmScriptBuilder.append(script.getCleanupSlurmConfig());
       slurmScriptBuilder.append("\n\n");
       slurmScriptBuilder.append("srun ");
       slurmScriptBuilder.append(SSHService.SCRATCH_SCRIPT_LOCATION);
@@ -76,7 +78,7 @@ public final class SubmitSetupTask extends AbstractOneTimeTask {
 
       localSlurm =
         this.service.createTempFileWithContents(
-            "setup-slurm-",
+            "cleanup-slurm-",
             String.format("-%s.sh", this.batch.getId()),
             slurmScriptBuilder.toString()
           );
@@ -88,12 +90,12 @@ public final class SubmitSetupTask extends AbstractOneTimeTask {
         .slurmState("")
         .logPath("")
         .logTail("Loading...")
-        .identifier("setup")
+        .identifier("cleanup")
         .scriptPath(localScript.getName())
         .slurmQueueScriptPath(localSlurm.getName())
-        .setupJob(true)
+        .setupJob(false)
         .generatorJob(false)
-        .cleanupJob(false)
+        .cleanupJob(true)
         .lastSync(Instant.now())
         .build();
       this.service.getJobRepository().save(job);
@@ -118,7 +120,7 @@ public final class SubmitSetupTask extends AbstractOneTimeTask {
           );
 
         this.service.getBatchRepository()
-          .save(this.batch.withStatus(BatchStatus.SETTING_UP));
+          .save(this.batch.withStatus(BatchStatus.CLEAN_UP_RUNNING));
       }
     } catch (IOException | SshException | InvalidPassphraseException e) {
       log.info("Batch has FAILED");
@@ -140,6 +142,8 @@ public final class SubmitSetupTask extends AbstractOneTimeTask {
     } finally {
       this.service.cleanupFile(localScript);
       this.service.cleanupFile(localSlurm);
+
+      session.close();
     }
   }
 }

@@ -8,13 +8,14 @@ import edu.ua.cs495.hpc_interface.domain.types.JobState;
 import edu.ua.cs495.hpc_interface.service.SSHService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.hibernate.Session;
 
 /**
  * Update a batch's state based on its job states
  */
 @Log4j2
 @AllArgsConstructor
-public class SyncBatchStatusTask {
+public class SyncBatchStatusSubTask {
 
   private SSHService service;
   private Batch batch;
@@ -87,7 +88,9 @@ public class SyncBatchStatusTask {
         );
         batch.setStatus(BatchStatus.CLEAN_UP_QUEUEING);
         this.service.getBatchRepository().save(batch);
-        // TODO: submit cleanup
+
+        this.service.getOneTimeExecutor()
+          .submit(new SubmitCleanupTask(this.service, batch));
       } else {
         log.info(
           "Setup script will NOT run for batch " +
@@ -116,26 +119,29 @@ public class SyncBatchStatusTask {
   }
 
   public void run() {
-    switch (this.batch.getStatus()) {
-      case SETTING_UP:
-        this.checkSetupCompletion();
-        break;
-      case RUNNING:
-        this.checkAllCompletion();
-        break;
-      case CLEAN_UP_RUNNING:
-        this.checkCleanupCompletion();
-        break;
-      // not eligible for state change
-      case QUEUEING_SETUP:
-      case GENERATING:
-      case AWAITING_APPROVAL:
-      case QUEUEING:
-      case CLEAN_UP_QUEUEING:
-      case COMPLETED:
-      case FAILED:
-      case CANCELLED:
-      default:
+    try (Session session = this.service.getSessionFactory().openSession()) {
+      this.batch = session.get(Batch.class, this.batch.getId());
+      switch (this.batch.getStatus()) {
+        case SETTING_UP:
+          this.checkSetupCompletion();
+          break;
+        case RUNNING:
+          this.checkAllCompletion();
+          break;
+        case CLEAN_UP_RUNNING:
+          this.checkCleanupCompletion();
+          break;
+        // not eligible for state change
+        case QUEUEING_SETUP:
+        case GENERATING:
+        case AWAITING_APPROVAL:
+        case QUEUEING:
+        case CLEAN_UP_QUEUEING:
+        case COMPLETED:
+        case FAILED:
+        case CANCELLED:
+        default:
+      }
     }
   }
 }

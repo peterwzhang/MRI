@@ -18,7 +18,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
 /**
  * This job generated the jobs of a batch
@@ -26,33 +25,36 @@ import org.hibernate.SessionFactory;
 public final class GenerateJobsTask extends AbstractOneTimeTask {
 
   private Batch batch;
-  private SessionFactory sessionFactory;
 
   public GenerateJobsTask(SSHService sshService, Batch batch) {
     super(sshService);
-    this.sessionFactory = sshService.getSessionFactory();
     this.batch = batch;
   }
 
   @SuppressWarnings({ "java:S2093", "java:S2629", "java:S4042" })
   protected void runJob() throws InterruptedException {
-    Session session = sessionFactory.openSession();
+    Session session = this.service.getSessionFactory().openSession();
     this.batch = session.get(Batch.class, this.batch.getId());
 
     log.info("Starting for {}", this.batch.getId());
 
     Script script = this.batch.getScriptUsed();
 
+    String generatedJobListFile =
+      "generated-job-list-" + this.batch.getId() + ".txt";
+
     StringBuilder jobGeneratorBuilder = new StringBuilder();
     jobGeneratorBuilder.append(SSHService.HASH_BANG);
     jobGeneratorBuilder.append("\n");
     jobGeneratorBuilder.append(script.getHeader());
     jobGeneratorBuilder.append("\n\n");
+    jobGeneratorBuilder.append("touch ");
+    jobGeneratorBuilder.append(
+      SSHService.SCRATCH_SCRIPT_LOCATION + generatedJobListFile
+    );
+    jobGeneratorBuilder.append("\n\n");
     jobGeneratorBuilder.append(script.getLoopWrapperTop());
     jobGeneratorBuilder.append("\n");
-
-    String generatedJobListFile =
-      "generated-job-list-" + this.batch.getId() + ".txt";
 
     jobGeneratorBuilder.append("echo ");
     jobGeneratorBuilder.append(script.getIdVariable());
@@ -67,9 +69,12 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
     jobGeneratorBuilder.append(this.batch.getId());
     jobGeneratorBuilder.append("-");
     jobGeneratorBuilder.append(script.getIdVariable());
-    UUID heredoc = UUID.randomUUID();
     jobGeneratorBuilder.append(".sh <<");
+    UUID heredoc = UUID.randomUUID();
     jobGeneratorBuilder.append(heredoc);
+    jobGeneratorBuilder.append("\n");
+    jobGeneratorBuilder.append(SSHService.HASH_BANG);
+    jobGeneratorBuilder.append("\n");
     jobGeneratorBuilder.append("\n");
     jobGeneratorBuilder.append(script.getJobTemplate());
     jobGeneratorBuilder.append("\n");
@@ -84,9 +89,31 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
     jobGeneratorBuilder.append("-slurm.sh <<");
     jobGeneratorBuilder.append(heredoc);
     jobGeneratorBuilder.append("\n");
+    jobGeneratorBuilder.append(SSHService.HASH_BANG);
+    jobGeneratorBuilder.append("\n");
     jobGeneratorBuilder.append(script.getSlurmTemplate());
+    jobGeneratorBuilder.append("\n\n");
+    jobGeneratorBuilder.append("srun ");
+    jobGeneratorBuilder.append(SSHService.SCRATCH_SCRIPT_LOCATION);
+    jobGeneratorBuilder.append(this.batch.getId());
+    jobGeneratorBuilder.append("-");
+    jobGeneratorBuilder.append(script.getIdVariable());
+    jobGeneratorBuilder.append(".sh");
     jobGeneratorBuilder.append("\n");
     jobGeneratorBuilder.append(heredoc);
+    jobGeneratorBuilder.append("\n\n");
+
+    jobGeneratorBuilder.append("chmod +x ");
+    jobGeneratorBuilder.append(SSHService.SCRATCH_SCRIPT_LOCATION);
+    jobGeneratorBuilder.append(this.batch.getId());
+    jobGeneratorBuilder.append("-");
+    jobGeneratorBuilder.append(script.getIdVariable());
+    jobGeneratorBuilder.append(".sh ");
+    jobGeneratorBuilder.append(SSHService.SCRATCH_SCRIPT_LOCATION);
+    jobGeneratorBuilder.append(this.batch.getId());
+    jobGeneratorBuilder.append("-");
+    jobGeneratorBuilder.append(script.getIdVariable());
+    jobGeneratorBuilder.append("-slurm.sh");
     jobGeneratorBuilder.append("\n\n");
 
     jobGeneratorBuilder.append(script.getLoopWrapperBottom());
@@ -101,7 +128,7 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
       .slurmState("")
       .logPath(generatedJobListFile)
       .logTail("Loading...")
-      .identifier("")
+      .identifier("generator")
       .scriptPath("TBD")
       .slurmQueueScriptPath("n/a")
       .setupJob(false)
@@ -150,9 +177,12 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
         job.setState(JobState.SUCCESS);
         this.service.getJobRepository().save(job);
 
-        log.info("Generated %d jobs", generatedJobs.length);
+        log.info("Generated {} jobs", generatedJobs.length);
 
-        if (generatedJobs.length == 0) {
+        if (
+          generatedJobs.length == 0 ||
+          (generatedJobs.length == 1 && generatedJobs[0].isBlank())
+        ) {
           log.info("Batch is moving to done as there are no jobs to do...");
           this.service.getBatchRepository()
             .save(this.batch.withStatus(BatchStatus.COMPLETED));
@@ -192,9 +222,11 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
         this.service.getJobRepository().saveAll(jobs);
 
         if (Boolean.TRUE.equals(this.batch.getNeedsApproval())) {
-          this.batch.setStatus(BatchStatus.AWAITING_APPROVAL);
+          this.service.getBatchRepository()
+            .saveAndFlush(this.batch.withStatus(BatchStatus.AWAITING_APPROVAL));
         } else {
-          this.batch.setStatus(BatchStatus.QUEUEING);
+          this.service.getBatchRepository()
+            .saveAndFlush(this.batch.withStatus(BatchStatus.QUEUEING));
           this.service.getOneTimeExecutor()
             .submit(new SubmitMainJobsTask(this.service, this.batch, jobs));
         }

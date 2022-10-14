@@ -40,7 +40,7 @@ public class Script implements Serializable {
   /** The script's creator */
   @NotNull
   @JoinColumn(name = "user_id")
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.LAZY)
   private User user;
 
   /** A name for the script */

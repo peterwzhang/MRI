@@ -26,7 +26,7 @@ public class JobService {
 
     Job job = dbResult.get();
 
-    if (job.getBatch().getId() != batchId) {
+    if (!job.getBatch().getId().equals(batchId)) {
       throw new NotFoundException();
     }
 

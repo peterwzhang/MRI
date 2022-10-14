@@ -19,8 +19,6 @@ paths:
     $ref: paths/batches/batchId/jobs/jobId/root.yaml
   /api/batches/{batchId}/jobs/{jobId}/cancel:
     $ref: paths/batches/batchId/jobs/jobId/cancel.yaml
-  /api/batches/{batchId}/jobs/{jobId}/refresh:
-    $ref: paths/batches/batchId/jobs/jobId/refresh.yaml
   /api/scripts:
     $ref: paths/scripts/root.yaml
   /api/scripts/{scriptId}:

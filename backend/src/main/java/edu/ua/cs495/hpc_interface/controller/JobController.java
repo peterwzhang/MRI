@@ -69,10 +69,4 @@ public class JobController implements JobApi {
   public ResponseEntity<Void> cancelJob(UUID batchId, UUID jobId) {
     throw new NotImplementedException(httpServletRequest);
   }
-
-  /** {@inheritDoc} */
-  @Override
-  public ResponseEntity<Void> refreshJob(UUID batchId, UUID jobId) {
-    throw new NotImplementedException(httpServletRequest);
-  }
 }

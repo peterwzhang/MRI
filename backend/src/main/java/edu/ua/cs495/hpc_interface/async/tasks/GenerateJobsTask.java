@@ -15,7 +15,10 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 /**
  * This job generated the jobs of a batch
@@ -23,15 +26,20 @@ import java.util.UUID;
 public final class GenerateJobsTask extends AbstractOneTimeTask {
 
   private Batch batch;
+  private SessionFactory sessionFactory;
 
   public GenerateJobsTask(SSHService sshService, Batch batch) {
     super(sshService);
+    this.sessionFactory = sshService.getSessionFactory();
     this.batch = batch;
   }
 
   @SuppressWarnings({ "java:S2093", "java:S2629", "java:S4042" })
   protected void runJob() throws InterruptedException {
-    log.info("Starting");
+    Session session = sessionFactory.openSession();
+    this.batch = session.get(Batch.class, this.batch.getId());
+
+    log.info("Starting for {}", this.batch.getId());
 
     Script script = this.batch.getScriptUsed();
 
@@ -44,15 +52,14 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
     jobGeneratorBuilder.append("\n");
 
     String generatedJobListFile =
-      SSHService.SCRATCH_SCRIPT_LOCATION +
-      "generated-job-list-" +
-      this.batch.getId() +
-      ".txt";
+      "generated-job-list-" + this.batch.getId() + ".txt";
 
     jobGeneratorBuilder.append("echo ");
     jobGeneratorBuilder.append(script.getIdVariable());
     jobGeneratorBuilder.append(" >> ");
-    jobGeneratorBuilder.append(generatedJobListFile);
+    jobGeneratorBuilder.append(
+      SSHService.SCRATCH_SCRIPT_LOCATION + generatedJobListFile
+    );
     jobGeneratorBuilder.append("\n\n");
 
     jobGeneratorBuilder.append("cat > ");
@@ -132,7 +139,9 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
         String[] generatedJobs =
           this.service.guaranteeCommand(
               ssh,
-              "cat " + generatedJobListFile,
+              "cat " +
+              SSHService.SCRATCH_SCRIPT_LOCATION +
+              generatedJobListFile,
               generator
             )
             .trim()
@@ -144,47 +153,54 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
         log.info("Generated %d jobs", generatedJobs.length);
 
         if (generatedJobs.length == 0) {
+          log.info("Batch is moving to done as there are no jobs to do...");
           this.service.getBatchRepository()
             .save(this.batch.withStatus(BatchStatus.COMPLETED));
           return;
         }
 
-        this.service.getJobRepository()
-          .saveAll(
-            Arrays
-              .stream(generatedJobs)
-              .map(
-                identifier ->
-                  Job
-                    .builder()
-                    .batch(this.batch)
-                    .state(JobState.QUEUEING)
-                    .slurmState("")
-                    .logPath("log." + job.getId())
-                    .logTail("Loading...")
-                    .identifier(identifier)
-                    .scriptPath(
-                      String.format("%s-%s.sh", this.batch.getId(), identifier)
-                    )
-                    .slurmQueueScriptPath(
-                      String.format(
-                        "%s-%s-slurm.sh",
-                        this.batch.getId(),
-                        identifier
-                      )
-                    )
-                    .setupJob(false)
-                    .generatorJob(false)
-                    .cleanupJob(false)
-                    .lastSync(Instant.now())
-                    .build()
-              )
-              .toList()
-          );
-        // TODO: submit these or do something for approval
+        List<Job> jobs = Arrays
+          .stream(generatedJobs)
+          .map(
+            identifier ->
+              Job
+                .builder()
+                .batch(this.batch)
+                .state(JobState.QUEUEING)
+                .slurmState("")
+                .logPath("log." + job.getId())
+                .logTail("Loading...")
+                .identifier(identifier)
+                .scriptPath(
+                  String.format("%s-%s.sh", this.batch.getId(), identifier)
+                )
+                .slurmQueueScriptPath(
+                  String.format(
+                    "%s-%s-slurm.sh",
+                    this.batch.getId(),
+                    identifier
+                  )
+                )
+                .setupJob(false)
+                .generatorJob(false)
+                .cleanupJob(false)
+                .lastSync(Instant.now())
+                .build()
+          )
+          .toList();
+
+        this.service.getJobRepository().saveAll(jobs);
+
+        if (Boolean.TRUE.equals(this.batch.getNeedsApproval())) {
+          this.batch.setStatus(BatchStatus.AWAITING_APPROVAL);
+        } else {
+          this.batch.setStatus(BatchStatus.QUEUEING);
+          this.service.getOneTimeExecutor()
+            .submit(new SubmitMainJobsTask(this.service, this.batch, jobs));
+        }
       }
     } catch (IOException | SshException | InvalidPassphraseException e) {
-      log.info("Batch has FAILED");
+      log.info("Generation has FAILED");
 
       log.error(e);
       StringWriter trace = new StringWriter();
@@ -198,6 +214,7 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
       job.setLogTail(job.getLogTail() + "\n\n" + trace);
     } finally {
       this.service.cleanupFile(localScript);
+      session.close();
     }
   }
 }

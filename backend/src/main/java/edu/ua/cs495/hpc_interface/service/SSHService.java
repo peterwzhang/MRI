@@ -18,6 +18,7 @@ import javax.annotation.CheckForNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +42,7 @@ public class SSHService {
   private BatchRepository batchRepository;
   private JobRepository jobRepository;
   private OneTimeExecutor oneTimeExecutor;
+  private SessionFactory sessionFactory;
 
   // to get worker/query user info
   private UserService userService;

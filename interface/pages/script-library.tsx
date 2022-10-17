@@ -7,11 +7,12 @@ export default function ScriptLibrary(){
     return(
         <SectionDiv>
             <h1>Script Library</h1>
-            <QueryList restUrl='https://localhost:8443/api/scripts'></QueryList>
             <Buttons>
                 <Button>
                     Upload script
                 </Button>
+                <label>Select Script to Export: </label>
+                <QueryList restUrl='https://localhost:8443/api/scripts'></QueryList>
                 <Button>
                     Export script
                 </Button>

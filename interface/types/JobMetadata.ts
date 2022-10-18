@@ -29,11 +29,11 @@ export interface JobMetadata {
   /**
    * A unique variable identifying this job, as derived from the setup script (such as a patient ID).
    */
-  variableId: string;
+  identifier: string;
   /**
    * If this job is a special part of a batch (setup, cleanup, etc)
    */
-  specialJobType: "NONE" | "SETUP" | "CLEANUP";
+  specialJobType: "NONE" | "SETUP" | "GENERATOR" | "CLEANUP";
   /**
    * When this was formally queued into Slurm, if known
    */

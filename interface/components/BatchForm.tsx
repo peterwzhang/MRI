@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import QuerySelect from './QuerySelect';
 
@@ -7,8 +7,16 @@ const BatchForm = () => {
     const [batch, setBatch] = useState({"name": "",
     "requiresApprovalStep": true,
     "script": {}});
-    const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
-
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        e.stopPropagation()
+        console.log(e.currentTarget)
+        if (e.currentTarget.id == "batchName"){
+            setBatch((batch) => {return {...batch, ...{'name': e.currentTarget?.value}}})
+        }
+        else if (e.currentTarget.id == "defCheck"){
+            setBatch((batch) => {return {...batch, ...{'requiresApprovalStep': e.currentTarget.checked}}})
+        }
+        console.log(batch)
     }
     const handleSubmit = () => {
 
@@ -18,8 +26,8 @@ const BatchForm = () => {
     <h1>Create Batch</h1>
     <form onSubmit={handleSubmit}>
       <InputsWrapper>
-        <label>Batch Name <Input type="text" name="batchName" onChange={handleChange}/></label>
-        <label>Requires Approval? <Input type="checkbox" defaultChecked={true} name="defCheck" onChange={handleChange}></Input></label>
+        <label>Batch Name <Input type="text" id="batchName" onChange={handleChange}/></label>
+        <label>Requires Approval? <Input type="checkbox" defaultChecked={true} id="defCheck" onChange={handleChange}></Input></label>
         <label>Script Name <QuerySelect restUrl='https://localhost:8443/api/scripts'></QuerySelect></label>
         <label>
           Param 1: 

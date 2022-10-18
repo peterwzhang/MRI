@@ -3,6 +3,7 @@ import SectionDiv from "../components/SectionDiv";
 import styled from "styled-components";
 import QueryList from "../components/QueryList"
 import QuerySelect from "../components/QuerySelect";
+import FileSelect from "../components/FileSelect";
 
 export default function ScriptLibrary(){
     return(
@@ -14,18 +15,15 @@ export default function ScriptLibrary(){
             </SectionDiv>
             <SectionDiv>
                 <h3>Upload a Script</h3>
-                <Button>
-                    Upload script
-                </Button>
+                <FileSelect/>
+                <Button>Upload script</Button>
             </SectionDiv>
             <SectionDiv>
                 <h3>Export a Script</h3>
                 <label>Select a script to export: </label>
                 <QuerySelect restUrl='https://localhost:8443/api/scripts'></QuerySelect>
                 <p></p>
-                <Button>
-                    Export script
-                </Button>
+                <Button>Export script</Button>
             </SectionDiv>
         </div>
     )

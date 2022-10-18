@@ -7,6 +7,10 @@ const BatchForm = () => {
     const [batch, setBatch] = useState({"name": "",
     "requiresApprovalStep": true,
     "script": {}});
+    const [name, setName] = useState('');
+    const [checked, setChecked] = useState(true);
+    const [script, setScript] = useState({});
+
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         e.stopPropagation()
         console.log(e.currentTarget)
@@ -26,8 +30,8 @@ const BatchForm = () => {
     <h1>Create Batch</h1>
     <form onSubmit={handleSubmit}>
       <InputsWrapper>
-        <label>Batch Name <Input type="text" id="batchName" onChange={handleChange}/></label>
-        <label>Requires Approval? <Input type="checkbox" defaultChecked={true} id="defCheck" onChange={handleChange}></Input></label>
+        <label>Batch Name <Input type="text" id="batchName" onChange={e => setName(e.target.value)}/></label>
+        <label>Requires Approval? <Input type="checkbox" defaultChecked={true} id="defCheck" onClick={() => setChecked(!checked)}></Input></label>
         <label>Script Name <QuerySelect restUrl='https://localhost:8443/api/scripts'></QuerySelect></label>
         <label>
           Param 1: 

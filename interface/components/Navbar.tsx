@@ -20,7 +20,7 @@ const Navbar = () => {
                 <div className="nav_header">
                     <div className="nav_button">
                         <h1>
-                            <Link href="/home">HPC Interface</Link>
+                            <Link href="/">HPC Interface</Link>
                         </h1>
                     </div>
                     <div className="nav_button">

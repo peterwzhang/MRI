@@ -1,84 +1,64 @@
-import React, { useState } from "react";
-import Link from "next/link";
+import React, { useRef, useState } from "react";
 import BatchTable from '../components/BatchTable';
 import SectionDiv from "../components/SectionDiv";
 import styled from "styled-components";
 import ProgressBar from "../components/ProgressBar";
-import JobsTable from "../components/JobsTable";
+import { url } from "../api/constants";
+import { useQuery } from "@tanstack/react-query";
+import { BatchCollection, BatchMetadata } from "../types";
+import axios from "axios";
+import BatchInfo from "../components/BatchInfo";
+import { GridSelectionModel } from "@mui/x-data-grid";
 
 export default function Dashboard(){
-    const [hide, setHide] = useState(true);
+    const [batch, setBatch] = useState<BatchMetadata | undefined>(undefined);
+    const ref = useRef<null | HTMLDivElement>(null)
 
-    return(
-        <div>
-            <RowWrapper>
-                <Widget>
-                    <h2>Batches</h2>
-                    <ProgressBar/>
-                    <Wrapper>
-                        <BatchTable />   
-                        <Buttons>
-                            <Button onClick={() => setHide(!hide)}>View</Button>
-                            <Button>Cancel</Button>
-                            <Button>Refresh</Button>
-                        </Buttons>
-                    </Wrapper>
-                </Widget>
-                {!hide && (
+    const fetchBatches = (): Promise<void | BatchCollection> => axios.get(`${url}/api/batches`).then(response => response.data)
+    const { isLoading, error, data } = useQuery(['batches'], fetchBatches)
+
+    const handleSelect = (selection: GridSelectionModel) => {
+        setBatch(data?.find(b => b.id == selection.at(0)))
+        ref.current?.scrollIntoView() 
+    }
+    const handleCancel = (selection: GridSelectionModel) => {
+        console.log(selection) //TODO: cancel batch
+    }
+
+    if (isLoading) return <p>Loading...</p>
+    if (error) return <p>Error</p>
+    else if (data) {
+        let progress = 0
+        data.forEach((batch) => batch.status == "COMPLETED" && progress++)
+        progress = (progress / data.length) * 100
+
+
+        return (
+            <div>
+                <ColWrapper>
                     <Widget>
-                        <h2>Batch Information</h2>
-                        <p>ID: 1</p>
-                        <p>Name: Snow</p>
-                        <p>Total runtime: 1hr 3s</p>
-                        <p>Script used: Abide Organizer</p>
-                        {/* <JobsTable/> */}
-                        <br></br>
-                        <Link href="/view-job">
-                            <Button style={{ width: 400 }}>View Job</Button>
-                        </Link>
+                        <h2>Batches</h2>
+                        <ProgressBar progress={progress}/>
+                        <BatchTable batches={data} handleSelect={handleSelect} handleCancel={handleCancel}/>
                     </Widget>
-                )}
-            </RowWrapper>
-        </div>
-    )
+                    {batch && (
+                        <Widget ref={ref}>
+                            <BatchInfo batch={batch}/>
+                        </Widget>
+                    )}
+                </ColWrapper>
+            </div>
+    )}
 }
 
-const RowWrapper = styled.div`
+const ColWrapper = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     width: 100%;
 `
 const Widget = styled(SectionDiv)`
-    margin: 2rem;
     min-width: 30%;
-    padding-bottom: 1rem;
-`
-const Wrapper = styled(RowWrapper)`
-    gap: 4rem;
-`
-const Buttons = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    width: 20rem;
-`
-const InfoTable = styled.table`
-    border: 1px solid black;
-`
-const InfoHeader = styled.th`
-    border: 1px solid black;
-    textAlign: center;
-`
-const InfoCell = styled.td`
-    border: 1px solid black;
-    textAlign: left;
-    padding: 5px;
-`
-const Button = styled.button`
-    border-width: .05rem;
-    border-radius: .5rem;
-    padding: 1rem;
-    width: 80%;
-    font-size: 1rem;
+    max-width: 100%;
+    margin-bottom: 0rem;
 `
 

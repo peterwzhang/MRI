@@ -8,8 +8,8 @@ const ViewScript = ({scriptId}: {scriptId: number}) => {
         fetch(`${url}/api/scripts/${scriptId}`)
         .then(async res => res.json())
     )
-    if (isLoading) return <h1>Loading...</h1>
-    if (error) return <h1>Error</h1>
+    if (isLoading) return <p>Loading...</p>
+    if (error) return <p>Error</p>
     else return (
         <div>
             <h2>{data.name}</h2>

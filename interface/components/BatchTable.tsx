@@ -1,52 +1,75 @@
-import * as React from 'react';
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import { useEffect, useState } from 'react';
+import { DataGrid, GridColDef, GridSelectionModel, GridValueGetterParams } from '@mui/x-data-grid';
+import { MouseEventHandler, useEffect, useState } from 'react';
 import { BatchCollection } from '../types';
-import axios from 'axios';
-import { url } from '../api/constants';
+import styled from 'styled-components';
 
 const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 70 },
+  { field: 'id', headerName: 'ID', width: 300 },
   { field: 'name', headerName: 'Name', width: 130 },
-  { field: 'status', headerName: 'Status', width: 130 },
+  { field: 'status', headerName: 'Status', width: 160 },
+  { field: 'reqApproval', headerName: 'Req Approval?', width: 130 },
+  { field: 'script', headerName: 'Script', width: 130 },
+  { field: 'start', headerName: 'Start Time', width: 210 },
 ];
 
-const rows = [
-  { id: 1, name: 'Snow', status: '60%'},
-  { id: 2, name: 'Lannister', status: '0%'},
-  { id: 3, name: 'Lannister', status: '0%'},
-  { id: 4, name: 'Stark', status: 'done'},
-  { id: 5, name: 'Targaryen', status: '0%'},
-  { id: 6, name: 'Melisandre', status: null},
-  { id: 7, name: 'Clifford', status: '0%'},
-  { id: 8, name: 'Frances', status: '0%'},
-  { id: 9, name: 'Roxie', status: '0%'},
-];
+const BatchTable = ({batches, handleSelect, handleCancel} : {batches : BatchCollection, 
+  handleSelect: (selection : GridSelectionModel) => void, handleCancel: (selection : GridSelectionModel) => void}) => {
+    
+  const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
 
-const BatchTable = () => {
-  const [batches, setBatches] = useState<BatchCollection>([]);
-
-  useEffect(() => {
-    axios.get(`${url}/api/batches`).then((response) => {
-      setBatches(response.data);
-    });
-  }, []);
-  console.log(batches)
-
-  if (!batches) return null;
+  const rows = batches.map((batch) => (
+    { 
+      id: batch.id, 
+      name: batch.name, 
+      status: batch.status,
+      reqApproval: batch.requiresApprovalStep ? 'Yes' : 'No',
+      script: batch.scriptUsed.name,
+      start: batch.startedAt,
+    })
+  )
 
   return (
-    <div style={{ height: 370, width: 400 }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-      />
-    </div>
+    <Wrapper>
+      <div style={{ height: (56*(Math.min(batches.length, 5) + 2)), width: '100%' }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={8}
+          rowsPerPageOptions={[8]}
+          onSelectionModelChange={(newSelectionModel) => {
+            setSelectionModel(newSelectionModel);
+          }}
+          selectionModel={selectionModel}
+        />
+      </div>
+      <Buttons>
+          <Button onClick={() => handleSelect(selectionModel)}>View</Button>
+          <Button onClick={() => handleCancel(selectionModel)}>Cancel</Button>
+      </Buttons>
+    </Wrapper>
   )
 };
+
+const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    width: 100%;
+    font-size: 1rem;
+`
+const Buttons = styled.div`
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    min-width: 7rem;
+`
+const Button = styled.button`
+    border-width: .05rem;
+    border-radius: .5rem;
+    padding: 1rem;
+    width: 80%;
+    font-size: 1rem;
+`
 
 export default BatchTable;
 

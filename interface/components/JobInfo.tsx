@@ -9,7 +9,7 @@ const JobInfo = () => (
     <h3>Job Status</h3>
     <p>In Progress</p>
     <h3>Job Progress</h3>
-    <ProgressBar/>
+    {/* <ProgressBar/> */}
     <h3>Current Runtime</h3>
     <p>100 hours</p>
     <h3>Job Log (last 50KB)</h3>

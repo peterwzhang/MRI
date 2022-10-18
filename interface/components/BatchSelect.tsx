@@ -6,8 +6,6 @@ type params = {
   setBatch: (e: any) => void //TODO: change from 'any'
 }
 export default function BatchSelect(props: params){
-  
-
   return (
   <div>
     <h1>View Batch</h1>
@@ -25,5 +23,6 @@ const InputsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  max-width: 40%;
   margin-left: 1rem;
 `

@@ -6,7 +6,6 @@ import { BatchMetadata } from "../types";
 
 export default function ViewBatch(){
     const [batch, setBatch] = useState<BatchMetadata | undefined>(undefined)
-    console.log(batch)
 
     return(
         <div>

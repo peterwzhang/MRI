@@ -7,7 +7,7 @@ const JobSelect = () => (
     <form>
       <InputsWrapper>
         <label>Select job to view: </label>
-        <QuerySelect restUrl='https://localhost:8443/api/batches'></QuerySelect>
+        {/* <QuerySelect restUrl='https://localhost:8443/api/batches'></QuerySelect> */}
         {/* these parameters must be pulled from the BE */}
         <Submit type="submit" value="Refresh Job Status" />
       </InputsWrapper>

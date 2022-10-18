@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
 import { BatchMetadata } from '../types';
-const QuerySelect = ({restUrl}: {restUrl: string}) => {
+const QueryList = ({restUrl}: {restUrl: string}) => {
     const { isLoading, error, data } = useQuery(['data'], () =>
     fetch(restUrl).then(res =>
       res.json()
@@ -10,10 +10,9 @@ const QuerySelect = ({restUrl}: {restUrl: string}) => {
   if (isLoading) return <h1>Loading...</h1>
 
   if (error) return <h1>Error</h1>
-//   return data[0].name
-  return (<select name="batchType">
-    {data.map((d: BatchMetadata) => <option key={d.name} value={d.name}>{d.name}</option>)}
-</select>)
+  return (<ul>
+    {data.map((d: BatchMetadata) => <li key={d.name} value={d.name}>{d.name}</li>)}
+  </ul>)
 }
 
-export default QuerySelect;
+export default QueryList;

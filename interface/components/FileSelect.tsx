@@ -1,13 +1,23 @@
-import React from "react";
+import React, { ChangeEvent, useState } from "react";
 
-const FileSelect = () => (
-  <div>
-    <form>
-        <input type="file" accept=".json"/>
-        <p></p>
-    </form>
-  </div>
-);
+const FileSelect = () => {
+  const [file, setFile] = useState<File | null>(null);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files != null) setFile(e.target.files[0])
+  }
+
+  return(
+    <div>
+      <form>
+          <input type="file"
+          onChange={e => handleChange}
+          accept=".json"/>
+          <p></p>
+      </form>
+    </div>
+  )
+};
 
  
 export default FileSelect;

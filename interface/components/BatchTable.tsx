@@ -6,15 +6,15 @@ import styled from 'styled-components';
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 300 },
   { field: 'name', headerName: 'Name', width: 130 },
-  { field: 'status', headerName: 'Status', width: 160 },
+  { field: 'status', headerName: 'Status', width: 180 },
   { field: 'reqApproval', headerName: 'Req Approval?', width: 130 },
-  { field: 'script', headerName: 'Script', width: 130 },
+  { field: 'script', headerName: 'Script', width: 180 },
   { field: 'start', headerName: 'Start Time', width: 210 },
 ];
 
 const BatchTable = ({batches, handleSelect, handleCancel} : {batches : BatchCollection, 
   handleSelect: (selection : GridSelectionModel) => void, handleCancel: (selection : GridSelectionModel) => void}) => {
-    
+
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
 
   const rows = batches.map((batch) => (

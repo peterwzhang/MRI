@@ -1,14 +1,26 @@
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import QuerySelect from './QuerySelect';
 
-const BatchForm = () => (
+
+const BatchForm = () => {
+    const [batch, setBatch] = useState({"name": "",
+    "requiresApprovalStep": true,
+    "script": {}});
+    const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
+
+    }
+    const handleSubmit = () => {
+
+    }
+  return (
   <div>
     <h1>Create Batch</h1>
-    <form>
+    <form onSubmit={handleSubmit}>
       <InputsWrapper>
-        <label>Script Name</label>
-        <QuerySelect restUrl='https://localhost:8443/api/scripts'></QuerySelect>
-        {/* these parameters must be pulled from the BE */}
+        <label>Batch Name <Input type="text" name="batchName" onChange={handleChange}/></label>
+        <label>Requires Approval? <Input type="checkbox" defaultChecked={true} name="defCheck" onChange={handleChange}></Input></label>
+        <label>Script Name <QuerySelect restUrl='https://localhost:8443/api/scripts'></QuerySelect></label>
         <label>
           Param 1: 
           <Input type="text" name="param1" />
@@ -20,8 +32,8 @@ const BatchForm = () => (
         <Submit type="submit" value="Submit" />
       </InputsWrapper>
     </form>
-  </div>
-);
+  </div>)
+};
 
 const InputsWrapper = styled.div`
   display: flex;
@@ -36,5 +48,4 @@ const Submit = styled.input`
   max-width: 10rem;
 `
 
- 
 export default BatchForm;

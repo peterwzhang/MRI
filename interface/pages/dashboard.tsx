@@ -31,7 +31,7 @@ export default function Dashboard(){
                         <p>Name: Snow</p>
                         <p>Total runtime: 1hr 3s</p>
                         <p>Script used: Abide Organizer</p>
-                        <JobsTable/>
+                        {/* <JobsTable/> */}
                         <br></br>
                         <Link href="/view-job">
                             <Button style={{ width: 400 }}>View Job</Button>

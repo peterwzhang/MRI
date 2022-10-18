@@ -1,33 +1,29 @@
 import styled from 'styled-components';
+import { url } from '../api/constants';
 import QuerySelect from './QuerySelect';
 
-const BatchSelect = () => (
+type params = {
+  setBatch: (e: any) => void //TODO: change from 'any'
+}
+export default function BatchSelect(props: params){
+  
+
+  return (
   <div>
     <h1>View Batch</h1>
     <form>
       <InputsWrapper>
         <label>Select batch to view: </label>
-        <QuerySelect restUrl='https://localhost:8443/api/batches'></QuerySelect>
-        {/* these parameters must be pulled from the BE */}
-        <Submit type="submit" value="Refresh Batch Status" />
+        <QuerySelect restUrl={`${url}/api/batches`} onChange={(e) => props.setBatch(JSON.parse(e.target.value))}></QuerySelect>
       </InputsWrapper>
     </form>
   </div>
-);
+  )
+};
 
 const InputsWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 1rem;
   margin-left: 1rem;
 `
-const Submit = styled.input`
-  margin-top: 1rem;
-  border-width: .05rem;
-  border-radius: .5rem;
-  padding: 1rem;
-  width: 20%;
-  font-size: 1rem;
-`
-
- 
-export default BatchSelect;

@@ -23,7 +23,7 @@ const BatchForm = () => {
         console.log(batch)
     }
     const handleSubmit = () => {
-
+      console.log(name, checked)
     }
   return (
   <div>

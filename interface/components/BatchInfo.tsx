@@ -1,25 +1,37 @@
 import React from "react";
 import Prism from "react-syntax-highlighter";
 import ProgressBar from "../components/ProgressBar";
+import { BatchMetadata } from "../types";
+import JobsTable from "./JobsTable";
 
-const BatchInfo = () => (
+const BatchInfo = ({batch}: {batch:BatchMetadata}) => (
   <div>
-    <h3>Jobs List</h3>
-    <ul>
-      <li>Job 1</li>
-      <li>Test Job</li>
-      <li>Imaginary Job</li>
-    </ul>
-    <h3>Batch Status</h3>
-    <p>2/3 Jobs Completed</p>
-    <ProgressBar/>
-    <h3>Current Runtime</h3>
-    <p>200 hours</p>
-    <h3>Currently Running Job: Imaginary Job</h3>
-    <h4>Imaginary Job Log</h4>
-    <Prism>Example: analyzing image 29</Prism>
-    <Prism>Example: running Job 1</Prism>
-    <Prism>Example: Job 0 completed. Starting new job now</Prism>
+    <h1>{batch.name}</h1>
+    <ProgressBar progress={batch.statusSummary.success ? (batch.statusSummary.success / batch.jobs.length)*100 : 0}/>
+    {batch.jobs && (
+      <div>
+        <h3>Status</h3>
+        <Prism>{batch.status}</Prism>
+        <h3>Job Summary</h3>
+        <ul>
+          {batch.statusSummary.success && (
+            <li>Success: {batch.statusSummary.success}</li>
+          )}
+          <li>Running: {batch.statusSummary.running}</li>
+          <li>Waiting: {batch.statusSummary.waiting}</li>
+          <li>Failed: {batch.statusSummary.failed}</li>
+        </ul>
+
+        <div>
+          <h3>Jobs</h3>
+          <JobsTable jobs={batch.jobs}/>
+        </div>
+      </div>
+    )}
+    <h3>Start Time</h3>
+    <Prism>{batch.startedAt}</Prism>
+    <h3>Script Used</h3>
+    <Prism>{batch.scriptUsed.name}</Prism>
   </div>
 );
 

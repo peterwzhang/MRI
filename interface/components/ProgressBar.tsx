@@ -1,4 +1,3 @@
-import * as React from 'react';
 import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -18,9 +17,7 @@ function LinearProgressWithLabel(props: LinearProgressProps & { value: number })
   );
 }
 
-export default function ProgressBar() {
-  const [progress, setProgress] = React.useState(10);
-
+export default function ProgressBar({progress}:{progress: number}) {
   return (
     <Box sx={{ width: '100%', height: '2rem'}}>
       <LinearProgressWithLabel value={progress} />

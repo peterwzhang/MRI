@@ -22,7 +22,7 @@ export default function Dashboard(){
         ref.current?.scrollIntoView() 
     }
     const handleCancel = (selection: GridSelectionModel) => {
-        console.log(selection) //TODO: cancel batch
+        axios.post(`${url}/api/batches/${selection.at(0)}/cancel`)
     }
 
     if (isLoading) return <p>Loading...</p>

@@ -49,6 +49,11 @@ const Navbar = () => {
                         </h3>
                     </div>
                     <div className="nav_button">
+                        <h3 className="nav_link">
+                            <Link href="/account">Account</Link>
+                        </h3>
+                    </div>
+                    <div className="nav_button">
                         <H3_button className="nav_link" onClick={() => handleLogout()}>
                             Sign out
                         </H3_button>

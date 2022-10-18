@@ -14,7 +14,6 @@ const QuerySelect = (props: params) => {
   )
   if (isLoading) return <h1>Loading...</h1>
   if (error) return <h1>Error</h1>
-//   return data[0].name
   return (
     <select name="batchType" onChange={props.onChange}>
       <option disabled selected> click to select... </option>

@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import styled from "styled-components";
 import SectionDiv from "../components/SectionDiv";
-import UserInfo from "../components/UserInfo";
 
 const Home: NextPage = () => (
   <div>
@@ -11,9 +10,6 @@ const Home: NextPage = () => (
         With this website, you can select which projects, participants, and processes you want to submit to the cluster.
         After submitting this information, the software will use it to create the necessary input files and submit a new 
         job to the scheduler. Upon the completion of jobs, you can access the resulting files under the "View Jobs" tab.</Text>
-    </SectionDiv>
-    <SectionDiv>
-      <UserInfo/>
     </SectionDiv>
   </div>
 );

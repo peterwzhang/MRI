@@ -58,6 +58,7 @@ properties:
       - waiting
       - running
       - failed
+      - success
     description:
       A summary of the number of jobs by state.  Note that jobs which were not
       approved and/or not started are not included here.

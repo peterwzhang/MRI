@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { BatchMetadata } from '../types';
 const QueryList = ({restUrl}: {restUrl: string}) => {
     const { isLoading, error, data } = useQuery(['data'], () =>

@@ -21,7 +21,7 @@ const CreateScript = () => {
     const [globalTemplate, setGlobalTemplate] = useState(false);
 
     const handleSubmit = () => {
-        axios.post(`${url}/scripts`, 
+        axios.post(`${url}/api/scripts`, 
             {
                 name: name,
                 header: header,
@@ -37,8 +37,6 @@ const CreateScript = () => {
                 cleanupMode: cleanupMode,
                 globalTemplate: globalTemplate,
             })
-          .then((response) => (console.log(response)))
-          .catch((error) => (console.log(error)))
     }
   return (
   <div>

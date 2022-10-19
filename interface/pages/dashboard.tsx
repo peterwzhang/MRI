@@ -5,14 +5,14 @@ import styled from "styled-components";
 import ProgressBar from "../components/ProgressBar";
 import { url } from "../api/constants";
 import { useQuery } from "@tanstack/react-query";
-import { BatchCollection, BatchMetadata } from "../types";
+import { BatchCollection, BatchMetadataWithId } from "../types";
 import axios from "axios";
 import BatchInfo from "../components/BatchInfo";
 import { GridSelectionModel } from "@mui/x-data-grid";
 
 export default function Dashboard(){
-    const [batch, setBatch] = useState<BatchMetadata | undefined>(undefined);
-    const ref = useRef<null | HTMLDivElement>(null)
+    const [batch, setBatch] = useState<BatchMetadataWithId | undefined>(undefined)
+    const ref = useRef<HTMLDivElement | null>(null)
 
     const fetchBatches = (): Promise<void | BatchCollection> => axios.get(`${url}/api/batches`).then(response => response.data)
     const { isLoading, error, data } = useQuery(['batches'], fetchBatches)

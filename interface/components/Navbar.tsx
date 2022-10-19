@@ -24,8 +24,9 @@ const Navbar = () => {
                         <h3><Link href="/script-library">Script library</Link></h3>
                         <h3><Link href="/view-batch">View batch</Link></h3>
                         <h3><Link href="/view-job">View job</Link></h3>
-                        <h3 className="nav_right"><Link href="/account">Account</Link></h3>
-                        <h3 className="nav_right"><Link href="/">Sign Out</Link></h3>
+                        <Link href="/account">
+                            <img className="nav_right" src="/account_icon.png" alt="View Account Page" height="36"/>
+                        </Link>
                 </div>
             </header>
         </NavbarFormat>

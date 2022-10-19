@@ -47,7 +47,7 @@ body {
 
 .nav_right {
   float: right;
-  margin: 0px;
+  cursor:pointer;
 }
 
 a {

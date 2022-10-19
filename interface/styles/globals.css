@@ -18,19 +18,36 @@ body {
 }
 
 .nav_header {
+  display: inline-block;
   width: 100%;
-  margin: 0px;
+  margin-left: auto;
+  overflow: hidden;
+}
+
+.nav_big {
+  font-size: 32px;
+  margin: 4px;
 }
 
 .nav_button {
   display: inline-block;
-  margin: 10px;
   margin-left: auto;
+}
+
+.nav_header a {
+  float: left;
+  text-align: center;
+  padding: 14px 16px;
 }
 
 .nav_link {
   margin-left: auto;
   margin-right: 0;
+}
+
+.nav_right {
+  float: right;
+  margin: 0px;
 }
 
 a {

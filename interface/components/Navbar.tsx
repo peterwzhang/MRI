@@ -18,46 +18,14 @@ const Navbar = () => {
         <NavbarFormat>
             <header>
                 <div className="nav_header">
-                    <div className="nav_button">
-                        <h1>
-                            <Link href="/">HPC Interface</Link>
-                        </h1>
-                    </div>
-                    <div className="nav_button">
-                        <h3 className="nav_link">
-                            <Link href="/dashboard">Dashboard</Link>
-                        </h3>
-                    </div>
-                    <div className="nav_button">
-                        <h3 className="nav_link">
-                            <Link href="/create-batch">Create batch</Link>
-                        </h3>
-                    </div>
-                    <div className="nav_button">
-                        <h3 className="nav_link">
-                            <Link href="/script-library">Script library</Link>
-                        </h3>
-                    </div>
-                    <div className="nav_button">
-                        <h3 className="nav_link">
-                            <Link href="/view-batch">View batch</Link>
-                        </h3>
-                    </div>
-                    <div className="nav_button">
-                        <h3 className="nav_link">
-                            <Link href="/view-job">View job</Link>
-                        </h3>
-                    </div>
-                    <div className="nav_button">
-                        <h3 className="nav_link">
-                            <Link href="/account">Account</Link>
-                        </h3>
-                    </div>
-                    <div className="nav_button">
-                        <H3_button className="nav_link" onClick={() => handleLogout()}>
-                            Sign out
-                        </H3_button>
-                    </div>
+                        <h3 className="nav_big"><Link href="/">HPC Interface</Link></h3>
+                        <h3><Link href="/dashboard">Dashboard</Link></h3>
+                        <h3><Link href="/create-batch">Create batch</Link></h3>
+                        <h3><Link href="/script-library">Script library</Link></h3>
+                        <h3><Link href="/view-batch">View batch</Link></h3>
+                        <h3><Link href="/view-job">View job</Link></h3>
+                        <h3 className="nav_right"><Link href="/account">Account</Link></h3>
+                        <h3 className="nav_right"><Link href="/">Sign Out</Link></h3>
                 </div>
             </header>
         </NavbarFormat>

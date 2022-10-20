@@ -1,10 +1,10 @@
-import React from "react";
-import Link from "next/link";
-import styled from "styled-components";
-import { useRouter } from "next/router";
 import axios from "axios";
-import { theme } from "../constants";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import styled from "styled-components";
 import { url } from "../api/constants";
+import { theme } from "../constants";
 import css from "./Navbar.module.scss";
 
 const NavbarFormat = styled.div`
@@ -16,9 +16,6 @@ const NavbarFormat = styled.div`
   min-height: 3rem;
   width: 100%;
   padding: 0 2rem;
-`;
-const SpanButton = styled.span`
-  cursor: pointer;
 `;
 
 export default function Navbar() {
@@ -64,16 +61,15 @@ export default function Navbar() {
                 <Link href="/view-job">View job</Link>
               </span>
             </div>
-            <div className={css.button}>
-              <span className={css.link}>
-                <Link href="/account">Account</Link>
-              </span>
-            </div>
-            <div className={css.button}>
-              <SpanButton className={css.link} onClick={() => handleLogout()}>
-                Sign out
-              </SpanButton>
-            </div>
+            <Link href="/account">
+              <Image
+                className="nav_right"
+                src="/account_icon.png"
+                alt="View Account Page"
+                height={36}
+                width={36}
+              />
+            </Link>
           </div>
         </div>
       </header>

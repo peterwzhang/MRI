@@ -1,6 +1,6 @@
-import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { ChangeEventHandler } from 'react';
-import { BatchMetadata } from '../types';
+import { BatchMetadataWithId } from '../types';
 
 type params = {
   restUrl: string, 
@@ -17,7 +17,7 @@ const QuerySelect = (props: params) => {
   return (
     <select name="batchType" onChange={props.onChange}>
       <option disabled selected> click to select... </option>
-      {data.map((d: BatchMetadata) => <option key={d.name} value={JSON.stringify(d)}>{d.name}</option>)}
+      {data.map((d: BatchMetadataWithId) => <option key={d.id} value={JSON.stringify(d)}>{d.name}</option>)}
     </select>
 )
 }

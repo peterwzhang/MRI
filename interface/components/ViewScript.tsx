@@ -6,7 +6,7 @@ import { Script } from '../types';
 const ViewScript = ({scriptId}: {scriptId: number}) => {
     const { isLoading, error, data } = useQuery(['script'], () =>
         fetch(`${url}/api/scripts/${scriptId}`)
-        .then(async res => res.json())
+        .then(res => res.json())
     )
     if (isLoading) return <p>Loading...</p>
     if (error) return <p>Error</p>

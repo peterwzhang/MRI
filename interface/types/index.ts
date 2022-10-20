@@ -1,4 +1,5 @@
 export type { BatchCollection } from "./BatchCollection";
+export type { BatchForSubmission } from "./BatchForSubmission";
 export type { BatchMetadata } from "./BatchMetadata";
 export type { BatchMetadataWithId } from "./BatchMetadataWithId";
 export type { BatchWithJobs } from "./BatchWithJobs";
@@ -8,6 +9,7 @@ export type { JobCollection } from "./JobCollection";
 export type { JobMetadata } from "./JobMetadata";
 export type { Script } from "./Script";
 export type { ScriptCollection } from "./ScriptCollection";
+export type { ScriptForCreation } from "./ScriptForCreation";
 export type { ScriptMetadata } from "./ScriptMetadata";
 export type { ScriptMetadataWithId } from "./ScriptMetadataWithId";
 export type { ScriptWithId } from "./ScriptWithId";

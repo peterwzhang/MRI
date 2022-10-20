@@ -1,64 +1,66 @@
-import React, { useRef, useState } from "react";
-import BatchTable from '../components/BatchTable';
-import SectionDiv from "../components/SectionDiv";
-import styled from "styled-components";
-import ProgressBar from "../components/ProgressBar";
-import { url } from "../api/constants";
+import { Container } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
-import { BatchCollection, BatchMetadata } from "../types";
-import axios from "axios";
-import BatchInfo from "../components/BatchInfo";
-import { GridSelectionModel } from "@mui/x-data-grid";
+import ky from "ky";
+import { FormattedDate } from "react-intl";
+import { url } from "../api/constants";
+import BatchProgressBar from "../components/BatchProgressBar";
+import BatchStatusDisplay from "../components/BatchStatusDisplay";
+import { BatchCollection } from "../types";
 
-export default function Dashboard(){
-    const [batch, setBatch] = useState<BatchMetadata | undefined>(undefined);
-    const ref = useRef<null | HTMLDivElement>(null)
+export default function Dashboard() {
+  const { data } = useQuery<BatchCollection>(["batches"], async () => {
+    const response = await ky.get(`${url}/api/batches`);
+    return response.json<BatchCollection>();
+  });
 
-    const fetchBatches = (): Promise<void | BatchCollection> => axios.get(`${url}/api/batches`).then(response => response.data)
-    const { isLoading, error, data } = useQuery(['batches'], fetchBatches)
+  if (data === undefined) return <p>Loading...</p>;
 
-    const handleSelect = (selection: GridSelectionModel) => {
-        setBatch(data?.find(b => b.id == selection.at(0)))
-        ref.current?.scrollIntoView() 
-    }
-    const handleCancel = (selection: GridSelectionModel) => {
-        axios.post(`${url}/api/batches/${selection.at(0)}/cancel`)
-    }
+  return (
+    <Container fixed>
+      <h1>My batches</h1>
 
-    if (isLoading) return <p>Loading...</p>
-    if (error) return <p>Error</p>
-    else if (data) {
-        let progress = 0
-        data.forEach((batch) => batch.status == "COMPLETED" && progress++)
-        progress = (progress / data.length) * 100
-
-
-        return (
-            <div>
-                <ColWrapper>
-                    <Widget>
-                        <h2>Batches</h2>
-                        <ProgressBar progress={progress}/>
-                        <BatchTable batches={data} handleSelect={handleSelect} handleCancel={handleCancel}/>
-                    </Widget>
-                    {batch && (
-                        <Widget ref={ref}>
-                            <BatchInfo batch={batch}/>
-                        </Widget>
-                    )}
-                </ColWrapper>
-            </div>
-    )}
+      <div style={{ height: "max(70vh, calc(100vh - 12rem))" }}>
+        <DataGrid
+          rows={data}
+          columns={[
+            {
+              field: "startedAt",
+              headerName: "Started at",
+              renderCell: ({ value }) => (
+                <FormattedDate value={value} dateStyle="medium" timeStyle="short" />
+              ),
+              flex: 3,
+              type: "dateTime",
+              valueGetter: ({ value }) => new Date(value),
+            },
+            {
+              field: "name",
+              headerName: "Name",
+              flex: 6,
+            },
+            {
+              field: "jobs",
+              headerName: "Jobs",
+              flex: 1,
+              valueGetter: ({ row }) =>
+                Object.values(row.statusSummary).reduce((agg, n) => agg + n, 0),
+            },
+            {
+              field: "status",
+              headerName: "Status",
+              renderCell: ({ row }) => <BatchStatusDisplay status={row.status} />,
+              flex: 2,
+            },
+            {
+              field: "statusSummary",
+              headerName: "Progress",
+              renderCell: ({ row }) => <BatchProgressBar status={row.statusSummary} />,
+              flex: 4,
+            },
+          ]}
+        />
+      </div>
+    </Container>
+  );
 }
-
-const ColWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-`
-const Widget = styled(SectionDiv)`
-    min-width: 30%;
-    max-width: 100%;
-    margin-bottom: 0rem;
-`
-

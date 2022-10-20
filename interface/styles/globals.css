@@ -17,22 +17,6 @@ body {
     Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-.nav_header {
-  width: 100%;
-  margin: 0px;
-}
-
-.nav_button {
-  display: inline-block;
-  margin: 10px;
-  margin-left: auto;
-}
-
-.nav_link {
-  margin-left: auto;
-  margin-right: 0;
-}
-
 a {
   color: inherit;
   text-decoration: none;

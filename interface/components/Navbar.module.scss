@@ -1,0 +1,22 @@
+.header {
+  width: 100%;
+  margin: 0px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.button {
+  display: inline-block;
+  margin: 10px;
+  margin-left: auto;
+
+  flex: 1;
+}
+
+.link {
+  margin-left: auto;
+  margin-right: 0;
+  font-weight: bold;
+}

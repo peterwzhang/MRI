@@ -1,3 +1,4 @@
+import BatchStatus from "./BatchStatus";
 import { JobCollection } from "./JobCollection";
 import { ScriptMetadataWithId } from "./ScriptMetadataWithId";
 import { User } from "./User";
@@ -10,11 +11,11 @@ export interface BatchMetadata {
    * A unique UUID identifying this batch
    */
   id?: string;
-    /**
+  /**
    * Summary information of multiple jobs
    */
   jobs: JobCollection;
-      /**
+  /**
    * Information about a user
    */
   user: User;
@@ -25,18 +26,7 @@ export interface BatchMetadata {
   /**
    * The current state of the batch
    */
-  status:
-    | "QUEUEING_SETUP"
-    | "SETTING_UP"
-    | "GENERATING"
-    | "AWAITING_APPROVAL"
-    | "QUEUEING"
-    | "RUNNING"
-    | "CLEAN_UP_QUEUEING" 
-    | "CLEAN_UP_RUNNING" 
-    | "COMPLETED" 
-    | "CANCELLED" 
-    | "FAILED";
+  status: BatchStatus;
   /**
    * If this batch should wait to submit jobs pending a manual approval
    */
@@ -65,7 +55,7 @@ export interface BatchMetadata {
     /**
      * The number of jobs which completed successfully
      */
-    success?: number;
+    success: number;
     /**
      * The number of jobs that have timed out, failed, or been cancelled
      */

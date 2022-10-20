@@ -2,17 +2,8 @@ import React from "react";
 import Link from "next/link";
 import styled from 'styled-components';
 import { theme } from "../constants";
-import { useRouter } from "next/router";
-import { url } from "../api/constants";
-import axios from "axios";
 
 const Navbar = () => {
-    const router = useRouter()
-
-    const handleLogout = () => {
-        axios.post(`${url}/logout`)
-        router.push('/')
-    }
 
     return (
         <NavbarFormat>

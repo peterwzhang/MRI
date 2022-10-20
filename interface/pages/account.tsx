@@ -2,14 +2,24 @@ import React from "react";
 import SectionDiv from "../components/SectionDiv";
 import UserInfo from "../components/UserInfo";
 import styled from "styled-components";
+import { useRouter } from "next/router";
+import { url } from "../api/constants";
+import axios from "axios";
 
 export default function CreateBatch(){
+    const router = useRouter()
+
+    const handleLogout = () => {
+        axios.post(`${url}/logout`)
+        router.push('/')
+    }
+
     return(
       <div>
         <SectionDiv>
           <h1>Account Information</h1>
           <UserInfo/>
-          <LogOut>Log Out</LogOut>
+          <LogOut onClick={() => handleLogout()}>Log Out</LogOut>
         </SectionDiv>
       </div>
     )

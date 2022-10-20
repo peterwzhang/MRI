@@ -1,3 +1,5 @@
+import { User } from "./User";
+
 /**
  * The basic metadata for a single script
  */
@@ -7,9 +9,9 @@ export interface ScriptMetadata {
    */
   id?: string;
   /**
-   * The username of this script's creator
+   * The info about the script's creator
    */
-  username: string;
+  user: User;
   /**
    * A descriptive name for the script
    */

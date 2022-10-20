@@ -1,3 +1,5 @@
+import JobState from "./JobState";
+
 /**
  * The basic metadata for a single job
  */
@@ -13,15 +15,7 @@ export interface JobMetadata {
   /**
    * The current state of the job
    */
-  state:
-    | "WAITING_FOR_SETUP"
-    | "QUEUEING"
-    | "PENDING"
-    | "RUNNING"
-    | "TIMEOUT"
-    | "FAILED"
-    | "CANCELLED"
-    | "UNAPPROVED";
+  state: JobState;
   /**
    * The job's state, according to slurm.  This may provide more (or less) information than the regular state.
    */

@@ -1,47 +1,15 @@
 import { Clear as ClearIcon } from "@mui/icons-material";
 import { Button, Container } from "@mui/material";
-import {
-  DataGrid,
-  GridToolbarColumnsButton,
-  GridToolbarContainer,
-  GridToolbarDensitySelector,
-  GridToolbarExport,
-  GridToolbarFilterButton,
-} from "@mui/x-data-grid";
-import { useQuery } from "@tanstack/react-query";
-import ky from "ky";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Link from "next/link";
 import { useState } from "react";
 import { FormattedDate } from "react-intl";
-import { url } from "../api/constants";
+import useBatches from "../api/useBatches";
 import BatchProgressBar from "../components/BatchProgressBar";
 import BatchStatusDisplay from "../components/BatchStatusDisplay";
-import { BatchCollection } from "../types";
-
-function GridToolbar(props: { selectedRows: string[] }) {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector />
-      <GridToolbarExport />
-      <Button
-        disabled={props.selectedRows.length === 0}
-        startIcon={<ClearIcon />}
-        color="error"
-        sx={{ marginLeft: "auto" }}
-      >
-        Cancel
-      </Button>
-    </GridToolbarContainer>
-  );
-}
 
 export default function Dashboard() {
-  const { data } = useQuery<BatchCollection>(["batches"], async () => {
-    const response = await ky.get(`${url}/api/batches`);
-    return response.json<BatchCollection>();
-  });
+  const data = useBatches();
 
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
 
@@ -58,7 +26,20 @@ export default function Dashboard() {
           components={{
             Toolbar: GridToolbar,
           }}
-          componentsProps={{ toolbar: { selectedRows } }}
+          componentsProps={{
+            toolbar: {
+              additionalButtons: (
+                <Button
+                  disabled={selectedRows.length === 0}
+                  startIcon={<ClearIcon />}
+                  color="error"
+                  sx={{ marginLeft: "auto" }}
+                >
+                  Cancel
+                </Button>
+              ),
+            },
+          }}
           columns={[
             {
               field: "startedAt",
@@ -111,6 +92,9 @@ export default function Dashboard() {
               columnVisibilityModel: {
                 scriptName: false,
               },
+            },
+            sorting: {
+              sortModel: [{ field: "startedAt", sort: "desc" }],
             },
           }}
           onSelectionModelChange={(ids) => setSelectedRows(ids as string[])}

@@ -19,7 +19,7 @@ export type Script = ScriptMetadata & {
   /**
    * Slurm configuration to use to run the setup script, not including the srun.
    */
-  setupSlurmConfig: string;
+  setupScriptSlurmConfig: string;
   /**
    * The top of the loop used to generate jobs. This can be a block of code
    * ended by a for loop, for example (including the do).  If only

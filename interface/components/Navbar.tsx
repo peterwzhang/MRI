@@ -45,12 +45,12 @@ export default function Navbar() {
             <div className={css.button}>
               <Link href="/script-library">Script library</Link>
             </div>
-            <div className={css.button}>
+            {/* <div className={css.button}>
               <Link href="/view-batch">View batch</Link>
             </div>
             <div className={css.button}>
               <Link href="/view-job">View job</Link>
-            </div>
+            </div> */}
             <Link href="/account">
               <Image
                 className="nav_right"

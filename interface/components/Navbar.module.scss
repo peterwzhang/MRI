@@ -5,18 +5,27 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
 
-.button {
-  display: inline-block;
-  margin: 10px;
-  margin-left: auto;
+  a {
+    text-decoration: none;
+  }
 
-  flex: 1;
-}
+  .button {
+    display: inline-block;
+    flex: 1;
 
-.link {
-  margin-left: auto;
-  margin-right: 0;
-  font-weight: bold;
+    margin: 0.5rem 1.1rem;
+    margin-left: auto;
+
+    font-weight: bold;
+  }
+
+  .rightBar {
+    display: flex;
+    align-items: center;
+
+    & > * {
+      flex: 1 1 auto;
+    }
+  }
 }

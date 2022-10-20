@@ -35,31 +35,21 @@ export default function Navbar() {
               <Link href="/">HPC Interface</Link>
             </span>
           </div>
-          <div>
+          <div className={css.rightBar}>
             <div className={css.button}>
-              <span className={css.link}>
-                <Link href="/dashboard">Dashboard</Link>
-              </span>
+              <Link href="/dashboard">Dashboard</Link>
             </div>
             <div className={css.button}>
-              <span className={css.link}>
-                <Link href="/create-batch">Create batch</Link>
-              </span>
+              <Link href="/create-batch">Create batch</Link>
             </div>
             <div className={css.button}>
-              <span className={css.link}>
-                <Link href="/script-library">Script library</Link>
-              </span>
+              <Link href="/script-library">Script library</Link>
             </div>
             <div className={css.button}>
-              <span className={css.link}>
-                <Link href="/view-batch">View batch</Link>
-              </span>
+              <Link href="/view-batch">View batch</Link>
             </div>
             <div className={css.button}>
-              <span className={css.link}>
-                <Link href="/view-job">View job</Link>
-              </span>
+              <Link href="/view-job">View job</Link>
             </div>
             <Link href="/account">
               <Image

@@ -1,4 +1,3 @@
-
 name: eslint
 
 on:
@@ -12,11 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: borales/actions-yarn@v3.0.0
-        working-directory: interface
         with:
-          cmd: install # will run `yarn install` command
+          cmd: --cwd interface install
       - uses: borales/actions-yarn@v3.0.0
-        working-directory: interface
         with:
-          cmd: eslint .
+          cmd: --cwd interface eslint interface
       - uses: borales/actions-yarn@v3.0.0

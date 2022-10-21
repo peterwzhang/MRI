@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Prism } from "react-syntax-highlighter";
 import { apiUrl } from "../api/constants";
-import { Script } from "../types";
 
 function ViewScript({ scriptId }: { scriptId: number }) {
   const { isLoading, error, data } = useQuery(["script"], () =>

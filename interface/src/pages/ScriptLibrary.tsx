@@ -14,8 +14,8 @@ const Buttons = styled.div`
 
 export default function ScriptLibrary() {
   enum Option {
-    View = 1,
-    Create,
+    View = "View",
+    Create = "Create",
   }
   const [selected, setSelected] = useState(Option.View);
 

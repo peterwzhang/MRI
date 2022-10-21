@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { apiUrl } from "../api/constants";
 import { Script } from "../types";
@@ -21,8 +21,7 @@ function BatchForm() {
   const [checked, setChecked] = useState(true);
   const [script, setScript] = useState<Script | undefined>(undefined);
 
-  const handleSelect = (e: any) => {
-    // TODO: fix any type
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setScript(JSON.parse(e.target.value));
   };
 

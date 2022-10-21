@@ -19,9 +19,8 @@ export default function ScriptLibrary() {
   }
   const [selected, setSelected] = useState(Option.View);
 
-  const handleChange = (e: any) => {
-    // TODO: Fix any type
-    setSelected(e.currentTarget.value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelected(e.currentTarget.value as Option);
   };
 
   return (

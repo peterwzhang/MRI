@@ -1,5 +1,5 @@
 {
-  "extends": ["plugin:@next/next/recommended", "airbnb"],
+  "extends": ["airbnb"],
   "settings": {
     "import/resolver": {
       "webpack": {}
@@ -23,13 +23,7 @@
       }
     ],
     "import/no-unresolved": ["error", { "ignore": ["react", "react-dom", "stripes-config"] }],
-    "jsx-a11y/anchor-is-valid": [
-      "error",
-      {
-        "components": ["Link"],
-        "specialLink": ["to"]
-      }
-    ],
+    "jsx-a11y/anchor-is-valid": "off",
     "jsx-a11y/label-has-for": [
       "error",
       {
@@ -44,6 +38,15 @@
       {
         "tags": [],
         "roles": ["tabpanel", "dialog"]
+      }
+    ],
+    "jsx-a11y/label-has-associated-control": [
+      2,
+      {
+        "labelComponents": [],
+        "labelAttributes": [],
+        "controlComponents": ["QuerySelect"],
+        "depth": 3
       }
     ],
     "key-spacing": "off",

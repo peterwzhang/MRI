@@ -126,7 +126,7 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
       .batch(this.batch)
       .state(JobState.RUNNING)
       .slurmState("")
-      .logPath(generatedJobListFile)
+      .logPath("log.generator." + this.batch.getId())
       .logTail("Loading...")
       .identifier("generator")
       .scriptPath("TBD")
@@ -135,6 +135,8 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
       .generatorJob(true)
       .cleanupJob(false)
       .lastSync(Instant.now())
+      .nodeList("head node")
+      .queuedTime(Instant.now())
       .build();
     this.service.getJobRepository().save(job);
 
@@ -148,6 +150,7 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
           );
 
       job.setScriptPath(localScript.getName());
+      job.setStartTime(Instant.now());
       this.service.getJobRepository().save(job);
 
       try (SshClient ssh = this.service.getClient(this.batch.getUser())) {
@@ -156,7 +159,12 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
         String scriptOutput =
           this.service.guaranteeCommand(
               ssh,
-              SSHService.SCRATCH_SCRIPT_LOCATION + localScript.getName(),
+              SSHService.SCRATCH_SCRIPT_LOCATION +
+              localScript.getName() +
+              " 2>&1 | tee " +
+              SSHService.SCRATCH_SCRIPT_LOCATION +
+              "log.generator." +
+              this.batch.getId(),
               "Unable to run generation script"
             );
 
@@ -175,6 +183,7 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
             .split("\n");
 
         job.setState(JobState.SUCCESS);
+        job.setEndTime(Instant.now());
         this.service.getJobRepository().save(job);
 
         log.info("Generated {} jobs", generatedJobs.length);

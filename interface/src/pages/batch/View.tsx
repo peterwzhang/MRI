@@ -6,22 +6,24 @@ import {
   Box,
   Button,
   Container,
-  Grid,
   Skeleton,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState } from "react";
 import { FormattedDate } from "react-intl";
 import FormattedDuration from "react-intl-formatted-duration";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useBatch from "../../api/useBatch";
 import useScript from "../../api/useScript";
 import BatchProgressBar from "../../components/BatchProgressBar";
 import BatchStatusDisplay from "../../components/BatchStatusDisplay";
 import GridToolbar from "../../components/GridToolbar";
+import InlineCode from "../../components/InlineCode";
+import JobElapsedTime from "../../components/JobElapsedTime";
 import JobStateDisplay from "../../components/JobStateDisplay";
+import KeyValueSet from "../../components/KeyValueSet";
 import ScriptDisplay from "../../components/ScriptDisplay";
-import css from "./View.module.scss";
+import Unknown from "../../components/Unknown";
 
 export default function ViewBatch() {
   const id = useParams().batchId;
@@ -75,7 +77,9 @@ export default function ViewBatch() {
             <h2 style={{ margin: 0 }}>
               <BatchStatusDisplay status={batch.status} />
             </h2>
-            <p style={{ fontFamily: "monospace", margin: 0 }}>{batch.status}</p>
+            <p style={{ margin: 0 }}>
+              <InlineCode>{batch.status}</InlineCode>
+            </p>
           </Box>
           <div style={{ width: "100%" }}>
             <BatchProgressBar status={batch.statusSummary} />
@@ -83,24 +87,22 @@ export default function ViewBatch() {
         </Box>
       </Box>
 
-      <Grid container className={css.keyValues}>
-        <Grid component="dl" xs={12} md={4} paddingRight={2}>
-          <dt>Created by</dt>
-          <dd>
-            <a href={`mailto:${batch.user.email}`}>{batch.user.email ?? batch.user.username}</a>
-          </dd>
-        </Grid>
-        <Grid component="dl" xs={12} md={4} paddingRight={2}>
-          <dt>Started at</dt>
-          <dd>
-            <FormattedDate value={batch.startedAt} dateStyle="full" timeStyle="long" />
-          </dd>
-        </Grid>
-        <Grid component="dl" xs={12} md={4}>
-          <dt>Jobs require approval</dt>
-          <dd>{batch.requiresApprovalStep ? "Yes" : "No"}</dd>
-        </Grid>
-      </Grid>
+      <KeyValueSet
+        style={{ margin: "1rem 0" }}
+        data={[
+          {
+            key: "Created by",
+            value: (
+              <a href={`mailto:${batch.user.email}`}>{batch.user.email ?? batch.user.username}</a>
+            ),
+          },
+          {
+            key: "Started at",
+            value: <FormattedDate value={batch.startedAt} dateStyle="full" timeStyle="long" />,
+          },
+          { key: "Jobs require approval", value: batch.requiresApprovalStep ? "Yes" : "No" },
+        ]}
+      />
 
       <Accordion expanded={showScript} onChange={(_e, isExpanded) => setShowScript(isExpanded)}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -148,7 +150,12 @@ export default function ViewBatch() {
             {
               field: "slurmId",
               headerName: "Slurm ID",
-              renderCell: ({ row }) => row.slurmId?.toString() ?? "-",
+              renderCell: ({ row }) => (
+                <Link to={`./job/${row.id}`}>
+                  {row.slurmId?.toString() ??
+                    (row.specialJobType === "GENERATOR" ? "N/A" : <Unknown />)}
+                </Link>
+              ),
               valueGetter: ({ row }) => row.slurmId ?? 0,
               flex: 2,
               type: "string",
@@ -167,6 +174,7 @@ export default function ViewBatch() {
             {
               field: "identifier",
               headerName: "ID",
+              renderCell: ({ row }) => <Link to={`./job/${row.id}`}>{row.identifier}</Link>,
               flex: 4,
             },
             {
@@ -174,7 +182,7 @@ export default function ViewBatch() {
               headerName: "Queued at",
               renderCell: ({ row }) =>
                 (row.queuedTime === null ? (
-                  "-"
+                  <Unknown />
                 ) : (
                   <FormattedDate value={row.queuedTime} dateStyle="short" timeStyle="medium" />
                 )),
@@ -187,7 +195,7 @@ export default function ViewBatch() {
               headerName: "Started at",
               renderCell: ({ row }) =>
                 (row.startTime === null ? (
-                  "-"
+                  <Unknown />
                 ) : (
                   <FormattedDate value={row.startTime} dateStyle="short" timeStyle="medium" />
                 )),
@@ -200,7 +208,7 @@ export default function ViewBatch() {
               headerName: "Ended at",
               renderCell: ({ row }) =>
                 (row.endTime === null ? (
-                  "-"
+                  <Unknown />
                 ) : (
                   <FormattedDate value={row.endTime} dateStyle="short" timeStyle="medium" />
                 )),
@@ -211,18 +219,7 @@ export default function ViewBatch() {
             {
               field: "duration",
               headerName: "Duration",
-              renderCell: ({ row }) => {
-                if (row.startTime === null) return "-";
-                return (
-                  <FormattedDuration
-                    seconds={
-                      (new Date(row.endTime).getTime() - new Date(row.startTime).getTime()) / 1000
-                    }
-                    format="{days} {hours} {minutes} {seconds}"
-                    unitDisplay="narrow"
-                  />
-                );
-              },
+              renderCell: ({ row }) => <JobElapsedTime job={row} />,
               flex: 2,
               type: "number",
               valueGetter: ({ row }) => {
@@ -235,7 +232,7 @@ export default function ViewBatch() {
               headerName: "Time limit",
               renderCell: ({ row }) =>
                 (row.timeLimit === null ? (
-                  "-"
+                  <Unknown />
                 ) : (
                   <FormattedDuration
                     seconds={row.timeLimit}
@@ -250,6 +247,8 @@ export default function ViewBatch() {
             {
               field: "nodeList",
               headerName: "Node list",
+              renderCell: ({ row }) =>
+                (row.nodeList === "" || row.nodeList === null ? <Unknown /> : row.nodeList),
               flex: 3,
             },
             {

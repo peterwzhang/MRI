@@ -4,7 +4,6 @@ import { validate as uuidValidate } from "uuid";
 import { BatchWithJobs } from "../types";
 import { apiUrl } from "./constants";
 
-// accepts weird types due to react-router's query type
 export default function useBatch(id: string | undefined) {
   return useQuery<BatchWithJobs>(
     ["batch", id],

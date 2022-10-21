@@ -1,12 +1,13 @@
 import { Clear as ClearIcon } from "@mui/icons-material";
 import { Button, Container } from "@mui/material";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import { useState } from "react";
 import { FormattedDate } from "react-intl";
 import { Link } from "react-router-dom";
 import useBatches from "../api/useBatches";
 import BatchProgressBar from "../components/BatchProgressBar";
 import BatchStatusDisplay from "../components/BatchStatusDisplay";
+import GridToolbar from "../components/GridToolbar";
 
 export default function Dashboard() {
   const data = useBatches();

@@ -4,6 +4,7 @@ import pluralize from "pluralize";
 import { FormattedDate } from "react-intl";
 import { Prism } from "react-syntax-highlighter";
 import { Script } from "../types";
+import InlineCode from "./InlineCode";
 import ScriptCleanupModeDisplay from "./ScriptCleanupModeDisplay";
 
 export default function ScriptDisplay({ script }: { script: Script }) {
@@ -18,7 +19,7 @@ export default function ScriptDisplay({ script }: { script: Script }) {
         Last edited at <FormattedDate value={script.createdAt} dateStyle="full" timeStyle="long" />
       </p>
       <p>
-        ID variable: <span style={{ fontFamily: "monospace" }}>{script.idVariable}</span>
+        ID variable: <InlineCode>{script.idVariable}</InlineCode>
       </p>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>

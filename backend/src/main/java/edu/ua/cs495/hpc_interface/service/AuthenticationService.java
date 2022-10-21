@@ -30,7 +30,7 @@ public class AuthenticationService {
    * @return the current user
    */
   public User getAuthenticatedUser() {
-    return userService.createUserIfNotExists("mcmoore11@crimson.ua.edu");
+    return userService.createUserIfNotExists("ncovercash@crimson.ua.edu");
     // if (!isAuthenticated()) {
     //   throw new NeedsAuthenticationException();
     // }

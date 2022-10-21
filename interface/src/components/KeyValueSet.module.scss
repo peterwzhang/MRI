@@ -1,12 +1,12 @@
-.keyValues {
+.keyValueWrapper {
   dl {
     dt {
       font-weight: bolder;
+      margin-top: 0.5rem;
     }
 
     dd {
-      margin-left: 0;
-      margin-top: 0.25rem;
+      margin: 0.25rem 0;
     }
   }
 }

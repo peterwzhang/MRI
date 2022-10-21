@@ -37,8 +37,8 @@ public interface JobMapper {
   )
   @Mapping(
     target = "scriptPathSlurmQueuer",
-    source = "slurmQueueScriptPath",
-    qualifiedByName = "prefixPath"
+    source = ".",
+    qualifiedByName = "prefixSlurmPath"
   )
   JobDTO toFullDto(Job source);
 
@@ -73,5 +73,13 @@ public interface JobMapper {
   @Named("prefixPath")
   static String prefixPath(String src) {
     return SSHService.SCRATCH_SCRIPT_LOCATION + src;
+  }
+
+  @Named("prefixSlurmPath")
+  static String prefixSlurmPath(Job src) {
+    if ("n/a".equals(src.getSlurmQueueScriptPath())) {
+      return "";
+    }
+    return SSHService.SCRATCH_SCRIPT_LOCATION + src.getSlurmQueueScriptPath();
   }
 }

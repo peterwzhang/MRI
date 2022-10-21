@@ -4,7 +4,7 @@ import ViewBatch from "./batch/View";
 import Dashboard from "./Dashboard";
 import Homepage from "./Homepage";
 import ScriptLibrary from "./ScriptLibrary";
-import ViewJob from "./ViewJob";
+import ViewJob from "./job/View";
 import withNavbar from "./withNavbar";
 
 export default [
@@ -25,15 +25,15 @@ export default [
     element: withNavbar(<ViewBatch />),
   },
   {
+    path: "/batch/:batchId/job/:jobId",
+    element: withNavbar(<ViewJob />),
+  },
+  {
     path: "/batch/create",
     element: withNavbar(<CreateBatch />),
   },
   {
     path: "/script-library",
     element: withNavbar(<ScriptLibrary />),
-  },
-  {
-    path: "/view-job",
-    element: withNavbar(<ViewJob />),
   },
 ];

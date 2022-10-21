@@ -11,7 +11,7 @@ export interface JobMetadata {
   /**
    * The ID slurm has assigned for this job, if available
    */
-  slurmId: number;
+  slurmId: number | null;
   /**
    * The current state of the job
    */

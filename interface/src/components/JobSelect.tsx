@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import QuerySelect from "./QuerySelect";
 
 const InputsWrapper = styled.div`
   display: flex;

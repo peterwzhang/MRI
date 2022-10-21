@@ -1,10 +1,9 @@
 /* eslint-disable jsx-a11y/label-has-for */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import axios from "axios";
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { apiUrl } from "../api/constants";
-import QuerySelect from "./QuerySelect";
 
 const ScriptMainInfo = styled.div`
   display: flex;

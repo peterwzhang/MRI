@@ -6,6 +6,7 @@ import edu.ua.cs495.hpc_interface.domain.types.BatchStatus;
 import edu.ua.cs495.hpc_interface.domain.types.CleanupMode;
 import edu.ua.cs495.hpc_interface.domain.types.JobState;
 import edu.ua.cs495.hpc_interface.service.SSHService;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.hibernate.Session;
@@ -62,8 +63,16 @@ public class SyncBatchStatusSubTask {
   }
 
   private void checkAllCompletion() {
-    if (
+    List<Job> jobsToCheck =
       this.batch.getJobs()
+        .stream()
+        .filter(j -> j.getState() != JobState.UNAPPROVED)
+        .toList();
+
+    log.info(jobsToCheck);
+
+    if (
+      jobsToCheck
         .stream()
         .allMatch(j -> j.getState().isCompleted() || j.getState().isFailed())
     ) {
@@ -76,9 +85,7 @@ public class SyncBatchStatusSubTask {
         (
           this.batch.getScriptUsed().getCleanupMode() ==
           CleanupMode.ALL_SUCCESS &&
-          this.batch.getJobs()
-            .stream()
-            .allMatch(j -> j.getState().isCompleted())
+          jobsToCheck.stream().allMatch(j -> j.getState().isCompleted())
         )
       ) {
         log.info(

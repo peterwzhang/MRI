@@ -34,9 +34,12 @@ public final class PollTask implements Runnable {
     Session session = this.service.getSessionFactory().openSession();
     log.info("Starting");
 
-    List<Job> jobs = (this.service.getJobRepository().findJobsToPoll());
-    if (jobs.isEmpty()) {
-      log.info("No jobs to poll...");
+    List<Job> jobs = this.service.getJobRepository().findJobsToPoll();
+    List<Batch> batchesToPoll =
+      this.service.getBatchRepository().findBatchesToPoll();
+
+    if (jobs.isEmpty() && batchesToPoll.isEmpty()) {
+      log.info("Nothing to poll...");
       session.close();
       return;
     }
@@ -54,8 +57,8 @@ public final class PollTask implements Runnable {
         (a, b) -> a.getId().compareTo(b.getId())
       );
       jobs.stream().map(Job::getBatch).forEach(b -> batches.add(b));
+      batchesToPoll.forEach(b -> batches.add(b));
 
-      log.info("Syncing all batch states");
       batches
         .stream()
         .forEach(b -> new SyncBatchStatusSubTask(this.service, b).run());

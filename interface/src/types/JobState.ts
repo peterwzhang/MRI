@@ -1,11 +1,12 @@
-type JobState =
-  | "QUEUEING"
-  | "PENDING"
-  | "RUNNING"
-  | "SUCCESS"
-  | "TIMEOUT"
-  | "FAILED"
-  | "CANCELLED"
-  | "UNAPPROVED";
+enum JobState {
+  QUEUEING = "QUEUEING",
+  PENDING = "PENDING",
+  RUNNING = "RUNNING",
+  SUCCESS = "SUCCESS",
+  TIMEOUT = "TIMEOUT",
+  FAILED = "FAILED",
+  CANCELLED = "CANCELLED",
+  UNAPPROVED = "UNAPPROVED",
+}
 
 export default JobState;

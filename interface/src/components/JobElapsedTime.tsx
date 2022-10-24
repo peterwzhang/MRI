@@ -8,7 +8,9 @@ export default function JobElapsedTime(props: { job: JobMetadata }) {
   return (
     <FormattedDuration
       seconds={
-        (new Date(props.job.endTime).getTime() - new Date(props.job.startTime).getTime()) / 1000
+        (new Date(props.job.endTime ?? new Date()).getTime() -
+          new Date(props.job.startTime).getTime()) /
+        1000
       }
       format="{days} {hours} {minutes} {seconds}"
       unitDisplay="narrow"

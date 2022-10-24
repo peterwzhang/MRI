@@ -2,24 +2,24 @@ import BatchStatus from "../types/BatchStatus";
 
 export default function BatchStatusDisplay(props: { status: BatchStatus }) {
   switch (props.status) {
-    case "QUEUEING_SETUP":
-    case "SETTING_UP":
+    case BatchStatus.QUEUEING_SETUP:
+    case BatchStatus.SETTING_UP:
       return <span>Setting up</span>;
-    case "GENERATING":
+    case BatchStatus.GENERATING:
       return <span>Generating jobs</span>;
-    case "AWAITING_APPROVAL":
+    case BatchStatus.AWAITING_APPROVAL:
       return <span style={{ fontWeight: "bolder" }}>Awaiting approval</span>;
-    case "QUEUEING":
-    case "RUNNING":
+    case BatchStatus.QUEUEING:
+    case BatchStatus.RUNNING:
       return <span>Running</span>;
-    case "CLEAN_UP_QUEUEING":
-    case "CLEAN_UP_RUNNING":
+    case BatchStatus.CLEAN_UP_QUEUEING:
+    case BatchStatus.CLEAN_UP_RUNNING:
       return <span>Cleaning up</span>;
-    case "COMPLETED":
+    case BatchStatus.COMPLETED:
       return <span>Completed</span>;
-    case "CANCELLED":
+    case BatchStatus.CANCELLED:
       return <span>Cancelled</span>;
-    case "FAILED":
+    case BatchStatus.FAILED:
       return <span>Failed</span>;
     default:
       throw new Error(`Invalid batch status of ${props.status}`);

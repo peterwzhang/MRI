@@ -28,11 +28,16 @@ public final class SubmitMainJobsTask extends AbstractOneTimeTask {
   ) {
     super(sshService);
     this.batch = batch;
-    this.jobs = jobs;
+    this.jobs =
+      jobs.stream().filter(j -> j.getState() == JobState.QUEUEING).toList();
   }
 
   @SuppressWarnings({ "java:S2093", "java:S2629", "java:S4042" })
   protected void runJob() throws InterruptedException {
+    if (this.jobs.isEmpty()) {
+      log.info("No jobs to queue (maybe they were cancelled?");
+      return;
+    }
     try (Session session = this.service.getSessionFactory().openSession()) {
       this.batch = session.get(Batch.class, this.batch.getId());
       this.jobs =

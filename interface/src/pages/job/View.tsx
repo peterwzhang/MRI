@@ -39,7 +39,7 @@ export default function ViewJob() {
             key: "State",
             value: (
               <>
-                <JobStateDisplay state={job.state} />
+                <JobStateDisplay state={job.state} batchStatus={batch.status} />
                 {job.slurmState ? ` (${job.slurmState})` : undefined}
               </>
             ),

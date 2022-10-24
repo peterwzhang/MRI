@@ -31,7 +31,7 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
     this.batch = batch;
   }
 
-  @SuppressWarnings({ "java:S2093", "java:S2629", "java:S4042" })
+  @SuppressWarnings({ "java:S2093", "java:S2629", "java:S4042", "java:S1774" })
   protected void runJob() throws InterruptedException {
     Session session = this.service.getSessionFactory().openSession();
     this.batch = session.get(Batch.class, this.batch.getId());
@@ -208,7 +208,11 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
               Job
                 .builder()
                 .batch(this.batch)
-                .state(JobState.QUEUEING)
+                .state(
+                  Boolean.TRUE.equals(this.batch.getNeedsApproval())
+                    ? JobState.UNAPPROVED
+                    : JobState.QUEUEING
+                )
                 .slurmState("")
                 .logPath("log." + job.getId())
                 .logTail("Loading...")

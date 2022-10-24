@@ -1,9 +1,11 @@
 import { Clear as ClearIcon } from "@mui/icons-material";
-import { Button, Container } from "@mui/material";
+import { Alert, Button, Container, Snackbar } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { useState } from "react";
+import pluralize from "pluralize";
+import { ReactNode, useState } from "react";
 import { FormattedDate } from "react-intl";
 import { Link } from "react-router-dom";
+import useBatchCancelMutation from "../api/useBatchCancelMutation";
 import useBatches from "../api/useBatches";
 import BatchProgressBar from "../components/BatchProgressBar";
 import BatchStatusDisplay from "../components/BatchStatusDisplay";
@@ -11,11 +13,23 @@ import GridToolbar from "../components/GridToolbar";
 
 export default function Dashboard() {
   const data = useBatches();
+  const batchCanceller = useBatchCancelMutation();
 
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
+  const [notification, setNotification] = useState<ReactNode>(null);
 
   return (
     <Container fixed>
+      <Snackbar
+        open={notification !== null}
+        autoHideDuration={6000}
+        onClose={() => setNotification(null)}
+      >
+        <Alert onClose={() => setNotification(null)} severity="success" sx={{ width: "100%" }}>
+          {notification}
+        </Alert>
+      </Snackbar>
+
       <h1>My batches</h1>
 
       <div style={{ height: "max(70vh, calc(100vh - 15rem))" }}>
@@ -35,8 +49,19 @@ export default function Dashboard() {
                   startIcon={<ClearIcon />}
                   color="error"
                   sx={{ marginLeft: "auto" }}
+                  onClick={() => {
+                    setNotification(
+                      `Attempting to cancel ${pluralize(
+                        "batch",
+                        selectedRows.length,
+                        true,
+                      )}, this may take a moment...`,
+                    );
+                    selectedRows.forEach((id) => batchCanceller(id));
+                    setSelectedRows([]);
+                  }}
                 >
-                  Cancel
+                  Cancel {pluralize("batch", selectedRows.length, true)}
                 </Button>
               ),
             },
@@ -82,6 +107,12 @@ export default function Dashboard() {
               flex: 2,
             },
             {
+              field: "requiresApprovalStep",
+              headerName: "Requires approval",
+              type: "boolean",
+              flex: 1,
+            },
+            {
               field: "statusSummary",
               headerName: "Progress",
               renderCell: ({ row }) => <BatchProgressBar status={row.statusSummary} />,
@@ -92,6 +123,7 @@ export default function Dashboard() {
             columns: {
               columnVisibilityModel: {
                 scriptName: false,
+                requiresApprovalStep: false,
               },
             },
             sorting: {

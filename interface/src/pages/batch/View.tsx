@@ -1,19 +1,29 @@
-import { Clear as ClearIcon, ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
+import {
+  Clear as ClearIcon,
+  DoneAll as DoneAllIcon,
+  ExpandMore as ExpandMoreIcon,
+} from "@mui/icons-material";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Alert,
   Box,
   Button,
   Container,
   Skeleton,
+  Snackbar,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { useState } from "react";
+import pluralize from "pluralize";
+import { ReactNode, useState } from "react";
 import { FormattedDate } from "react-intl";
 import FormattedDuration from "react-intl-formatted-duration";
 import { Link, useParams } from "react-router-dom";
 import useBatch from "../../api/useBatch";
+import useBatchCancelMutation from "../../api/useBatchCancelMutation";
+import useJobApproveMutation from "../../api/useJobApproveMutation";
+import useJobCancelMutation from "../../api/useJobCancelMutation";
 import useScript from "../../api/useScript";
 import BatchProgressBar from "../../components/BatchProgressBar";
 import BatchStatusDisplay from "../../components/BatchStatusDisplay";
@@ -24,16 +34,23 @@ import JobStateDisplay from "../../components/JobStateDisplay";
 import KeyValueSet from "../../components/KeyValueSet";
 import ScriptDisplay from "../../components/ScriptDisplay";
 import Unknown from "../../components/Unknown";
+import BatchStatus from "../../types/BatchStatus";
+import JobState from "../../types/JobState";
 
 export default function ViewBatch() {
   const id = useParams().batchId;
 
   const batch = useBatch(id);
+  const batchCanceller = useBatchCancelMutation();
+  const canceller = useJobCancelMutation();
+  const approver = useJobApproveMutation();
 
   const [showScript, setShowScript] = useState<boolean>(false);
   const script = useScript(batch?.scriptUsed?.id, showScript);
 
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
+
+  const [notification, setNotification] = useState<ReactNode>(null);
 
   if (batch === undefined) {
     return (
@@ -45,6 +62,15 @@ export default function ViewBatch() {
 
   return (
     <Container fixed>
+      <Snackbar
+        open={notification !== null}
+        autoHideDuration={6000}
+        onClose={() => setNotification(null)}
+      >
+        <Alert onClose={() => setNotification(null)} severity="success" sx={{ width: "100%" }}>
+          {notification}
+        </Alert>
+      </Snackbar>
       <Box
         sx={{
           marginTop: "1rem",
@@ -135,14 +161,67 @@ export default function ViewBatch() {
           componentsProps={{
             toolbar: {
               additionalButtons: (
-                <Button
-                  disabled={selectedRows.length === 0}
-                  startIcon={<ClearIcon />}
-                  color="error"
-                  sx={{ marginLeft: "auto" }}
-                >
-                  Cancel
-                </Button>
+                <>
+                  <Button
+                    disabled={selectedRows.length === 0}
+                    startIcon={<ClearIcon />}
+                    color="error"
+                    sx={{
+                      marginLeft: "auto",
+                      display: batch.status === BatchStatus.AWAITING_APPROVAL ? "none" : undefined,
+                    }}
+                    onClick={() => {
+                      setNotification(
+                        `Attempting to cancel ${pluralize(
+                          "job",
+                          selectedRows.length,
+                          true,
+                        )}, this may take a moment...`,
+                      );
+                      canceller({ batchId: batch.id, jobs: selectedRows });
+                      setSelectedRows([]);
+                    }}
+                  >
+                    Cancel {pluralize("job", selectedRows.length, true)}
+                  </Button>
+                  <Button
+                    disabled={selectedRows.length === 0}
+                    startIcon={<DoneAllIcon />}
+                    color="success"
+                    sx={{
+                      marginLeft: "auto",
+                      display: batch.status !== BatchStatus.AWAITING_APPROVAL ? "none" : undefined,
+                    }}
+                    onClick={() => {
+                      setNotification(
+                        `Approving ${pluralize(
+                          "job",
+                          selectedRows.length,
+                          true,
+                        )}, this may take a moment...`,
+                      );
+                      approver({ batchId: batch.id, jobs: selectedRows });
+                      setSelectedRows([]);
+                    }}
+                  >
+                    Approve {pluralize("job", selectedRows.length, true)}
+                  </Button>
+                  <Button
+                    disabled={
+                      batch.status === BatchStatus.FAILED ||
+                      batch.status === BatchStatus.CANCELLED ||
+                      batch.status === BatchStatus.COMPLETED
+                    }
+                    startIcon={<ClearIcon />}
+                    color="error"
+                    onClick={() => {
+                      setNotification("Attempting to cancel the batch, this may take a moment...");
+                      batchCanceller(batch.id);
+                    }}
+                  >
+                    Cancel batch
+                  </Button>
+                </>
               ),
             },
           }}
@@ -163,7 +242,9 @@ export default function ViewBatch() {
             {
               field: "state",
               headerName: "State",
-              renderCell: ({ row }) => <JobStateDisplay state={row.state} />,
+              renderCell: ({ row }) => (
+                <JobStateDisplay state={row.state} batchStatus={batch.status} />
+              ),
               flex: 2,
             },
             {
@@ -224,6 +305,7 @@ export default function ViewBatch() {
               type: "number",
               valueGetter: ({ row }) => {
                 if (row.startTime === null) return 0;
+                if (row.endTime === null) return (new Date().getTime() - new Date(row.startTime).getTime()) / 1000;
                 return (new Date(row.endTime).getTime() - new Date(row.startTime).getTime()) / 1000;
               },
             },
@@ -272,6 +354,11 @@ export default function ViewBatch() {
             },
           }}
           onSelectionModelChange={(ids) => setSelectedRows(ids as string[])}
+          isRowSelectable={({ row }) =>
+            (batch.status === BatchStatus.AWAITING_APPROVAL
+              ? row.state === JobState.UNAPPROVED
+              : row.state === JobState.PENDING || row.state === JobState.RUNNING)
+          }
         />
       </div>
     </Container>

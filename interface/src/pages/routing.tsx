@@ -3,10 +3,11 @@ import CreateBatch from "./batch/Create";
 import ViewBatch from "./batch/View";
 import Dashboard from "./Dashboard";
 import Homepage from "./Homepage";
-import ScriptLibrary from "./script/ScriptLibrary";
 import ViewJob from "./job/View";
-import withNavbar from "./withNavbar";
 import ScriptCreationForm from "./script/ScriptCreationForm";
+import ScriptLibrary from "./script/ScriptLibrary";
+import ScriptView from "./script/ScriptView";
+import withNavbar from "./withNavbar";
 
 export default [
   {
@@ -42,6 +43,10 @@ export default [
   {
     path: "/script",
     element: withNavbar(<ScriptLibrary />),
+  },
+  {
+    path: "/script/:scriptId",
+    element: withNavbar(<ScriptView />),
   },
   {
     path: "/script/new",

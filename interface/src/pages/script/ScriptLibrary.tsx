@@ -1,10 +1,12 @@
 import { Add as AddIcon, Archive as ArchiveIcon, Inventory2 } from "@mui/icons-material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { Button, Container, Fab } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState } from "react";
 import { FormattedDate } from "react-intl";
 import { Link } from "react-router-dom";
 import useCurrentUser from "../../api/useCurrentUser";
+import useScriptArchiveMutation from "../../api/useScriptArchiveMutation";
 import useScripts from "../../api/useScripts";
 import GridToolbar from "../../components/GridToolbar";
 import canEditScript from "../../utils/canEditScript";
@@ -15,6 +17,9 @@ export default function ScriptLibrary() {
   const user = useCurrentUser();
 
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
+
+  const archiver = useScriptArchiveMutation();
+  const [isArchiving, setIsArchiving] = useState<boolean>(false);
 
   return (
     <Container fixed>
@@ -36,14 +41,21 @@ export default function ScriptLibrary() {
                   <Button startIcon={<Inventory2 />} onClick={() => setShowArchived(!showArchived)}>
                     {showArchived ? "Hide archived" : "Show archived"}
                   </Button>
-                  <Button
+                  <LoadingButton
+                    loading={isArchiving}
+                    loadingPosition="start"
                     disabled={selectedRows.length === 0}
                     startIcon={<ArchiveIcon />}
                     color="error"
                     sx={{ marginLeft: "auto" }}
+                    onClick={async () => {
+                      setIsArchiving(true);
+                      await archiver(selectedRows);
+                      setIsArchiving(false);
+                    }}
                   >
                     Archive
-                  </Button>
+                  </LoadingButton>
                 </>
               ),
             },
@@ -86,6 +98,12 @@ export default function ScriptLibrary() {
               flex: 4,
             },
             {
+              field: "globalTemplate",
+              headerName: "Global Template",
+              type: "boolean",
+              flex: 1,
+            },
+            {
               field: "archived",
               headerName: "Archived",
               type: "boolean",
@@ -95,6 +113,7 @@ export default function ScriptLibrary() {
           initialState={{
             columns: {
               columnVisibilityModel: {
+                globalTemplate: false,
                 archived: false,
               },
             },
@@ -107,7 +126,7 @@ export default function ScriptLibrary() {
         />
       </div>
       <Link to="/script/new">
-        <Fab color="primary" style={{ position: "absolute", right: 16, bottom: 16 }}>
+        <Fab color="primary" style={{ position: "fixed", right: 16, bottom: 16 }}>
           <AddIcon />
         </Fab>
       </Link>

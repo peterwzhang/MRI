@@ -11,7 +11,7 @@ import ScriptCreationFormJobsStep from "../../components/script-creation/ScriptC
 import ScriptCreationFormSetupStep from "../../components/script-creation/ScriptCreationFormSetupStep";
 import ScriptCreationFormSlurmStep from "../../components/script-creation/ScriptCreationFormSlurmStep";
 import ScriptCreationFormStepper from "../../components/script-creation/ScriptCreationFormStepper";
-import { Script, ScriptMetadata } from "../../types";
+import { Script } from "../../types";
 import { FormValues } from "../../types/ScriptCreationFormTypes";
 import ScriptCreationStep from "../../types/ScriptCreationStep";
 import ScriptCreationStepStatus from "../../types/ScriptCreationStepStatus";
@@ -127,7 +127,7 @@ export default function ScriptCreationForm() {
         onSubmit={submitter}
         validateOnBlur
       >
-        {({ handleSubmit, values }) => (
+        {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <ScriptCreationFormStepper
               currentStep={currentStep}
@@ -154,7 +154,6 @@ export default function ScriptCreationForm() {
               }}
               isSubmitting={isSubmitting}
             />
-            <pre>{JSON.stringify(values, undefined, 2)}</pre>
           </form>
         )}
       </Form>

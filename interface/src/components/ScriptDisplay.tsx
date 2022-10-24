@@ -1,5 +1,5 @@
 import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
-import { Accordion, AccordionDetails, AccordionSummary, Box } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from "@mui/material";
 import pluralize from "pluralize";
 import { FormattedDate } from "react-intl";
 import { Prism } from "react-syntax-highlighter";
@@ -7,20 +7,24 @@ import { Script } from "../types";
 import InlineCode from "./InlineCode";
 import ScriptCleanupModeDisplay from "./ScriptCleanupModeDisplay";
 
-export default function ScriptDisplay({ script }: { script: Script }) {
+export default function ScriptDisplay({ script, primary }: { script: Script; primary?: boolean }) {
+  const El = primary ? "h1" : "h3";
   return (
     <>
-      <h3>{script.name}</h3>
-      <p>
+      <El style={{ margin: primary ? undefined : "0 0 0.5rem 0" }}>
+        {script.name}
+        {script.globalTemplate ? " (global template)" : ""}
+      </El>
+      <Typography variant="body1">
         Created at <FormattedDate value={script.createdAt} dateStyle="full" timeStyle="long" /> by{" "}
         {script.user.email ?? script.user.username}
-      </p>
-      <p>
+      </Typography>
+      <Typography variant="body1">
         Last edited at <FormattedDate value={script.createdAt} dateStyle="full" timeStyle="long" />
-      </p>
-      <p>
+      </Typography>
+      <Typography variant="body1" mb={2}>
         ID variable: <InlineCode>{script.idVariable}</InlineCode>
-      </p>
+      </Typography>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <span style={{ fontWeight: "bolder" }}>Header</span>

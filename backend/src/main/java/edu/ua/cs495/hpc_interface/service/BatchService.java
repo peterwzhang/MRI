@@ -56,6 +56,7 @@ public class BatchService {
       .createdAt(Instant.now())
       .updatedAt(Instant.now())
       .archived(true)
+      .globalTemplate(false)
       .build();
     script = scriptRepository.save(script);
 

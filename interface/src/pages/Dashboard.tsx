@@ -99,6 +99,9 @@ export default function Dashboard() {
             },
           }}
           onSelectionModelChange={(ids) => setSelectedRows(ids as string[])}
+          isRowSelectable={({ row }) =>
+            row.status !== "COMPLETED" && row.status !== "CANCELLED" && row.status !== "FAILED"
+          }
         />
       </div>
     </Container>

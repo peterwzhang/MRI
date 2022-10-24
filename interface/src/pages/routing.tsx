@@ -5,6 +5,7 @@ import Dashboard from "./Dashboard";
 import Homepage from "./Homepage";
 import ViewJob from "./job/View";
 import ScriptCreationForm from "./script/ScriptCreationForm";
+import ScriptEditForm from "./script/ScriptEditForm";
 import ScriptLibrary from "./script/ScriptLibrary";
 import ScriptView from "./script/ScriptView";
 import withNavbar from "./withNavbar";
@@ -47,6 +48,10 @@ export default [
   {
     path: "/script/:scriptId",
     element: withNavbar(<ScriptView />),
+  },
+  {
+    path: "/script/:scriptId/edit",
+    element: withNavbar(<ScriptEditForm />),
   },
   {
     path: "/script/new",

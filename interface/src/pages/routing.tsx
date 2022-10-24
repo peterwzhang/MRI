@@ -3,9 +3,10 @@ import CreateBatch from "./batch/Create";
 import ViewBatch from "./batch/View";
 import Dashboard from "./Dashboard";
 import Homepage from "./Homepage";
-import ScriptLibrary from "./ScriptLibrary";
+import ScriptLibrary from "./script/ScriptLibrary";
 import ViewJob from "./job/View";
 import withNavbar from "./withNavbar";
+import ScriptCreationForm from "./script/ScriptCreationForm";
 
 export default [
   {
@@ -33,7 +34,17 @@ export default [
     element: withNavbar(<CreateBatch />),
   },
   {
-    path: "/script-library",
+    path: "/scripts",
     element: withNavbar(<ScriptLibrary />),
+  },
+  // supporting just so people can manually edit URL and not be lost
+  // /scripts/ is preferred for the library, /script/ for individual
+  {
+    path: "/script",
+    element: withNavbar(<ScriptLibrary />),
+  },
+  {
+    path: "/script/new",
+    element: withNavbar(<ScriptCreationForm />),
   },
 ];

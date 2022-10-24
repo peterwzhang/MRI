@@ -26,3 +26,32 @@ a {
 * {
   box-sizing: border-box;
 }
+
+/* Make data grids wrap text within cells as needed */
+.MuiDataGrid-viewport,
+.MuiDataGrid-row,
+.MuiDataGrid-renderingZone {
+  max-height: fit-content !important;
+}
+.MuiDataGrid-cell {
+  max-height: fit-content !important;
+  overflow: auto;
+  max-height: inherit;
+  white-space: initial !important;
+  line-height: 16px !important;
+  display: flex !important;
+  align-items: center;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+
+  > div {
+    max-height: inherit;
+    width: 100%;
+    white-space: initial;
+    line-height: 16px;
+  }
+}
+
+.MuiDataGrid-cellCheckbox .MuiCheckbox-root {
+  padding: 0 !important;
+}

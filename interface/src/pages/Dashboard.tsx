@@ -18,7 +18,7 @@ export default function Dashboard() {
     <Container fixed>
       <h1>My batches</h1>
 
-      <div style={{ height: "max(70vh, calc(100vh - 12rem))" }}>
+      <div style={{ height: "max(70vh, calc(100vh - 15rem))" }}>
         <DataGrid
           loading={data === undefined}
           checkboxSelection

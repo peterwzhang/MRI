@@ -1,16 +1,7 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { apiUrl } from "../api/constants";
-import { UserWithKey } from "../types";
+import useCurrentUser from "../api/useCurrentUser";
 
 export default function UserInfo() {
-  const [user, setUser] = useState<UserWithKey | null>(null);
-
-  useEffect(() => {
-    axios.get(`${apiUrl}/api/users/me`, { withCredentials: true }).then((response) => {
-      setUser(response.data);
-    });
-  }, []);
+  const user = useCurrentUser();
 
   if (!user) return null;
 

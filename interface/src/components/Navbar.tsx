@@ -32,7 +32,7 @@ export default function Navbar() {
               <Link to="/batch/create">Create batch</Link>
             </div>
             <div className={css.button}>
-              <Link to="/script-library">Script library</Link>
+              <Link to="/scripts">Script library</Link>
             </div>
             {/* <div className={css.button}>
               <Link to="/view-batch">View batch</Link>

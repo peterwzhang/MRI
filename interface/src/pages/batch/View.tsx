@@ -123,7 +123,7 @@ export default function ViewBatch() {
         </AccordionDetails>
       </Accordion>
 
-      <div style={{ height: "max(70vh, calc(100vh - 12rem))", marginTop: "1rem" }}>
+      <div style={{ height: "max(70vh, calc(100vh - 15rem))", marginTop: "1rem" }}>
         <DataGrid
           loading={batch === undefined}
           checkboxSelection

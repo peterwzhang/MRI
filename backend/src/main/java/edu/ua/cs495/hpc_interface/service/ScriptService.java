@@ -45,10 +45,17 @@ public class ScriptService {
     @NotNull User user
   ) {
     if (
+      // only admins may edit other user's scripts
       (
         !originalScript.getUser().equals(user) &&
         Boolean.FALSE.equals(user.getAdmin())
       ) ||
+      // only admins may edit global templates
+      (
+        Boolean.FALSE.equals(user.getAdmin()) &&
+        Boolean.TRUE.equals(source.isGlobalTemplate())
+      ) ||
+      // no one can edit archives
       Boolean.TRUE.equals(originalScript.getArchived())
     ) {
       throw new UnauthorizedException();

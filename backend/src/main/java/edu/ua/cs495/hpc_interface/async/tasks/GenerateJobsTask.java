@@ -76,6 +76,9 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
     jobGeneratorBuilder.append(SSHService.HASH_BANG);
     jobGeneratorBuilder.append("\n");
     jobGeneratorBuilder.append("\n");
+    jobGeneratorBuilder.append(script.getHeader());
+    jobGeneratorBuilder.append("\n");
+    jobGeneratorBuilder.append("\n");
     jobGeneratorBuilder.append(script.getJobTemplate());
     jobGeneratorBuilder.append("\n");
     jobGeneratorBuilder.append(heredoc);

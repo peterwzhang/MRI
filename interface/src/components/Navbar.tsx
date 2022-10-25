@@ -29,7 +29,7 @@ export default function Navbar() {
               <Link to="/dashboard">Dashboard</Link>
             </div>
             <div className={css.button}>
-              <Link to="/batch/create">Create batch</Link>
+              <Link to="/batch/new">Create batch</Link>
             </div>
             <div className={css.button}>
               <Link to="/scripts">Script library</Link>

@@ -32,7 +32,7 @@ export default [
     element: withNavbar(<ViewJob />),
   },
   {
-    path: "/batch/create",
+    path: "/batch/new",
     element: withNavbar(<CreateBatch />),
   },
   {

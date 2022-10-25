@@ -2,19 +2,28 @@ import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from "@mui/material";
 import pluralize from "pluralize";
 import { FormattedDate } from "react-intl";
+import { Link } from "react-router-dom";
 import { Prism } from "react-syntax-highlighter";
 import { Script } from "../types";
 import InlineCode from "./InlineCode";
 import ScriptCleanupModeDisplay from "./ScriptCleanupModeDisplay";
 
 export default function ScriptDisplay({ script, primary }: { script: Script; primary?: boolean }) {
-  const El = primary ? "h1" : "h3";
   return (
     <>
-      <El style={{ margin: primary ? undefined : "0 0 0.5rem 0" }}>
-        {script.name}
-        {script.globalTemplate ? " (global template)" : ""}
-      </El>
+      {primary ? (
+        <h1>
+          {script.name}
+          {script.globalTemplate ? " (global template)" : ""}
+        </h1>
+      ) : (
+        <h3 style={{ margin: "0 0 0.5rem 0" }}>
+          <Link to={`/script/${script?.id}`}>
+            {script.name}
+            {script.globalTemplate ? " (global template)" : ""}
+          </Link>
+        </h3>
+      )}
       <Typography variant="body1">
         Created at <FormattedDate value={script.createdAt} dateStyle="full" timeStyle="long" /> by{" "}
         {script.user.email ?? script.user.username}

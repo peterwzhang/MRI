@@ -15,8 +15,9 @@ import ScriptCreationFormStepper from "../../components/script-creation/ScriptCr
 import { Script } from "../../types";
 import { FormValues } from "../../types/ScriptCreationFormTypes";
 import ScriptCreationStep from "../../types/ScriptCreationStep";
-import ScriptCreationStepStatus from "../../types/ScriptCreationStepStatus";
+import FormStepStatus from "../../types/FormStepStatus";
 import canEditScript from "../../utils/canEditScript";
+import scriptToFormValues from "../../utils/scriptToFormValues";
 
 export default function ScriptEditForm() {
   const id = useParams().scriptId;
@@ -32,33 +33,17 @@ export default function ScriptEditForm() {
   const [formState, setFormState] = useState<FormValues>({});
   useEffect(() => {
     if (script !== undefined) {
-      setFormState({
-        name: script.name,
-        header: script.header,
-        globalTemplate: script.globalTemplate,
-        setupScript: script.setupScript,
-        loopWrapperTop: script.loopWrapperTop,
-        identifyingVariable: script.idVariable,
-        loopWrapperBottom: script.loopWrapperBottom,
-        job: script.jobTemplate,
-        cleanupMode: script.cleanupMode,
-        cleanupScript: script.cleanupScript,
-        setupSlurm: script.setupScriptSlurmConfig,
-        jobSlurm: script.slurmTemplate,
-        cleanupSlurm: script.cleanupSlurmConfig,
-      });
+      setFormState(scriptToFormValues(script));
     }
   }, [script]);
 
   const [currentStep, setCurrentStep] = useState<number>(0);
-  const [stepStatus, setStepStatus] = useState<
-    Record<number, undefined | ScriptCreationStepStatus>
-  >({
-    0: ScriptCreationStepStatus.COMPLETED,
-    1: ScriptCreationStepStatus.COMPLETED,
-    2: ScriptCreationStepStatus.COMPLETED,
-    3: ScriptCreationStepStatus.COMPLETED,
-    4: ScriptCreationStepStatus.COMPLETED,
+  const [stepStatus, setStepStatus] = useState<Record<number, undefined | FormStepStatus>>({
+    0: FormStepStatus.COMPLETED,
+    1: FormStepStatus.COMPLETED,
+    2: FormStepStatus.COMPLETED,
+    3: FormStepStatus.COMPLETED,
+    4: FormStepStatus.COMPLETED,
   });
 
   const CurrentStepComponent = useMemo<ScriptCreationStep>(() => {
@@ -84,8 +69,8 @@ export default function ScriptEditForm() {
       setStepStatus({
         ...stepStatus,
         [currentStep]: Object.values(formValidator(values)).length
-          ? ScriptCreationStepStatus.ERROR
-          : ScriptCreationStepStatus.COMPLETED,
+          ? FormStepStatus.ERROR
+          : FormStepStatus.COMPLETED,
       });
     },
     [currentStep, formValidator, stepStatus],
@@ -103,7 +88,7 @@ export default function ScriptEditForm() {
 
       const remainingSteps = Object.keys(stepStatus)
         .map((i) => parseInt(i, 10))
-        .filter((i) => stepStatus[i] !== ScriptCreationStepStatus.COMPLETED);
+        .filter((i) => stepStatus[i] !== FormStepStatus.COMPLETED);
       if (remainingSteps.length) {
         setCurrentStep(remainingSteps[0]);
         return;

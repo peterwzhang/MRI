@@ -152,7 +152,11 @@ export default function ViewBatch() {
       <div style={{ height: "max(70vh, calc(100vh - 15rem))", marginTop: "1rem" }}>
         <DataGrid
           loading={batch === undefined}
-          checkboxSelection
+          checkboxSelection={
+            batch.status !== BatchStatus.CANCELLED &&
+            batch.status !== BatchStatus.COMPLETED &&
+            batch.status !== BatchStatus.FAILED
+          }
           disableSelectionOnClick
           rows={batch.jobs ?? []}
           components={{
@@ -235,9 +239,10 @@ export default function ViewBatch() {
                     (row.specialJobType === "GENERATOR" ? "N/A" : <Unknown />)}
                 </Link>
               ),
-              valueGetter: ({ row }) => row.slurmId ?? 0,
+              valueGetter: ({ row }) =>
+                row.slurmId ?? (row.specialJobType === "GENERATOR" ? -1 : 0),
               flex: 2,
-              type: "string",
+              type: "number",
             },
             {
               field: "state",

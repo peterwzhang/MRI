@@ -47,17 +47,22 @@ public class BatchService {
   private OneTimeExecutor oneTimeExecutor;
 
   public Batch createFromDTO(BatchForSubmissionDTO batch, User creator) {
+    String scriptName = "";
+    if (!batch.getScript().getName().isBlank()) {
+      scriptName = String.format(" (%s)", batch.getScript().getName());
+    }
+
     Script script = scriptMapper
       .fromCreationDto(batch.getScript())
       .toBuilder()
       .name(
         String.format(
-          "Script used for %s on %s (%s)",
+          "Script used for %s on %s%s",
           batch.getName(),
           LocalDateTime
             .now()
             .format(DateTimeFormatter.ofPattern("MMM d yyyy 'at' hh:mm a")),
-          batch.getScript().getName()
+          scriptName
         )
       )
       .user(creator)

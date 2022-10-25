@@ -14,9 +14,9 @@ import ScriptCreationFormStepper from "../../components/script-creation/ScriptCr
 import { Script } from "../../types";
 import { FormValues } from "../../types/ScriptCreationFormTypes";
 import ScriptCreationStep from "../../types/ScriptCreationStep";
-import ScriptCreationStepStatus from "../../types/ScriptCreationStepStatus";
+import FormStepStatus from "../../types/FormStepStatus";
 
-const DEFAULT_SLURM = `#SBATCH -n 1 # number of tasks to use (usually 1)
+export const DEFAULT_SLURM = `#SBATCH -n 1 # number of tasks to use (usually 1)
 #SBATCH -c 1 # number of threads you are going to use
 #SBATCH -p main # main partition
 #SBATCH --qos debug # quality of service to enter
@@ -38,9 +38,7 @@ export default function ScriptCreationForm() {
   });
 
   const [currentStep, setCurrentStep] = useState<number>(0);
-  const [stepStatus, setStepStatus] = useState<
-    Record<number, undefined | ScriptCreationStepStatus>
-  >({});
+  const [stepStatus, setStepStatus] = useState<Record<number, undefined | FormStepStatus>>({});
 
   const CurrentStepComponent = useMemo<ScriptCreationStep>(() => {
     switch (currentStep) {
@@ -65,8 +63,8 @@ export default function ScriptCreationForm() {
       setStepStatus({
         ...stepStatus,
         [currentStep]: Object.values(formValidator(values)).length
-          ? ScriptCreationStepStatus.ERROR
-          : ScriptCreationStepStatus.COMPLETED,
+          ? FormStepStatus.ERROR
+          : FormStepStatus.COMPLETED,
       });
     },
     [currentStep, formValidator, stepStatus],
@@ -84,7 +82,7 @@ export default function ScriptCreationForm() {
 
       const remainingSteps = Object.keys(stepStatus)
         .map((i) => parseInt(i, 10))
-        .filter((i) => stepStatus[i] !== ScriptCreationStepStatus.COMPLETED);
+        .filter((i) => stepStatus[i] !== FormStepStatus.COMPLETED);
       if (remainingSteps.length) {
         setCurrentStep(remainingSteps[0]);
         return;

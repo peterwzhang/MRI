@@ -1,5 +1,5 @@
-import { Clear as ClearIcon } from "@mui/icons-material";
-import { Alert, Button, Container, Snackbar } from "@mui/material";
+import { Add as AddIcon, Clear as ClearIcon } from "@mui/icons-material";
+import { Alert, Button, Container, Fab, Snackbar } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import pluralize from "pluralize";
 import { ReactNode, useState } from "react";
@@ -136,6 +136,11 @@ export default function Dashboard() {
           }
         />
       </div>
+      <Link to="/batch/new">
+        <Fab color="primary" style={{ position: "fixed", right: 16, bottom: 16 }}>
+          <AddIcon />
+        </Fab>
+      </Link>
     </Container>
   );
 }

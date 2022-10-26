@@ -40,6 +40,9 @@ export default function Navbar() {
             <div className={css.button}>
               <Link to="/view-job">View job</Link>
             </div> */}
+            <div className={css.button}>
+              <Link to="/help">Help and tutorials</Link>
+            </div>
             <Link to="/account">
               <img
                 className="nav_right"

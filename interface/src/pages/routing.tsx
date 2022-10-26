@@ -2,6 +2,7 @@ import AccountInfo from "./Account";
 import CreateBatch from "./batch/Create";
 import ViewBatch from "./batch/View";
 import Dashboard from "./Dashboard";
+import Documentation from "./Documentation";
 import Homepage from "./Homepage";
 import ViewJob from "./job/View";
 import ScriptCreationForm from "./script/ScriptCreationForm";
@@ -56,5 +57,9 @@ export default [
   {
     path: "/script/new",
     element: withNavbar(<ScriptCreationForm />),
+  },
+  {
+    path: "/help",
+    element: withNavbar(<Documentation />),
   },
 ];

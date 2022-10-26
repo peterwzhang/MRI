@@ -79,10 +79,12 @@ public class SSHService {
 
   public int submitJobToSlurm(SshClient ssh, Job job) throws IOException {
     String command = String.format(
-      "sbatch --parsable --output=%s --error=%s --comment=%s < %s",
+      "sbatch --parsable --output=%s --error=%s --comment='Batch %s job %s' --job-name=%s < %s",
       SSHService.SCRATCH_SCRIPT_LOCATION + job.getLogPath(),
       SSHService.SCRATCH_SCRIPT_LOCATION + job.getLogPath(),
-      job.getId(),
+      job.getBatch().getName(),
+      job.getIdentifier(),
+      job.getIdentifier(),
       SSHService.SCRATCH_SCRIPT_LOCATION + job.getSlurmQueueScriptPath()
     );
 
@@ -99,6 +101,7 @@ public class SSHService {
   public String guaranteeCommand(SshClient ssh, String command, String error)
     throws IOException {
     StringBuffer buffer = new StringBuffer();
+    log.info("$ {}", command);
     if (ssh.executeCommandWithResult(command, buffer, TIMEOUT) != 0) {
       throw new IOException(error);
     }

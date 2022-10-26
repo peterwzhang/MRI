@@ -92,7 +92,6 @@ export default function ViewBatch() {
         >
           <Box
             sx={{
-              maxWidth: { xs: "100%", md: "50%", lg: "33%" },
               width: { xs: "100%", md: undefined },
               flex: "1 1 auto",
               display: "flex",

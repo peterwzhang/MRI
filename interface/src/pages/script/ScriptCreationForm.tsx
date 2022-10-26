@@ -19,7 +19,7 @@ import FormStepStatus from "../../types/FormStepStatus";
 export const DEFAULT_SLURM = `#SBATCH -n 1 # number of tasks to use (usually 1)
 #SBATCH -c 1 # number of threads you are going to use
 #SBATCH -p main # main partition
-#SBATCH --qos debug # quality of service to enter
+#SBATCH --qos debug # queue to enter
 `;
 
 export default function ScriptCreationForm() {

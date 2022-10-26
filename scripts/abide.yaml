@@ -69,8 +69,6 @@ setupScriptSlurmConfig: |
 # can include some extra (very minor) setup stuff but mainly is just the for
 # loop which will determine what jobs we have
 loopWrapperTop: |
-  #!/bin/bash
-
   subjectsDirectory=/scratch/$USER/abide/segmentation
 
   cd $subjectsDirectory
@@ -90,13 +88,11 @@ loopWrapperTop: |
     subject=`echo $subs | cut -d '.' -f1`;
 
 # From the for loop, what's the index variable that uniquely identifies each job?
-idVariable: $subs
+idVariable: $subject
 
 # Now, we grab the part of the script containing the actual job
 # this can contain any variables from the script/environment, like $subject or $USER
 jobTemplate: |
-  #!/bin/bash
-
   module load bio/freesurfer/7.1.1;
   source /share/apps/freesurfer_7_1_1/freesurfer/SetUpFreeSurfer.sh
 
@@ -108,8 +104,6 @@ jobTemplate: |
 # should NOT include the srun -- the backend's generation will add this in.  It
 # should only be the config headers
 slurmTemplate: |
-  #!/bin/bash
-
   #SBATCH --job-name=$subject
   #SBATCH --output=res_$subject.txt
   #SBATCH --ntasks=1

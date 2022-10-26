@@ -27,9 +27,9 @@ function ScriptCreationFormSlurmStep(props: {
         .
       </Typography>
       <Typography variant="body2" style={{ marginBottom: "0.5rem" }}>
-        Note: <InlineCode>#!/bin/bash</InlineCode> will be added automatically to these and does not
-        need to be specified here. The only lines that should be added here are the{" "}
-        <InlineCode>#SBATCH</InlineCode> directives.
+        Note: <InlineCode>#!/bin/bash</InlineCode> directive and the <InlineCode>srun</InlineCode>{" "}
+        command will be added automatically to these and does not need to be specified here. The
+        only lines that should be added here are the <InlineCode>#SBATCH</InlineCode> directives.
       </Typography>
 
       <Field

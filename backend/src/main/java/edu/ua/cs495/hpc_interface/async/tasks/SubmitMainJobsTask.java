@@ -47,14 +47,11 @@ public final class SubmitMainJobsTask extends AbstractOneTimeTask {
 
       try (SshClient ssh = this.service.getClient(this.batch.getUser())) {
         for (Job job : this.jobs) {
-          this.service.getJobRepository()
-            .save(
-              job
-                .withSlurmId(this.service.submitJobToSlurm(ssh, job))
-                .withState(JobState.PENDING)
-                .withQueuedTime(Instant.now())
-                .withLastSync(Instant.now())
-            );
+          job.setSlurmId(this.service.submitJobToSlurm(ssh, job));
+          job.setState(JobState.PENDING);
+          job.setQueuedTime(Instant.now());
+          job.setLastSync(Instant.now());
+          this.service.getJobRepository().save(job);
         }
 
         this.service.getBatchRepository()
@@ -78,7 +75,8 @@ public final class SubmitMainJobsTask extends AbstractOneTimeTask {
             (Job job) -> {
               if (
                 Boolean.FALSE.equals(job.getSetupJob()) &&
-                Boolean.FALSE.equals(job.getGeneratorJob())
+                Boolean.FALSE.equals(job.getGeneratorJob()) &&
+                job.getState() == JobState.QUEUEING
               ) {
                 this.service.getJobRepository()
                   .save(job.withState(JobState.FAILED));

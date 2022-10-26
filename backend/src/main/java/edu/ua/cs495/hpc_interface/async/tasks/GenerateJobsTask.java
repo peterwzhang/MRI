@@ -56,9 +56,12 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
     jobGeneratorBuilder.append(script.getLoopWrapperTop());
     jobGeneratorBuilder.append("\n");
 
-    jobGeneratorBuilder.append("echo ");
+    jobGeneratorBuilder.append("IDENTIFIER=$(echo ");
     jobGeneratorBuilder.append(script.getIdVariable());
-    jobGeneratorBuilder.append(" >> ");
+    jobGeneratorBuilder.append("| sed -e 's/[^a-zA-Z0-9_.]/-/g')");
+    jobGeneratorBuilder.append("\n\n");
+
+    jobGeneratorBuilder.append("echo $IDENTIFIER >> ");
     jobGeneratorBuilder.append(
       SSHService.SCRATCH_SCRIPT_LOCATION + generatedJobListFile
     );
@@ -67,9 +70,7 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
     jobGeneratorBuilder.append("cat > ");
     jobGeneratorBuilder.append(SSHService.SCRATCH_SCRIPT_LOCATION);
     jobGeneratorBuilder.append(this.batch.getId());
-    jobGeneratorBuilder.append("-");
-    jobGeneratorBuilder.append(script.getIdVariable());
-    jobGeneratorBuilder.append(".sh <<");
+    jobGeneratorBuilder.append("-$IDENTIFIER.sh <<");
     UUID heredoc = UUID.randomUUID();
     jobGeneratorBuilder.append(heredoc);
     jobGeneratorBuilder.append("\n");
@@ -87,9 +88,7 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
     jobGeneratorBuilder.append("cat > ");
     jobGeneratorBuilder.append(SSHService.SCRATCH_SCRIPT_LOCATION);
     jobGeneratorBuilder.append(this.batch.getId());
-    jobGeneratorBuilder.append("-");
-    jobGeneratorBuilder.append(script.getIdVariable());
-    jobGeneratorBuilder.append("-slurm.sh <<");
+    jobGeneratorBuilder.append("-$IDENTIFIER-slurm.sh <<");
     jobGeneratorBuilder.append(heredoc);
     jobGeneratorBuilder.append("\n");
     jobGeneratorBuilder.append(SSHService.HASH_BANG);
@@ -99,9 +98,7 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
     jobGeneratorBuilder.append("srun ");
     jobGeneratorBuilder.append(SSHService.SCRATCH_SCRIPT_LOCATION);
     jobGeneratorBuilder.append(this.batch.getId());
-    jobGeneratorBuilder.append("-");
-    jobGeneratorBuilder.append(script.getIdVariable());
-    jobGeneratorBuilder.append(".sh");
+    jobGeneratorBuilder.append("-$IDENTIFIER.sh");
     jobGeneratorBuilder.append("\n");
     jobGeneratorBuilder.append(heredoc);
     jobGeneratorBuilder.append("\n\n");
@@ -109,14 +106,10 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
     jobGeneratorBuilder.append("chmod +x ");
     jobGeneratorBuilder.append(SSHService.SCRATCH_SCRIPT_LOCATION);
     jobGeneratorBuilder.append(this.batch.getId());
-    jobGeneratorBuilder.append("-");
-    jobGeneratorBuilder.append(script.getIdVariable());
-    jobGeneratorBuilder.append(".sh ");
+    jobGeneratorBuilder.append("-$IDENTIFIER.sh ");
     jobGeneratorBuilder.append(SSHService.SCRATCH_SCRIPT_LOCATION);
     jobGeneratorBuilder.append(this.batch.getId());
-    jobGeneratorBuilder.append("-");
-    jobGeneratorBuilder.append(script.getIdVariable());
-    jobGeneratorBuilder.append("-slurm.sh");
+    jobGeneratorBuilder.append("-$IDENTIFIER-slurm.sh");
     jobGeneratorBuilder.append("\n\n");
 
     jobGeneratorBuilder.append(script.getLoopWrapperBottom());

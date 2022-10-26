@@ -46,8 +46,6 @@ function BatchCreationFormJobsStep(props: {
         string for each job. This will be used to identify each job, name scripts, and create log
         files. Typically, this will be the loop variable <InlineCode>$i</InlineCode> or something
         similar &mdash; for files, use something like <InlineCode>$(basename $i)</InlineCode>.
-        Please ensure that this will interpolate to something with no spaces or other special
-        characters.
       </Typography>
       <Typography variant="body2" style={{ marginBottom: "0.5rem" }}>
         <em>

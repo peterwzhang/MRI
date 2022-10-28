@@ -11,6 +11,7 @@ import edu.ua.cs495.hpc_interface.domain.entity.Job;
 import edu.ua.cs495.hpc_interface.domain.entity.User;
 import edu.ua.cs495.hpc_interface.domain.repository.BatchRepository;
 import edu.ua.cs495.hpc_interface.domain.repository.JobRepository;
+import edu.ua.cs495.hpc_interface.domain.repository.UserRepository;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -38,11 +39,12 @@ public class SSHService {
 
   public static final String HASH_BANG = "#!/bin/bash\n";
 
-  public static final String QUERY_AS_USER = "ncovercash@crimson.ua.edu";
+  public static final String QUERY_AS_USER = "ncovercash@ua.edu";
 
   // for consumption by jobs
   private BatchRepository batchRepository;
   private JobRepository jobRepository;
+  private UserRepository userRepository;
   private OneTimeExecutor oneTimeExecutor;
   private SessionFactory sessionFactory;
 
@@ -54,11 +56,52 @@ public class SSHService {
     return this.getClient(userService.createUserIfNotExists(QUERY_AS_USER));
   }
 
+  public User checkSsh(User user) {
+    user.setSshWorking(false);
+
+    try {
+      SshClient client = this.getClient(user);
+      if (
+        "test".equals(
+            this.guaranteeCommand(
+                client,
+                "echo test",
+                "Unable to run `echo` as user " + user.getUsername()
+              )
+              .trim()
+          )
+      ) {
+        user.setSshWorking(true);
+      }
+    } catch (IOException | SshException | InvalidPassphraseException e) {
+      log.info(e);
+    }
+
+    this.userRepository.save(user);
+    return user;
+  }
+
   public SshClient getClient(User user)
     throws IOException, SshException, InvalidPassphraseException {
     SshPrivateKeyFileFactory.parse(user.getPrivateKey().getBytes());
     SshKeyPair keyPair = SshKeyUtils.getPrivateKey(user.getPrivateKey(), null);
-    return new SshClient(HOSTNAME, PORT, user.getUsername(), keyPair);
+
+    try (
+      SshClient client = new SshClient(
+        HOSTNAME,
+        PORT,
+        user.getUsername(),
+        keyPair
+      )
+    ) {
+      if (Boolean.FALSE.equals(user.getSshWorking())) {
+        this.userRepository.save(user.withSshWorking(true));
+      }
+      return client;
+    } catch (IOException | SshException | InvalidPassphraseException e) {
+      this.userRepository.save(user.withSshWorking(false));
+      throw e;
+    }
   }
 
   public void copyScript(SshClient ssh, File file)

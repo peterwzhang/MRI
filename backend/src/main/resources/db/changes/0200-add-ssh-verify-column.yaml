@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0200-add-ssh-verify-column
+      author: ncovercash
+      comment: Add a column to store if a user's SSH access worked
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              column:
+                name: SSH_WORKING
+                type: boolean
+                remarks: If the user's SSH was functional (as of last attempt)
+                defaultValue: false
+                constraints:
+                  nullable: false

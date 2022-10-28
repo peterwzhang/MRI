@@ -1,0 +1,14 @@
+post:
+  summary: Verify the the current user's connection to the SSH host
+  description: This endpoint will attempt to connect to SSH with the user's key.
+  operationId: verifyCurrentUserSsh
+  tags: [user]
+  responses:
+    "200":
+      description:
+        The connection was attempted; check the response to see if it was
+        successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../../../schemas/users/userWithKey.yaml

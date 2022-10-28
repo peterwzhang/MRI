@@ -31,6 +31,7 @@ public class UserService {
       .admin(false)
       .privateKey(KeyUtils.privateKeyToString(keyPair.getPrivate()))
       .publicKey(KeyUtils.publicKeyToString(keyPair.getPublic()))
+      .sshWorking(false)
       .build();
 
     return repository.save(user);
@@ -45,7 +46,8 @@ public class UserService {
 
     User user = source
       .withPrivateKey(KeyUtils.privateKeyToString(newKeyPair.getPrivate()))
-      .withPublicKey(KeyUtils.publicKeyToString(newKeyPair.getPublic()));
+      .withPublicKey(KeyUtils.publicKeyToString(newKeyPair.getPublic()))
+      .withSshWorking(false);
 
     return repository.save(user);
   }

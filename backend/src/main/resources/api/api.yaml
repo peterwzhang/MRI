@@ -27,3 +27,5 @@ paths:
     $ref: paths/users/me/root.yaml
   /api/users/me/regenerate:
     $ref: paths/users/me/regenerate.yaml
+  /api/users/me/check-ssh:
+    $ref: paths/users/me/check-ssh.yaml

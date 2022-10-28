@@ -55,4 +55,9 @@ public class User implements Serializable {
   @NotNull
   @Column(name = "public_key")
   private String publicKey;
+
+  /** If SSH has been tested and works */
+  @NotNull
+  @Column(name = "ssh_working")
+  private Boolean sshWorking;
 }

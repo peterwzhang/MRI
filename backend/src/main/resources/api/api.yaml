@@ -3,7 +3,7 @@ info:
   title: HPC Interface API
   version: v1.0
 servers:
-  - url: /
+  - url: https://hpc-interface-dev.ua.edu/
 paths:
   /api/batches:
     $ref: paths/batches/root.yaml

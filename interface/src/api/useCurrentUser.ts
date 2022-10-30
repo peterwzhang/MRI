@@ -5,7 +5,7 @@ import { apiUrl } from "./constants";
 
 export default function useCurrentUser() {
   return useQuery<UserWithKey>(["user"], async () => {
-    const response = await ky.get(`${apiUrl}/api/users/me`);
+    const response = await ky.get(`${apiUrl}users/me`);
     return response.json<UserWithKey>();
   }).data;
 }

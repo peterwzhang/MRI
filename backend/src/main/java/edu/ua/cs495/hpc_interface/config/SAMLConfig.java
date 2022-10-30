@@ -15,6 +15,7 @@ public class SAMLConfig {
         "https://dev-00449127.okta.com/app/exk6odvqkb5jgzPph5d7/sso/saml/metadata"
       )
       .registrationId("okta")
+      .entityId("https://hpc-interface-dev.ua.edu/okta")
       .build();
     return new InMemoryRelyingPartyRegistrationRepository(registration);
   }

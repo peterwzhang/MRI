@@ -8,7 +8,7 @@ export default function useScriptCreateMutation() {
 
   return useMutation(
     (newScript: ScriptForCreation) =>
-      ky.post(`${apiUrl}/api/scripts`, { json: newScript }).json<ScriptWithId>(),
+      ky.post(`${apiUrl}scripts`, { json: newScript }).json<ScriptWithId>(),
     {
       onSuccess: () => {
         // Invalidate and refetch

@@ -1,12 +1,9 @@
 import ky from "ky";
-import { useNavigate } from "react-router-dom";
-import { apiUrl } from "./constants";
 
 export default function useLogout() {
-  const navigate = useNavigate();
-
   return async () => {
-    await ky.post(`${apiUrl}/logout`);
-    navigate("/");
+    await ky.post("/logout");
+    // must do a full redirect, otherwise react-router will "helpfully" not reload
+    window.location.href = "/";
   };
 }

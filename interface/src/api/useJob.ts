@@ -8,7 +8,7 @@ export default function useJob(batchId: string | undefined, jobId: string | unde
   return useQuery<Job>(
     ["batch", batchId, jobId],
     async () => {
-      const response = await ky.get(`${apiUrl}/api/batches/${batchId}/jobs/${jobId}`);
+      const response = await ky.get(`${apiUrl}batches/${batchId}/jobs/${jobId}`);
       return response.json<Job>();
     },
     {

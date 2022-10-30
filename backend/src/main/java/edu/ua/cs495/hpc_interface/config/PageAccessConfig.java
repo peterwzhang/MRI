@@ -59,6 +59,7 @@ public class PageAccessConfig implements WebMvcConfigurer {
         "https://localhost:3000",
         "http://localhost:3000",
         "https://localhost:8443",
+        "https://hpc-interface-dev.ua.edu",
         "https://dev-00449127.okta.com"
       );
   }

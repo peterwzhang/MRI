@@ -8,7 +8,7 @@ export default function useBatchCreateMutation() {
 
   return useMutation(
     (newBatch: BatchForSubmission) =>
-      ky.post(`${apiUrl}/api/batches`, { json: newBatch }).json<BatchMetadataWithId>(),
+      ky.post(`${apiUrl}batches`, { json: newBatch }).json<BatchMetadataWithId>(),
     {
       onSuccess: () => {
         // Invalidate and refetch

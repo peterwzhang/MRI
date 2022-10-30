@@ -108,7 +108,7 @@ public class SSHService {
     throws IOException, SshException {
     String fullPath = SSHService.SCRATCH_SCRIPT_LOCATION + file.getName();
 
-    log.info("Copying {} to server", file.getName());
+    log.info("Copying {} to server {}", file.getName(), fullPath);
     ssh.putFile(file, fullPath, TIMEOUT);
 
     log.info("Marking {} as executable", file.getName());

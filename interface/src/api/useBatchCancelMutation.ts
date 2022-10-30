@@ -5,7 +5,7 @@ import { apiUrl } from "./constants";
 export default function useBatchCancelMutation() {
   const queryClient = useQueryClient();
 
-  return useMutation((batchId: string) => ky.post(`${apiUrl}/api/batches/${batchId}/cancel`), {
+  return useMutation((batchId: string) => ky.post(`${apiUrl}batches/${batchId}/cancel`), {
     onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries(["batch"]);

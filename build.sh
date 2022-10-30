@@ -5,6 +5,7 @@ set -ex
 # build frontend
 cd interface
 yarn install
+rm -rf build
 yarn build
 
 cd ../
@@ -19,5 +20,5 @@ mvn package -DskipTests
 
 set +x
 
-echo "Built ./backend/target/hpc_interface-0.0.1-SNAPSHOT.jar !"
+echo "Built ./backend/target/hpc_interface.war !"
 echo "Deploy as you wish..."

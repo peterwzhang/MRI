@@ -6,7 +6,7 @@ import { apiUrl } from "./constants";
 export default function useScripts(includeArchived: boolean) {
   return useQuery<ScriptCollection>(["scripts", includeArchived], async () => {
     const response = await ky.get(
-      `${apiUrl}/api/scripts?${new URLSearchParams({
+      `${apiUrl}scripts?${new URLSearchParams({
         includeArchived: includeArchived ? "true" : "false",
       })}`,
     );

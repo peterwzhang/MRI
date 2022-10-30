@@ -73,7 +73,7 @@ met to run the server.
 The application requires a postgres database to run. By default, it looks on
 `localhost:5432` and uses login `postgres:postgres` to access database
 `hpc_interface`. These may be overridden with environment variables `DB_HOST`,
-`DB_PORT`, `DB_USER`, `DB_PASS`, and `DB_NAME`.
+`DB_PORT`, `DB_USERNAME`, `DB_PASSWORD`, and `DB_NAME`.
 
 After installing postgres, please create a user account and database:
 

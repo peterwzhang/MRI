@@ -8,9 +8,7 @@ export default function useScriptUpdateMutation() {
 
   return useMutation(
     (props: { oldId: string; newScript: ScriptForCreation }) =>
-      ky
-        .put(`${apiUrl}/api/scripts/${props.oldId}`, { json: props.newScript })
-        .json<ScriptWithId>(),
+      ky.put(`${apiUrl}scripts/${props.oldId}`, { json: props.newScript }).json<ScriptWithId>(),
     {
       onSuccess: () => {
         // Invalidate and refetch

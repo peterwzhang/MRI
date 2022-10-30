@@ -8,7 +8,7 @@ export default function useScriptArchiveMutation() {
   return useMutation(
     async (toArchive: string[]) => {
       for (const id of toArchive) {
-        await ky.delete(`${apiUrl}/api/scripts/${id}`);
+        await ky.delete(`${apiUrl}scripts/${id}`);
       }
     },
     {

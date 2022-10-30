@@ -39,7 +39,7 @@ public class SSHService {
 
   public static final String HASH_BANG = "#!/bin/bash\n";
 
-  public static final String QUERY_AS_USER = "ncovercash@ua.edu";
+  public static final String QUERY_AS_USER = "ncovercash@crimson.ua.edu";
 
   // for consumption by jobs
   private BatchRepository batchRepository;

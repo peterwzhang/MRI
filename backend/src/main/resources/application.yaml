@@ -38,7 +38,7 @@ spring:
 
 logging:
   file:
-    path: ${HPC_INTERFACE_LOG_PATH}
+    path: ${HPC_INTERFACE_LOG_PATH:log}
   level:
     io.zonky.test.db.postgres: FATAL
     # org.springframework.security: TRACE

@@ -1,2 +1,3 @@
 interface/build
 backend/src/main/resources/public
+backend/log

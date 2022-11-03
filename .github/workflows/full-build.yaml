@@ -1,6 +1,6 @@
 name: Build entire project
 
-on: push
+on: workflow_dispatch
 
 jobs:
   build:

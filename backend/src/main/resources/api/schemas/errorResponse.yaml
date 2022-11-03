@@ -31,4 +31,5 @@ additionalProperties: false
 required:
   - timestamp
   - status
-  - errors
+  - code
+  - message

@@ -6552,10 +6552,10 @@ klona@^2.0.4, klona@^2.0.5:
   resolved "https://registry.yarnpkg.com/klona/-/klona-2.0.5.tgz#d166574d90076395d9963aa7a928fabb8d76afbc"
   integrity sha512-pJiBpiXMbt7dkzXe8Ghj/u4FfXOOa98fPW+bihOJ4SjnoijweJrNThJfd3ifXpXhREjpoF2mZVH1GfS9LV3kHQ==
 
-ky@^0.31.4:
-  version "0.31.4"
-  resolved "https://registry.yarnpkg.com/ky/-/ky-0.31.4.tgz#c629a707053a92611cefa23079a0b0b60131b4b4"
-  integrity sha512-OFuAD3riwhAfHK3J4FrhlujFRpm0ELBEfDHZfFpw89OTozQt3NLF39lNblUO5udj5vSkyaBKnLai/rFCzBfISQ==
+ky@^0.32.0:
+  version "0.32.2"
+  resolved "https://registry.yarnpkg.com/ky/-/ky-0.32.2.tgz#dc62001379977b5dbd98f513d95b52fac8bf2207"
+  integrity sha512-eBJeF6IXNwX5rksdwBrE2rIJrU2d84GoTvdM7OmmTIwUVXEMd72wIwvT+nyhrqtv7AzbSNsWz7yRsHgVhj1uog==
 
 language-subtag-registry@~0.3.2:
   version "0.3.22"

@@ -30,8 +30,23 @@ export default function Documentation() {
       <SectionDiv>
         <h1>Code Base Documentation</h1>
         <p>
+          <a href="https://peterwzhang.github.io/MRI/" target="_blank" rel="noreferrer">
+            Project Website
+          </a>
+        </p>
+        <p>
           <a href="https://github.com/peterwzhang/MRI" target="_blank" rel="noreferrer">
-            Example Link (github)
+            GitHub
+          </a>
+        </p>
+        <p>
+          <a href="https://github.com/peterwzhang/MRI/tree/main/interface" target="_blank" rel="noreferrer">
+            User Interface GitHub
+          </a>
+        </p>
+        <p>
+          <a href="https://github.com/peterwzhang/MRI/tree/main/backend" target="_blank" rel="noreferrer">
+            Backend GitHub
           </a>
         </p>
       </SectionDiv>

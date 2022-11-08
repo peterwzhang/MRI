@@ -3,7 +3,6 @@ import CreateBatch from "./batch/Create";
 import ViewBatch from "./batch/View";
 import Dashboard from "./Dashboard";
 import Documentation from "./Documentation";
-import Homepage from "./Homepage";
 import ViewJob from "./job/View";
 import ScriptCreationForm from "./script/ScriptCreationForm";
 import ScriptEditForm from "./script/ScriptEditForm";
@@ -14,15 +13,11 @@ import withNavbar from "./withNavbar";
 export default [
   {
     path: "/",
-    element: withNavbar(<Homepage />),
+    element: withNavbar(<Dashboard />),
   },
   {
     path: "/account",
     element: withNavbar(<AccountInfo />),
-  },
-  {
-    path: "/dashboard",
-    element: withNavbar(<Dashboard />),
   },
   {
     path: "/batch/:batchId",

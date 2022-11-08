@@ -26,7 +26,7 @@ export default function Navbar() {
           </div>
           <div className={css.rightBar}>
             <div className={css.button}>
-              <Link to="/dashboard">Dashboard</Link>
+              <Link to="/">Dashboard</Link>
             </div>
             <div className={css.button}>
               <Link to="/batch/new">Create batch</Link>
@@ -34,12 +34,6 @@ export default function Navbar() {
             <div className={css.button}>
               <Link to="/scripts">Script library</Link>
             </div>
-            {/* <div className={css.button}>
-              <Link to="/view-batch">View batch</Link>
-            </div>
-            <div className={css.button}>
-              <Link to="/view-job">View job</Link>
-            </div> */}
             <div className={css.button}>
               <Link to="/help">Help and tutorials</Link>
             </div>

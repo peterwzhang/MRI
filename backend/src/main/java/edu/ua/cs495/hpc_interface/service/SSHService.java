@@ -39,7 +39,7 @@ public class SSHService {
 
   public static final String HASH_BANG = "#!/bin/bash\n";
 
-  public static final String QUERY_AS_USER = "ncovercash@crimson.ua.edu";
+  public static final String QUERY_AS_USER = "ncovercash";
 
   // for consumption by jobs
   private BatchRepository batchRepository;
@@ -164,8 +164,7 @@ public class SSHService {
     String prefix,
     String suffix,
     String contents
-  )
-    throws IOException {
+  ) throws IOException {
     File file = File.createTempFile(prefix, suffix);
 
     try (FileWriter writer = new FileWriter(file)) {

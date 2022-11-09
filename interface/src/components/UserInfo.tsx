@@ -10,7 +10,6 @@ export default function UserInfo() {
       <h2>{user.username}</h2>
       {user.admin && <h3>Admin</h3>}
       <p>{user.id}</p>
-      <p>{user.email}</p>
     </div>
   );
 }

@@ -117,9 +117,7 @@ export default function ViewBatch() {
         data={[
           {
             key: "Created by",
-            value: (
-              <a href={`mailto:${batch.user.email}`}>{batch.user.email ?? batch.user.username}</a>
-            ),
+            value: batch.user.username,
           },
           {
             key: "Started at",

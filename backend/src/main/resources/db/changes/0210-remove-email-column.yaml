@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0210-remove-email-column
+      author: ncovercash
+      comment: Remove the user's email column (not provided by CAS)
+      changes:
+        - dropColumn:
+            tableName: users
+            columns:
+              column:
+                name: EMAIL

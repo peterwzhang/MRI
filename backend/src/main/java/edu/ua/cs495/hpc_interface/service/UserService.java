@@ -19,15 +19,14 @@ public class UserService {
 
   private UserRepository repository;
 
-  protected User createUser(String email) {
-    log.info("Creating user with email {}", email);
+  protected User createUser(String username) {
+    log.info("Creating user with username {}", username);
 
     KeyPair keyPair = KeyUtils.generateKeyPair();
 
     User user = User
       .builder()
-      .username(email.split("@")[0])
-      .email(email)
+      .username(username)
       .admin(false)
       .privateKey(KeyUtils.privateKeyToString(keyPair.getPrivate()))
       .publicKey(KeyUtils.publicKeyToString(keyPair.getPublic()))
@@ -39,7 +38,7 @@ public class UserService {
 
   public User regenerateKey(User source) {
     log.info(
-      String.format("Regenerating keypair for user ID %s", source.getId())
+      String.format("Regenerating key pair for user ID %s", source.getId())
     );
 
     KeyPair newKeyPair = KeyUtils.generateKeyPair();
@@ -52,10 +51,10 @@ public class UserService {
     return repository.save(user);
   }
 
-  public User createUserIfNotExists(String email) {
+  public User createUserIfNotExists(String username) {
     Optional<User> dbResult = repository.findOne(
       Example.of(
-        User.builder().email(email).build(),
+        User.builder().username(username).build(),
         ExampleMatcher.matching().withIgnoreCase()
       )
     );
@@ -63,6 +62,6 @@ public class UserService {
       return dbResult.get();
     }
 
-    return createUser(email);
+    return createUser(username);
   }
 }

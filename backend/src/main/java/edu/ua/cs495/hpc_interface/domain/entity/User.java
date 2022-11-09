@@ -35,11 +35,6 @@ public class User implements Serializable {
   @Column(name = "username")
   private String username;
 
-  /** The user's email address (for notifications and other such features) */
-  @NotNull
-  @Column(name = "email")
-  private String email;
-
   /** If the user is an administrator */
   @Column(name = "admin")
   private Boolean admin;

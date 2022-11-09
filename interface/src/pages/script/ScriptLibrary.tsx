@@ -94,7 +94,7 @@ export default function ScriptLibrary() {
             {
               field: "creator",
               headerName: "Creator",
-              valueGetter: ({ row }) => row.user.email ?? row.user.username,
+              valueGetter: ({ row }) => row.user.username,
               flex: 4,
             },
             {

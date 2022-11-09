@@ -26,7 +26,7 @@ export default function ScriptDisplay({ script, primary }: { script: Script; pri
       )}
       <Typography variant="body1">
         Created at <FormattedDate value={script.createdAt} dateStyle="full" timeStyle="long" /> by{" "}
-        {script.user.email ?? script.user.username}
+        {script.user.username}
       </Typography>
       <Typography variant="body1">
         Last edited at <FormattedDate value={script.createdAt} dateStyle="full" timeStyle="long" />

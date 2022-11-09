@@ -22,27 +22,13 @@ spring:
     throw-exception-if-no-handler-found: true
     pathmatch:
       matching-strategy: ant-path-matcher
-  security:
-    saml2:
-      relyingparty:
-        registration:
-          okta:
-            assertingparty:
-              entity-id: http://www.okta.com/exk6odvqkb5jgzPph5d7
-              verification:
-                credentials:
-                  - certificate-location: "classpath:certificates/okta.crt"
-              singlesignon:
-                url: https://dev-00449127.okta.com/app/dev-00449127_springboottest_1/exk6odvqkb5jgzPph5d7/sso/saml
-                sign-request: false
 
 logging:
   file:
     path: ${HPC_INTERFACE_LOG_PATH:log}
-  level:
-    io.zonky.test.db.postgres: FATAL
-    # org.springframework.security: TRACE
-    # org.opensaml: DEBUG
+  # level:
+  #   org.springframework.security: TRACE
+  #   org.opensaml: DEBUG
 
 # MUST use SSL for SAML
 server:

@@ -1,17 +1,19 @@
 package edu.ua.cs495.hpc_interface.service;
 
 import edu.ua.cs495.hpc_interface.domain.entity.User;
+import edu.ua.cs495.hpc_interface.domain.types.UserPrincipal;
 import edu.ua.cs495.hpc_interface.exception.NeedsAuthenticationException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.cas.authentication.CasAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.saml2.provider.service.authentication.Saml2AuthenticatedPrincipal;
-import org.springframework.security.saml2.provider.service.authentication.Saml2Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor(onConstructor_ = { @Autowired })
-public class AuthenticationService {
+public class AuthenticationService implements UserDetailsService {
 
   private UserService userService;
 
@@ -19,8 +21,13 @@ public class AuthenticationService {
     return (
       SecurityContextHolder
         .getContext()
-        .getAuthentication() instanceof Saml2Authentication
+        .getAuthentication() instanceof CasAuthenticationToken
     );
+  }
+
+  @Override
+  public UserDetails loadUserByUsername(String username) {
+    return new UserPrincipal(userService.createUserIfNotExists(username));
   }
 
   /**
@@ -32,11 +39,11 @@ public class AuthenticationService {
     if (!isAuthenticated()) {
       throw new NeedsAuthenticationException();
     }
-    Saml2AuthenticatedPrincipal principal = (Saml2AuthenticatedPrincipal) SecurityContextHolder
+    UserPrincipal principal = (UserPrincipal) SecurityContextHolder
       .getContext()
       .getAuthentication()
       .getPrincipal();
 
-    return userService.createUserIfNotExists(principal.getName());
+    return principal.getUser();
   }
 }

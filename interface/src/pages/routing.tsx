@@ -4,6 +4,7 @@ import ViewBatch from "./batch/View";
 import Dashboard from "./Dashboard";
 import Documentation from "./Documentation";
 import ViewJob from "./job/View";
+import PageNotFound from "./PageNotFound";
 import ScriptCreationForm from "./script/ScriptCreationForm";
 import ScriptEditForm from "./script/ScriptEditForm";
 import ScriptLibrary from "./script/ScriptLibrary";
@@ -56,5 +57,10 @@ export default [
   {
     path: "/help",
     element: withNavbar(<Documentation />),
+  },
+  // handle 404 not found
+  {
+    path: "*",
+    element: withNavbar(<PageNotFound />),
   },
 ];

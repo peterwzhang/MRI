@@ -1,24 +1,14 @@
 package edu.ua.cs495.hpc_interface.controller;
 
-import lombok.extern.log4j.Log4j2;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
-@Log4j2
-@ControllerAdvice
+@Controller
 public class IndexController {
 
-  @ExceptionHandler(NoHandlerFoundException.class)
+  // forward all un-handled requests to index
+  @GetMapping(value = { "/{regex:\\w+}", "/**/{regex:\\w+}" })
   public String forwardSPA() {
-    log.info("In forwardSPA");
-    log.info("In forwardSPA");
-    log.info("In forwardSPA");
-    log.info("In forwardSPA");
-    log.info("In forwardSPA");
-    log.info("In forwardSPA");
-    log.info("In forwardSPA");
-    log.info("In forwardSPA");
-    return "forward:/index.html";
+    return "forward:/";
   }
 }

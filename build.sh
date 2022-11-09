@@ -16,7 +16,7 @@ cp -r interface/build backend/src/main/resources/public
 
 # build/package backend
 cd backend
-mvn package -DskipTests
+mvn clean package -DskipTests
 
 set +x
 

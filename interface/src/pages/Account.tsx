@@ -14,8 +14,14 @@ export default function AccountInfo() {
       {sshCommand && (
         <SectionDiv>
           <h1>Setting up your HPC Account</h1>
-          <p>Before you can use the HPC Interface, you must first set up your account. To do so, simply:</p>
-          <p>1. Copy and paste the following into your computer&apos;s Terminal (Mac) or Command Prompt (Windows) application:</p>
+          <p>
+            Before you can use the HPC Interface, you must first set up your account. To do so,
+            simply:
+          </p>
+          <p>
+            1. Copy and paste the following into your computer&apos;s Terminal (Mac) or Command
+            Prompt (Windows) application:
+          </p>
           <div style={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
             <TextField
               id="standard-read-only-input"

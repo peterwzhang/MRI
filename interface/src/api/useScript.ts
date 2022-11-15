@@ -7,7 +7,7 @@ export default function useScript(id: string | undefined, enabled = true) {
   return useQuery<ScriptWithId>(
     ["script", id],
     async () => {
-      const response = await ky.get(`${apiUrl}scripts/${id}`);
+      const response = await ky.get(`${apiUrl}scripts/${id}`, { credentials: "include" });
       return response.json<ScriptWithId>();
     },
     { enabled: enabled && id !== undefined },

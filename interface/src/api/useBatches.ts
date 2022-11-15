@@ -7,7 +7,7 @@ export default function useBatches() {
   return useQuery<BatchCollection>(
     ["batches"],
     async () => {
-      const response = await ky.get(`${apiUrl}batches`);
+      const response = await ky.get(`${apiUrl}batches`, { credentials: "include" });
       return response.json<BatchCollection>();
     },
     { refetchInterval },

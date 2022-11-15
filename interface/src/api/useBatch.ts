@@ -8,7 +8,7 @@ export default function useBatch(id: string | undefined) {
   return useQuery<BatchWithJobs>(
     ["batch", id],
     async () => {
-      const response = await ky.get(`${apiUrl}batches/${id}`);
+      const response = await ky.get(`${apiUrl}batches/${id}`, { credentials: "include" });
       return response.json<BatchWithJobs>();
     },
     { enabled: id !== undefined && uuidValidate(id), refetchInterval },

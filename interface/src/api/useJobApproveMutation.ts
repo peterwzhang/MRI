@@ -7,7 +7,10 @@ export default function useJobApproveMutation() {
 
   return useMutation(
     (props: { batchId: string; jobs: string[] }) =>
-      ky.post(`${apiUrl}batches/${props.batchId}/approve`, { json: props.jobs }),
+      ky.post(`${apiUrl}batches/${props.batchId}/approve`, {
+        json: props.jobs,
+        credentials: "include",
+      }),
     {
       onSuccess: () => {
         // Invalidate and refetch

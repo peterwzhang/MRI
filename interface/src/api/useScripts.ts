@@ -9,6 +9,7 @@ export default function useScripts(includeArchived: boolean) {
       `${apiUrl}scripts?${new URLSearchParams({
         includeArchived: includeArchived ? "true" : "false",
       })}`,
+      { credentials: "include" },
     );
     return response.json<ScriptCollection>();
   });

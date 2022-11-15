@@ -1,6 +1,8 @@
 package edu.ua.cs495.hpc_interface.config;
 
 import java.util.Collections;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.jasig.cas.client.session.SingleSignOutFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +18,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -55,7 +58,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       .addFilterBefore(singleSignOutFilter, CasAuthenticationFilter.class)
       .addFilterBefore(logoutFilter, LogoutFilter.class)
       .csrf()
-      .disable();
+      .disable()
+      .cors()
+      .configurationSource((HttpServletRequest request) -> {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(
+          List.of(
+            "http://localhost:3000",
+            "https://localhost:3000",
+            "https://hpc-interface-dev.ua.edu"
+          )
+        );
+        config.setAllowCredentials(true);
+        return config;
+      });
   }
 
   @Override

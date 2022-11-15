@@ -1,8 +1,6 @@
 package edu.ua.cs495.hpc_interface.async.tasks;
 
-import com.sshtools.client.SshClient;
 import com.sshtools.common.publickey.InvalidPassphraseException;
-import com.sshtools.common.ssh.SshException;
 import edu.ua.cs495.hpc_interface.domain.entity.Batch;
 import edu.ua.cs495.hpc_interface.domain.entity.Job;
 import edu.ua.cs495.hpc_interface.service.SSHService;
@@ -12,6 +10,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import net.schmizz.sshj.SSHClient;
 import org.hibernate.Session;
 
 /**
@@ -31,7 +30,7 @@ public final class PollTask implements Runnable {
 
   @SuppressWarnings({ "java:S1151", "java:S1612" })
   protected void runPollTasks() throws InterruptedException {
-    Session session = this.service.getSessionFactory().openSession();
+    Session dbSession = this.service.getSessionFactory().openSession();
     log.info("Starting");
 
     List<Job> jobs = this.service.getJobRepository().findJobsToPoll();
@@ -40,11 +39,11 @@ public final class PollTask implements Runnable {
 
     if (jobs.isEmpty() && batchesToPoll.isEmpty()) {
       log.info("Nothing to poll...");
-      session.close();
+      dbSession.close();
       return;
     }
 
-    try (SshClient ssh = this.service.getQueryUserClient()) {
+    try (SSHClient ssh = this.service.getQueryUserClient()) {
       log.info("Polling all job states");
       new PollJobStateSubTask(this.service, ssh, jobs).run();
 
@@ -53,8 +52,8 @@ public final class PollTask implements Runnable {
         .stream()
         .forEach(j -> new SyncJobLogSubTask(this.service, ssh, j).run());
 
-      Set<Batch> batches = new TreeSet<>(
-        (a, b) -> a.getId().compareTo(b.getId())
+      Set<Batch> batches = new TreeSet<>((a, b) ->
+        a.getId().compareTo(b.getId())
       );
       jobs.stream().map(Job::getBatch).forEach(b -> batches.add(b));
       batchesToPoll.forEach(b -> batches.add(b));
@@ -64,13 +63,13 @@ public final class PollTask implements Runnable {
         .forEach(b -> new SyncBatchStatusSubTask(this.service, b).run());
 
       log.info("Done");
-    } catch (IOException | SshException | InvalidPassphraseException e) {
+    } catch (IOException | InvalidPassphraseException e) {
       log.error("Unable to poll jobs");
 
       log.error(e);
       e.printStackTrace();
     }
-    session.close();
+    dbSession.close();
   }
 
   public void run() {

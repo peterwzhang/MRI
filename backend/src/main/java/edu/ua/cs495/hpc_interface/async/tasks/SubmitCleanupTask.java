@@ -1,8 +1,6 @@
 package edu.ua.cs495.hpc_interface.async.tasks;
 
-import com.sshtools.client.SshClient;
 import com.sshtools.common.publickey.InvalidPassphraseException;
-import com.sshtools.common.ssh.SshException;
 import edu.ua.cs495.hpc_interface.domain.entity.Batch;
 import edu.ua.cs495.hpc_interface.domain.entity.Job;
 import edu.ua.cs495.hpc_interface.domain.entity.Script;
@@ -12,6 +10,7 @@ import edu.ua.cs495.hpc_interface.service.SSHService;
 import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
+import net.schmizz.sshj.SSHClient;
 import org.hibernate.Session;
 
 /**
@@ -28,8 +27,8 @@ public final class SubmitCleanupTask extends AbstractOneTimeTask {
 
   @SuppressWarnings({ "java:S2093", "java:S2629", "java:S4042" })
   protected void runJob() throws InterruptedException {
-    Session session = this.service.getSessionFactory().openSession();
-    this.batch = session.get(Batch.class, this.batch.getId());
+    Session dbSession = this.service.getSessionFactory().openSession();
+    this.batch = dbSession.get(Batch.class, this.batch.getId());
 
     log.info("Starting");
 
@@ -42,7 +41,7 @@ public final class SubmitCleanupTask extends AbstractOneTimeTask {
       this.service.getBatchRepository()
         .save(this.batch.withStatus(BatchStatus.COMPLETED));
 
-      session.close();
+      dbSession.close();
       return;
     }
 
@@ -100,9 +99,8 @@ public final class SubmitCleanupTask extends AbstractOneTimeTask {
         .build();
       this.service.getJobRepository().save(job);
 
-      try (SshClient ssh = this.service.getClient(this.batch.getUser())) {
-        this.service.copyScript(ssh, localScript);
-        this.service.copyScript(ssh, localSlurm);
+      try (SSHClient ssh = this.service.getClient(this.batch.getUser())) {
+        this.service.copyScript(ssh, localScript, localSlurm);
 
         String logLocation = "log." + job.getId();
 
@@ -122,7 +120,7 @@ public final class SubmitCleanupTask extends AbstractOneTimeTask {
         this.service.getBatchRepository()
           .save(this.batch.withStatus(BatchStatus.CLEAN_UP_RUNNING));
       }
-    } catch (IOException | SshException | InvalidPassphraseException e) {
+    } catch (IOException | InvalidPassphraseException e) {
       log.info("Batch has FAILED");
 
       log.error(e);
@@ -135,15 +133,14 @@ public final class SubmitCleanupTask extends AbstractOneTimeTask {
         .save(this.batch.withStatus(BatchStatus.FAILED));
 
       this.batch.getJobs()
-        .forEach(
-          job ->
-            this.service.getJobRepository().save(job.withState(JobState.FAILED))
+        .forEach(job ->
+          this.service.getJobRepository().save(job.withState(JobState.FAILED))
         );
     } finally {
       this.service.cleanupFile(localScript);
       this.service.cleanupFile(localSlurm);
 
-      session.close();
+      dbSession.close();
     }
   }
 }

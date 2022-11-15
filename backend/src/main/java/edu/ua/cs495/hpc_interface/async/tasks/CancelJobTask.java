@@ -1,14 +1,13 @@
 package edu.ua.cs495.hpc_interface.async.tasks;
 
-import com.sshtools.client.SshClient;
 import com.sshtools.common.publickey.InvalidPassphraseException;
-import com.sshtools.common.ssh.SshException;
 import edu.ua.cs495.hpc_interface.domain.entity.Job;
 import edu.ua.cs495.hpc_interface.domain.entity.User;
 import edu.ua.cs495.hpc_interface.domain.types.JobState;
 import edu.ua.cs495.hpc_interface.service.SSHService;
 import java.io.IOException;
 import java.time.Instant;
+import net.schmizz.sshj.SSHClient;
 
 /**
  * This job cancels a given job within Slurm
@@ -40,7 +39,7 @@ public final class CancelJobTask extends AbstractOneTimeTask {
       return;
     }
 
-    try (SshClient ssh = this.service.getClient(this.user)) {
+    try (SSHClient ssh = this.service.getClient(this.user)) {
       this.service.guaranteeCommand(
           ssh,
           "scancel -Q " + this.job.getSlurmId(),
@@ -54,7 +53,7 @@ public final class CancelJobTask extends AbstractOneTimeTask {
             .withEndTime(Instant.now())
             .withLastSync(Instant.now())
         );
-    } catch (IOException | SshException | InvalidPassphraseException e) {
+    } catch (IOException | InvalidPassphraseException e) {
       log.info("Job cancellation has FAILED");
 
       log.error(e);

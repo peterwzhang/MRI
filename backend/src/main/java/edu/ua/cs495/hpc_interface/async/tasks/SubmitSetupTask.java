@@ -1,8 +1,6 @@
 package edu.ua.cs495.hpc_interface.async.tasks;
 
-import com.sshtools.client.SshClient;
 import com.sshtools.common.publickey.InvalidPassphraseException;
-import com.sshtools.common.ssh.SshException;
 import edu.ua.cs495.hpc_interface.domain.entity.Batch;
 import edu.ua.cs495.hpc_interface.domain.entity.Job;
 import edu.ua.cs495.hpc_interface.domain.entity.Script;
@@ -12,6 +10,7 @@ import edu.ua.cs495.hpc_interface.service.SSHService;
 import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
+import net.schmizz.sshj.SSHClient;
 
 /**
  * This job submits the setup portion of a batch to be run on compute via Slurm.
@@ -98,9 +97,8 @@ public final class SubmitSetupTask extends AbstractOneTimeTask {
         .build();
       this.service.getJobRepository().save(job);
 
-      try (SshClient ssh = this.service.getClient(this.batch.getUser())) {
-        this.service.copyScript(ssh, localScript);
-        this.service.copyScript(ssh, localSlurm);
+      try (SSHClient ssh = this.service.getClient(this.batch.getUser())) {
+        this.service.copyScript(ssh, localScript, localSlurm);
 
         String logLocation = "log." + job.getId();
 
@@ -120,11 +118,10 @@ public final class SubmitSetupTask extends AbstractOneTimeTask {
         this.service.getBatchRepository()
           .save(this.batch.withStatus(BatchStatus.SETTING_UP));
       }
-    } catch (IOException | SshException | InvalidPassphraseException e) {
+    } catch (IOException | InvalidPassphraseException e) {
       log.info("Batch has FAILED");
 
       log.error(e);
-      e.printStackTrace();
 
       // mark batch and all jobs as failures
       this.service.getBatchRepository().refresh(this.batch);
@@ -133,9 +130,8 @@ public final class SubmitSetupTask extends AbstractOneTimeTask {
         .save(this.batch.withStatus(BatchStatus.FAILED));
 
       this.batch.getJobs()
-        .forEach(
-          job ->
-            this.service.getJobRepository().save(job.withState(JobState.FAILED))
+        .forEach(job ->
+          this.service.getJobRepository().save(job.withState(JobState.FAILED))
         );
     } finally {
       this.service.cleanupFile(localScript);

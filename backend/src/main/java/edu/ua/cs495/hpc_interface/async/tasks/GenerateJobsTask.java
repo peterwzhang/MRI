@@ -1,8 +1,6 @@
 package edu.ua.cs495.hpc_interface.async.tasks;
 
-import com.sshtools.client.SshClient;
 import com.sshtools.common.publickey.InvalidPassphraseException;
-import com.sshtools.common.ssh.SshException;
 import edu.ua.cs495.hpc_interface.domain.entity.Batch;
 import edu.ua.cs495.hpc_interface.domain.entity.Job;
 import edu.ua.cs495.hpc_interface.domain.entity.Script;
@@ -17,6 +15,7 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import net.schmizz.sshj.SSHClient;
 import org.hibernate.Session;
 
 /**
@@ -33,8 +32,8 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
 
   @SuppressWarnings({ "java:S2093", "java:S2629", "java:S4042", "java:S1774" })
   protected void runJob() throws InterruptedException {
-    Session session = this.service.getSessionFactory().openSession();
-    this.batch = session.get(Batch.class, this.batch.getId());
+    Session dbSession = this.service.getSessionFactory().openSession();
+    this.batch = dbSession.get(Batch.class, this.batch.getId());
 
     log.info("Starting for {}", this.batch.getId());
 
@@ -149,7 +148,7 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
       job.setStartTime(Instant.now());
       this.service.getJobRepository().save(job);
 
-      try (SshClient ssh = this.service.getClient(this.batch.getUser())) {
+      try (SSHClient ssh = this.service.getClient(this.batch.getUser())) {
         this.service.copyScript(ssh, localScript);
 
         String scriptOutput =
@@ -196,35 +195,30 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
 
         List<Job> jobs = Arrays
           .stream(generatedJobs)
-          .map(
-            identifier ->
-              Job
-                .builder()
-                .batch(this.batch)
-                .state(
-                  Boolean.TRUE.equals(this.batch.getNeedsApproval())
-                    ? JobState.UNAPPROVED
-                    : JobState.QUEUEING
-                )
-                .slurmState("")
-                .logPath("log." + job.getId())
-                .logTail("Loading...")
-                .identifier(identifier)
-                .scriptPath(
-                  String.format("%s-%s.sh", this.batch.getId(), identifier)
-                )
-                .slurmQueueScriptPath(
-                  String.format(
-                    "%s-%s-slurm.sh",
-                    this.batch.getId(),
-                    identifier
-                  )
-                )
-                .setupJob(false)
-                .generatorJob(false)
-                .cleanupJob(false)
-                .lastSync(Instant.now())
-                .build()
+          .map(identifier ->
+            Job
+              .builder()
+              .batch(this.batch)
+              .state(
+                Boolean.TRUE.equals(this.batch.getNeedsApproval())
+                  ? JobState.UNAPPROVED
+                  : JobState.QUEUEING
+              )
+              .slurmState("")
+              .logPath("log." + job.getId())
+              .logTail("Loading...")
+              .identifier(identifier)
+              .scriptPath(
+                String.format("%s-%s.sh", this.batch.getId(), identifier)
+              )
+              .slurmQueueScriptPath(
+                String.format("%s-%s-slurm.sh", this.batch.getId(), identifier)
+              )
+              .setupJob(false)
+              .generatorJob(false)
+              .cleanupJob(false)
+              .lastSync(Instant.now())
+              .build()
           )
           .toList();
 
@@ -240,7 +234,7 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
             .submit(new SubmitMainJobsTask(this.service, this.batch, jobs));
         }
       }
-    } catch (IOException | SshException | InvalidPassphraseException e) {
+    } catch (IOException | InvalidPassphraseException e) {
       log.info("Generation has FAILED");
 
       log.error(e);
@@ -255,7 +249,7 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
       job.setLogTail(job.getLogTail() + "\n\n" + trace);
     } finally {
       this.service.cleanupFile(localScript);
-      session.close();
+      dbSession.close();
     }
   }
 }

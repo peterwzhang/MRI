@@ -1,6 +1,8 @@
 package edu.ua.cs495.hpc_interface.async.tasks;
 
 import edu.ua.cs495.hpc_interface.service.SSHService;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.UUID;
 import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
@@ -34,12 +36,18 @@ public abstract class AbstractOneTimeTask implements Runnable {
       this.runJob();
     } catch (InterruptedException e) {
       log.error("Job was interrupted: {}", e.getMessage());
-      e.printStackTrace();
+
+      StringWriter trace = new StringWriter();
+      e.printStackTrace(new PrintWriter(trace));
+      log.error(trace);
 
       Thread.currentThread().interrupt();
     } catch (RuntimeException e) {
       log.error("Job failed: {}", e.getMessage());
-      e.printStackTrace();
+
+      StringWriter trace = new StringWriter();
+      e.printStackTrace(new PrintWriter(trace));
+      log.error(trace);
     }
   }
 }

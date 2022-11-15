@@ -40,12 +40,20 @@ export default function Documentation() {
           </a>
         </p>
         <p>
-          <a href="https://github.com/peterwzhang/MRI/tree/main/interface" target="_blank" rel="noreferrer">
+          <a
+            href="https://github.com/peterwzhang/MRI/tree/main/interface"
+            target="_blank"
+            rel="noreferrer"
+          >
             User Interface GitHub
           </a>
         </p>
         <p>
-          <a href="https://github.com/peterwzhang/MRI/tree/main/backend" target="_blank" rel="noreferrer">
+          <a
+            href="https://github.com/peterwzhang/MRI/tree/main/backend"
+            target="_blank"
+            rel="noreferrer"
+          >
             Backend GitHub
           </a>
         </p>

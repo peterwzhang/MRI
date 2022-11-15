@@ -15,6 +15,7 @@ public interface UserMapper {
 
   @Mapping(target = "privateKey", ignore = true)
   @Mapping(target = "publicKey", ignore = true)
+  @Mapping(target = "sshWorking", ignore = true)
   User fromDto(UserDTO source);
 
   UserWithKeyDTO toDtoWithKey(User source);

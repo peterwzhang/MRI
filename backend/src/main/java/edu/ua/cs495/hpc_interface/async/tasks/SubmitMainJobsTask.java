@@ -1,8 +1,6 @@
 package edu.ua.cs495.hpc_interface.async.tasks;
 
-import com.sshtools.client.SshClient;
 import com.sshtools.common.publickey.InvalidPassphraseException;
-import com.sshtools.common.ssh.SshException;
 import edu.ua.cs495.hpc_interface.domain.entity.Batch;
 import edu.ua.cs495.hpc_interface.domain.entity.Job;
 import edu.ua.cs495.hpc_interface.domain.types.BatchStatus;
@@ -11,6 +9,7 @@ import edu.ua.cs495.hpc_interface.service.SSHService;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
+import net.schmizz.sshj.SSHClient;
 import org.hibernate.Session;
 
 /**
@@ -38,14 +37,16 @@ public final class SubmitMainJobsTask extends AbstractOneTimeTask {
       log.info("No jobs to queue (maybe they were cancelled?");
       return;
     }
-    try (Session session = this.service.getSessionFactory().openSession()) {
-      this.batch = session.get(Batch.class, this.batch.getId());
+    try (Session dbSession = this.service.getSessionFactory().openSession()) {
+      this.batch = dbSession.get(Batch.class, this.batch.getId());
       this.jobs =
-        this.jobs.stream().map(j -> session.get(Job.class, j.getId())).toList();
+        this.jobs.stream()
+          .map(j -> dbSession.get(Job.class, j.getId()))
+          .toList();
 
       log.info("Submitting jobs {}", this.jobs);
 
-      try (SshClient ssh = this.service.getClient(this.batch.getUser())) {
+      try (SSHClient ssh = this.service.getClient(this.batch.getUser())) {
         for (Job job : this.jobs) {
           job.setSlurmId(this.service.submitJobToSlurm(ssh, job));
           job.setState(JobState.PENDING);
@@ -56,7 +57,7 @@ public final class SubmitMainJobsTask extends AbstractOneTimeTask {
 
         this.service.getBatchRepository()
           .save(this.batch.withStatus(BatchStatus.RUNNING));
-      } catch (IOException | SshException | InvalidPassphraseException e) {
+      } catch (IOException | InvalidPassphraseException e) {
         log.info("Batch has FAILED");
 
         log.error(e);
@@ -64,25 +65,23 @@ public final class SubmitMainJobsTask extends AbstractOneTimeTask {
 
         // mark batch and all jobs as failures
         // refresh batch
-        this.batch = session.get(Batch.class, this.batch.getId());
-        session.refresh(this.batch);
+        this.batch = dbSession.get(Batch.class, this.batch.getId());
+        dbSession.refresh(this.batch);
 
         this.service.getBatchRepository()
           .save(this.batch.withStatus(BatchStatus.FAILED));
 
         this.batch.getJobs()
-          .forEach(
-            (Job job) -> {
-              if (
-                Boolean.FALSE.equals(job.getSetupJob()) &&
-                Boolean.FALSE.equals(job.getGeneratorJob()) &&
-                job.getState() == JobState.QUEUEING
-              ) {
-                this.service.getJobRepository()
-                  .save(job.withState(JobState.FAILED));
-              }
+          .forEach((Job job) -> {
+            if (
+              Boolean.FALSE.equals(job.getSetupJob()) &&
+              Boolean.FALSE.equals(job.getGeneratorJob()) &&
+              job.getState() == JobState.QUEUEING
+            ) {
+              this.service.getJobRepository()
+                .save(job.withState(JobState.FAILED));
             }
-          );
+          });
       }
     }
   }

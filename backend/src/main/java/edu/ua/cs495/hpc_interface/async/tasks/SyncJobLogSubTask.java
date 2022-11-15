@@ -1,11 +1,15 @@
 package edu.ua.cs495.hpc_interface.async.tasks;
 
-import com.sshtools.client.SshClient;
 import edu.ua.cs495.hpc_interface.domain.entity.Job;
 import edu.ua.cs495.hpc_interface.service.SSHService;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import net.schmizz.sshj.SSHClient;
+import net.schmizz.sshj.common.IOUtils;
+import net.schmizz.sshj.connection.channel.direct.Session;
+import net.schmizz.sshj.connection.channel.direct.Session.Command;
 
 /**
  * Get log contents from a job
@@ -23,17 +27,20 @@ public final class SyncJobLogSubTask {
     "%s";
 
   private SSHService service;
-  private SshClient ssh;
+  private SSHClient ssh;
   private Job job;
 
   @SuppressWarnings({ "java:S1151", "java:S1612" })
   protected void run() {
-    try {
-      String response =
-        this.ssh.executeCommand(
-            String.format(TAIL_COMMAND, this.job.getLogPath()),
-            SSHService.TIMEOUT
-          );
+    try (Session session = ssh.startSession()) {
+      Command cmd = session.exec(
+        String.format(TAIL_COMMAND, this.job.getLogPath())
+      );
+
+      cmd.join(SSHService.TIMEOUT, TimeUnit.MILLISECONDS);
+
+      String response = IOUtils.readFully(cmd.getInputStream()).toString();
+
       log.info("Got " + response.length() + "B of log for job " + job.getId());
       job.setLogTail(response);
       this.service.getJobRepository().save(job);

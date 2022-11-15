@@ -8,8 +8,8 @@ export default function SshBanner() {
   const user = useCurrentUser();
   const errorMsg = user?.sshWorking
     ? undefined
-    : "Before using HPC Interface, you must ";
-  if (!user || !errorMsg) return null;
+    : "Before creating a batch, you must ";
+  // if (!user || !errorMsg) return null;
 
   return (
     <Alert severity="error">{errorMsg}

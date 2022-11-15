@@ -18,6 +18,7 @@ import useScripts from "../../api/useScripts";
 import useScript from "../../api/useScript";
 import scriptToFormValues from "../../utils/scriptToFormValues";
 import useBatchCreateMutation from "../../api/useBatchCreateMutation";
+import SshBanner from "../../components/SshBanner";
 
 export default function CreateBatch() {
   const mutator = useBatchCreateMutation();
@@ -135,53 +136,56 @@ export default function CreateBatch() {
   );
 
   return (
-    <Container fixed>
-      <h1>Create batch</h1>
+    <>
+      <SshBanner />
+      <Container fixed>
+        <h1>Create batch</h1>
 
-      <Form<FormValues>
-        initialValues={formState}
-        validate={formValidator}
-        onSubmit={submitter}
-        validateOnBlur
-      >
-        {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
-            <BatchCreationFormStepper
-              currentStep={currentStep}
-              stepStatus={stepStatus}
-              onStepChange={(newStep, curValues) => {
-                markCurrentStep(curValues);
-                setCurrentStep(newStep);
-              }}
-            />
+        <Form<FormValues>
+          initialValues={formState}
+          validate={formValidator}
+          onSubmit={submitter}
+          validateOnBlur
+        >
+          {({ handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+              <BatchCreationFormStepper
+                currentStep={currentStep}
+                stepStatus={stepStatus}
+                onStepChange={(newStep, curValues) => {
+                  markCurrentStep(curValues);
+                  setCurrentStep(newStep);
+                }}
+              />
 
-            <CurrentStepComponent
-              scripts={scripts ?? []}
-              onStepChange={(newStep, curValues) => {
-                markCurrentStep(curValues);
-                setCurrentStep(newStep);
-              }}
-            />
+              <CurrentStepComponent
+                scripts={scripts ?? []}
+                onStepChange={(newStep, curValues) => {
+                  markCurrentStep(curValues);
+                  setCurrentStep(newStep);
+                }}
+              />
 
-            <BatchCreationFormFooter
-              currentStep={currentStep}
-              onStepChange={(newStep, curValues) => {
-                markCurrentStep(curValues);
-                setCurrentStep(newStep);
-              }}
-              isSubmitting={isSubmitting}
-            />
+              <BatchCreationFormFooter
+                currentStep={currentStep}
+                onStepChange={(newStep, curValues) => {
+                  markCurrentStep(curValues);
+                  setCurrentStep(newStep);
+                }}
+                isSubmitting={isSubmitting}
+              />
 
-            <FormSpy<FormValues>
-              subscription={{ values: true }}
-              onChange={(state) => {
-                setFormState(state.values);
-                setSourceScriptId(state.values.scriptSource ?? null);
-              }}
-            />
-          </form>
-        )}
-      </Form>
-    </Container>
+              <FormSpy<FormValues>
+                subscription={{ values: true }}
+                onChange={(state) => {
+                  setFormState(state.values);
+                  setSourceScriptId(state.values.scriptSource ?? null);
+                }}
+              />
+            </form>
+          )}
+        </Form>
+      </Container>
+    </>
   );
 }

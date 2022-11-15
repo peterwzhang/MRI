@@ -1,15 +1,15 @@
 import Button from "@mui/material/Button";
-import { useRef } from "react";
+import { createRef } from "react";
 import SectionDiv from "../components/SectionDiv";
 
 export default function Documentation() {
-  const SetupRef = useRef(null);
-  const DashboardRef = useRef(null);
-  const BatchRef = useRef(null);
-  const ScriptRef = useRef(null);
-  const CodebaseRef = useRef(null);
+  const SetupRef = createRef<HTMLDivElement>();
+  const DashboardRef = createRef<HTMLDivElement>();
+  const BatchRef = createRef<HTMLDivElement>();
+  const ScriptRef = createRef<HTMLDivElement>();
+  const CodebaseRef = createRef<HTMLDivElement>();
 
-  const handleClick = (ref: any) => {
+  const handleClick = (ref: React.RefObject<HTMLDivElement>) => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
   return (

@@ -7,6 +7,10 @@ export interface User {
    */
   id: string;
   /**
+   * If SSH works for the user
+   */
+  sshWorking?: boolean;
+  /**
    * The user's myBama ID
    */
   username: string;

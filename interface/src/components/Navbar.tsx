@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { theme } from "../constants";
+import AccountMenu from "./AccountMenu";
 import css from "./Navbar.module.scss";
 
 const NavbarFormat = styled.div`
@@ -37,15 +38,7 @@ export default function Navbar() {
             <div className={css.button}>
               <Link to="/help">Help and tutorials</Link>
             </div>
-            <Link to="/account">
-              <img
-                className="nav_right"
-                src="/account_icon.png"
-                alt="View Account Page"
-                height={36}
-                width={36}
-              />
-            </Link>
+            <AccountMenu />
           </div>
         </div>
       </header>

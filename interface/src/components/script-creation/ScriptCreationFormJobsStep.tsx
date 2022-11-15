@@ -81,7 +81,8 @@ function ScriptCreationFormJobsStep(props: {
         <a href="#" onClick={() => props.onStepChange(0, values)}>
           header
         </a>{" "}
-        or as part of the loops above.
+        or as part of the loops above, however, any interpolation that should be done at job-time
+        rather than generation-time must be escaped (<InlineCode>\$</InlineCode>).
       </Typography>
       <Typography variant="body2" style={{ marginBottom: "0.5rem" }}>
         Note: <InlineCode>#!/bin/bash</InlineCode> will be added automatically and does not need to

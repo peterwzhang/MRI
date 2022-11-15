@@ -205,7 +205,7 @@ public final class GenerateJobsTask extends AbstractOneTimeTask {
                   : JobState.QUEUEING
               )
               .slurmState("")
-              .logPath("log." + job.getId())
+              .logPath("log." + job.getId() + "." + identifier)
               .logTail("Loading...")
               .identifier(identifier)
               .scriptPath(

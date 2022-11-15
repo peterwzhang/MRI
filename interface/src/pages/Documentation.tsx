@@ -1,18 +1,8 @@
-import useCurrentUser from "../api/useCurrentUser";
 import SectionDiv from "../components/SectionDiv";
 
 export default function Documentation() {
-  const user = useCurrentUser();
   return (
     <div>
-      {user && (
-        <SectionDiv>
-          <h1>Setting up your HPC Account</h1>
-          <p>Before you can use the HPC Interface, you must set up your HPC account. To do so, simply copy and paste the following into your computer&apos;s Terminal application:
-            <p style={{ maxWidth: "75ch", overflowWrap: "break-word", background: "white" }}>echo {user.publicKey} &gt; tmp.pub; ssh-copy-id -fi tmp.pub {user.username}@uahpc.ua.edu; rm tmp.pub</p>
-          </p>
-        </SectionDiv>
-      )}
       <SectionDiv>
         <h1>Using the Dashboard</h1>
         <p>

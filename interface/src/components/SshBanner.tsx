@@ -9,7 +9,7 @@ export default function SshBanner() {
   const errorMsg = user?.sshWorking
     ? undefined
     : "Before creating a batch, you must ";
-  // if (!user || !errorMsg) return null;
+  if (!user || !errorMsg) return null;
 
   return (
     <Alert severity="error">{errorMsg}

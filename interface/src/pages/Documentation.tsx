@@ -37,8 +37,18 @@ export default function Documentation() {
       <SectionDiv ref={SetupRef}>
         <h1>Setting up your HPC account</h1>
         <p>
-          <a href="https://github.com/peterwzhang/MRI" target="_blank" rel="noreferrer">
-            Example Link (github)
+          <a href="https://youtu.be/OIMvPzN9dlU" target="_blank" rel="noreferrer">
+            Video Tutorial
+          </a>
+        </p>
+        <p>
+          <a href="https://hpc-interface-dev.ua.edu/account" target="_blank" rel="noreferrer">
+            Set Up HPC Account
+          </a>
+        </p>
+        <p>
+          <a href="https://research-computing-portal.oitapps.ua.edu/member" target="_blank" rel="noreferrer">
+            University of Alabama Research Computing Portal
           </a>
         </p>
       </SectionDiv>

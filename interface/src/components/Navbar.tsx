@@ -36,7 +36,7 @@ export default function Navbar() {
               <Link to="/scripts">Script library</Link>
             </div>
             <div className={css.button}>
-              <Link to="/help">Tutorials</Link>
+              <Link to="/help">Help</Link>
             </div>
             <AccountMenu />
           </div>

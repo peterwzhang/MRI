@@ -55,8 +55,8 @@ export default function Documentation() {
       <SectionDiv ref={DashboardRef}>
         <h1>Using the Dashboard</h1>
         <p>
-          <a href="https://github.com/peterwzhang/MRI" target="_blank" rel="noreferrer">
-            Example Link (github)
+          <a href="https://youtu.be/0K-eO8lEfI0" target="_blank" rel="noreferrer">
+            Video Tutorial
           </a>
         </p>
       </SectionDiv>

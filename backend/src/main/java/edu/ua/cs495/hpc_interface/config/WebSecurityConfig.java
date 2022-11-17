@@ -69,6 +69,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "https://hpc-interface-dev.ua.edu"
           )
         );
+        config.setAllowedMethods(
+          List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")
+        );
         config.setAllowCredentials(true);
         return config;
       });

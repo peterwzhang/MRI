@@ -63,8 +63,8 @@ export default function Documentation() {
       <SectionDiv ref={BatchRef}>
         <h1>Creating a Batch</h1>
         <p>
-          <a href="https://github.com/peterwzhang/MRI" target="_blank" rel="noreferrer">
-            Example Link (github)
+          <a href="https://youtu.be/Agsxj-5UMak" target="_blank" rel="noreferrer">
+            Video Tutorial
           </a>
         </p>
       </SectionDiv>

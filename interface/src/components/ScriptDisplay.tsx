@@ -61,7 +61,7 @@ export default function ScriptDisplay({ script, primary }: { script: Script; pri
         {script.user.username}
       </Typography>
       <Typography variant="body1">
-        Last edited at <FormattedDate value={script.createdAt} dateStyle="full" timeStyle="long" />
+        Last edited at <FormattedDate value={script.updatedAt} dateStyle="full" timeStyle="long" />
       </Typography>
       <Typography variant="body1" mb={2}>
         ID variable: <InlineCode>{script.idVariable}</InlineCode>

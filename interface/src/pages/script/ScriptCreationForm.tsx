@@ -1,4 +1,4 @@
-import { Container } from "@mui/material";
+import { Button, Container } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
 import { Form } from "react-final-form";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +11,7 @@ import ScriptCreationFormJobsStep from "../../components/script-creation/ScriptC
 import ScriptCreationFormSetupStep from "../../components/script-creation/ScriptCreationFormSetupStep";
 import ScriptCreationFormSlurmStep from "../../components/script-creation/ScriptCreationFormSlurmStep";
 import ScriptCreationFormStepper from "../../components/script-creation/ScriptCreationFormStepper";
-import { Script } from "../../types";
+import { Script, ScriptForCreation } from "../../types";
 import { FormValues } from "../../types/ScriptCreationFormTypes";
 import ScriptCreationStep from "../../types/ScriptCreationStep";
 import FormStepStatus from "../../types/FormStepStatus";
@@ -117,7 +117,77 @@ export default function ScriptCreationForm() {
 
   return (
     <Container fixed>
-      <h1>Create script</h1>
+      <h1>
+        Create script{" "}
+        <Button
+          component="label"
+          variant="contained"
+          style={{ float: "right" }}
+          onDrop={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const file = e.dataTransfer.files[0];
+
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = () => {
+                const script = JSON.parse(reader.result as string) as ScriptForCreation;
+
+                setFormState({
+                  name: script.name,
+                  header: script.header,
+                  setupScript: script.setupScript,
+                  setupSlurm: script.setupScriptSlurmConfig,
+                  loopWrapperTop: script.loopWrapperTop,
+                  identifyingVariable: script.idVariable,
+                  job: script.jobTemplate,
+                  jobSlurm: script.slurmTemplate,
+                  loopWrapperBottom: script.loopWrapperBottom,
+                  cleanupMode: script.cleanupMode,
+                  cleanupScript: script.cleanupScript,
+                  cleanupSlurm: script.cleanupSlurmConfig,
+                  globalTemplate: script.globalTemplate,
+                });
+              };
+              reader.readAsText(file);
+            }
+          }}
+        >
+          import
+          <input
+            style={{ opacity: 0, position: "absolute", width: "7rem", height: "4rem" }}
+            accept=".json,application/json"
+            type="file"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                  const script = JSON.parse(reader.result as string) as ScriptForCreation;
+
+                  setFormState({
+                    name: script.name,
+                    header: script.header,
+                    setupScript: script.setupScript,
+                    setupSlurm: script.setupScriptSlurmConfig,
+                    loopWrapperTop: script.loopWrapperTop,
+                    identifyingVariable: script.idVariable,
+                    job: script.jobTemplate,
+                    jobSlurm: script.slurmTemplate,
+                    loopWrapperBottom: script.loopWrapperBottom,
+                    cleanupMode: script.cleanupMode,
+                    cleanupScript: script.cleanupScript,
+                    cleanupSlurm: script.cleanupSlurmConfig,
+                    globalTemplate: script.globalTemplate,
+                  });
+                };
+                reader.readAsText(file);
+              }
+            }}
+          />
+        </Button>
+      </h1>
 
       <Form<FormValues>
         initialValues={formState}

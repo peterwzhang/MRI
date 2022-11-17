@@ -1,5 +1,12 @@
 import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
-import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Button,
+  Typography,
+} from "@mui/material";
 import pluralize from "pluralize";
 import { FormattedDate } from "react-intl";
 import { Link } from "react-router-dom";
@@ -8,6 +15,22 @@ import { Script } from "../types";
 import InlineCode from "./InlineCode";
 import ScriptCleanupModeDisplay from "./ScriptCleanupModeDisplay";
 
+function getDownloadHref(script: Script): string {
+  // pull out ID and user
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { id, user, createdAt, updatedAt, archived, globalTemplate, ...copy } = script;
+  return `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(copy))}`;
+}
+
+function getDownloadName(scriptName: string): string {
+  return (
+    scriptName
+      .replaceAll(/[^a-zA-Z0-9]+/g, "-")
+      .replace(/^-+/, "")
+      .replace(/-+$/, "") + ".json"
+  );
+}
+
 export default function ScriptDisplay({ script, primary }: { script: Script; primary?: boolean }) {
   return (
     <>
@@ -15,6 +38,15 @@ export default function ScriptDisplay({ script, primary }: { script: Script; pri
         <h1>
           {script.name}
           {script.globalTemplate ? " (global template)" : ""}
+
+          <Button
+            href={getDownloadHref(script)}
+            download={getDownloadName(script.name)}
+            variant="contained"
+            style={{ float: "right" }}
+          >
+            export
+          </Button>
         </h1>
       ) : (
         <h3 style={{ margin: "0 0 0.5rem 0" }}>

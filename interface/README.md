@@ -6,5 +6,5 @@ First, run the development server:
 yarn start
 ```
 
-Then, open [http://localhost:3000](http://localhost:3000) with your browser to see the
+Then, open [https://localhost:3000](https://localhost:3000) with your browser to see the
 result.

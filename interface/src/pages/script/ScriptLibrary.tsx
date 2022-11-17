@@ -58,6 +58,7 @@ export default function ScriptLibrary() {
                   </LoadingButton>
                 </>
               ),
+              showExport: false,
             },
           }}
           columns={[

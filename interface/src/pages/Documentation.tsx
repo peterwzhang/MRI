@@ -71,8 +71,13 @@ export default function Documentation() {
       <SectionDiv ref={ScriptRef}>
         <h1>Using the Script Library</h1>
         <p>
-          <a href="https://github.com/peterwzhang/MRI" target="_blank" rel="noreferrer">
-            Example Link (github)
+          <a href="https://youtu.be/9jw1LR6JIqM" target="_blank" rel="noreferrer">
+            Script Library Overview
+          </a>
+        </p>
+        <p>
+          <a href="https://youtu.be/3NKybXV8HNs" target="_blank" rel="noreferrer">
+            Creating and Editing Scripts
           </a>
         </p>
       </SectionDiv>

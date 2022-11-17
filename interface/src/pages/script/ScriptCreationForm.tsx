@@ -149,6 +149,14 @@ export default function ScriptCreationForm() {
                   cleanupSlurm: script.cleanupSlurmConfig,
                   globalTemplate: script.globalTemplate,
                 });
+
+                setStepStatus({
+                  0: FormStepStatus.COMPLETED,
+                  1: FormStepStatus.COMPLETED,
+                  2: FormStepStatus.COMPLETED,
+                  3: FormStepStatus.COMPLETED,
+                  4: FormStepStatus.COMPLETED,
+                });
               };
               reader.readAsText(file);
             }

@@ -22,7 +22,7 @@ const FailureButton = styled(Button)<ButtonProps>(() => ({
 export default function AccountInfo() {
   const user = useCurrentUser();
   const sshCommand = user
-    ? `echo ${user.publicKey} > tmp.pub; ssh-copy-id -fi tmp.pub ${user.username}@uahpc.ua.edu; rm tmp.pub`
+    ? `echo ${user.publicKey} > tmp.pub; ssh-copy-id -f -i tmp.pub ${user.username}@uahpc.ua.edu; rm tmp.pub`
     : undefined;
 
   const [testState, setTestState] = useState<TestResult>(TestResult.NOT_TESTED);

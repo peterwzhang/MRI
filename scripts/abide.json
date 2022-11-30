@@ -10,6 +10,5 @@
   "loopWrapperBottom": "done\n",
   "cleanupScript": "n/a",
   "cleanupSlurmConfig": "n/a",
-  "cleanupMode": "NEVER",
-  "globalTemplate": true
+  "cleanupMode": "NEVER"
 }

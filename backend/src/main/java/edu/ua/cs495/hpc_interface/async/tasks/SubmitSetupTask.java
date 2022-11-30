@@ -29,7 +29,7 @@ public final class SubmitSetupTask extends AbstractOneTimeTask {
     log.info("Starting");
 
     Script script = this.batch.getScriptUsed();
-    if (script.getSetupScript().isEmpty()) {
+    if (script.getSetupScript().isBlank()) {
       log.info(
         "This batch has no setup script.  Moving straight to GENERATING stage and spawning a generation job"
       );

@@ -2,7 +2,7 @@
 
 This project is built using Java 17 and Spring Boot.
 
-To get the needed dependencies/environment:
+To get the needed dependencies/environment (macOS specific instructions):
 
 ```sh
 brew install postgresql openjdk@17 maven
@@ -22,7 +22,9 @@ JHOME
 source ~/.zshrc
 ```
 
-To compile it, simply use:
+For Windows, be sure you are running OpenJDK 17, postgres, maven, and docker.
+
+To compile the project, simply use:
 
 ```sh
 mvn install
@@ -30,11 +32,11 @@ mvn install
 
 ## Running the Project
 
-To run the project, you can either run the JAR produced by maven (not
-recommended):
+To run the project, you can either run the JAR produced by maven after
+compilation (not recommended):
 
 ```sh
-java -jar target/hpc_interface-0.0.1-SNAPSHOT.jar
+java -jar target/hpc_interface.war
 ```
 
 Or, (recommended) you can use the provided VS Code `launch.json` (ensure you are
@@ -68,6 +70,24 @@ code --install-extension streetsidesoftware.code-spell-checker
 Please see the [Database](#database) section to ensure you have the requirements
 met to run the server.
 
+### Local authentication
+
+The myBama CAS system relies upon the site being served from
+hpc-interface-dev.ua.edu, therefore, authentication on `localhost` is
+impossible.
+
+To manually override this, add the following to the top of
+`getAuthenticatedUser` in
+`src/main/java/edu/ua/cs495/hpc_interface/service/AuthenticationService.java`,
+where `your-mybama` is the username you wish to use:
+
+```java
+userService.createUserIfNotExists("your-mybama");
+```
+
+You will also need to comment out the remainder of the method, to prevent
+unreachable code errors.
+
 ## Database
 
 The application requires a postgres database to run. By default, it looks on
@@ -88,8 +108,28 @@ CREATE DATABASE hpc_interface;
 -- you can ctrl+D or enter `\q` to exit
 ```
 
-For tests, the application will create an in-memory database. For this, you must
-be running Docker -- no additional action is required.
+Liquibase is used to perform automatic database upgrades on application start.
+For the changesets, and to add additional changes, edit
+`src/main/resources/db/changes` and add a new `.yaml` file in order containing
+your changeset.
+
+## API schemas
+
+The API is defined through OpenAPI schemas located in `src/main/resources/api`.
+These schemas generate the `edu.ua.cs495.hpc_interface.domain.dto` and
+`edu.ua.cs495.hpc_interface.rest.resource` packages automatically (via
+`mvn generate-sources`), creating controllers and entity objects that can be
+used within the code.
+
+The `api-doc.html` file in this directory is generated automatically by GitHub
+Actions and should not be edited manually.
+
+## Batch and job lifecycles
+
+Lifecycle flowcharts for batches and jobs may be found within the `lifecycle`
+folder. This contains every possible state of batches and jobs, as well as the
+process a few select async tasks
+(`/src/main/java/edu/ua/cs495/hpc_interface/async/tasks`) go through.
 
 ## SSL
 

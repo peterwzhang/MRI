@@ -1,0 +1,14 @@
+{
+  "name": "Parallel Flanker",
+  "header": "subjectsDirectory=/scratch/$USER/flanker\t\t# Study folder\ntiming=/scratch/$USER/flanker/code/Flanker_timing.txt\t# Timing file for all subjects and conditions\ntemplate=$HOME/scripts/level1_flanker.m\t\t# Template file for SPM preproc and 1st level analysis",
+  "setupScript": "cd $subjectsDirectory \n\nif [ -d jobs ]; then\n    rm -rf jobs    # Remove exisiting job folder and recreate one for current study\nfi\n\nif [ ! -d jobs ]; then\n    mkdir jobs\nfi\n\nrm -rf `find $subjectsDirectory -type d -name '1stLevel'` 2>/dev/null \t# Remove existing 1stLevel directory\n",
+  "setupScriptSlurmConfig": "#SBATCH -n 1 # number of tasks to use (usually 1)\n#SBATCH -c 1 # number of threads you are going to use\n#SBATCH -p main # main partition\n#SBATCH --qos debug # queue to enter\n",
+  "loopWrapperTop": "cd $subjectsDirectory \n\nfor subs in `ls -d sub-* | sort`; do\n  mkdir -p ${subjectsDirectory}/${subs}/1stLevel  # Create 1stLevel folder for each subject\n  cursub=`echo ${subs} | sed 's/-//g'`;           # Rename matlab scripts from sub-XX to subXX -- output file\n\n  con=`cat code/Flanker_timing.txt | grep \"${subs}\" | awk '/Run1/ && /Con/'| tr '\\t' ' ' | cut -d ' ' -f4-15`;  \n  #Onsets from timing file\n  inc=`cat code/Flanker_timing.txt | grep \"${subs}\" | awk '/Run1/ && /Inc/'| tr '\\t' ' ' | cut -d ' ' -f4-15`; \n\n  inc_rep=`cat $template | grep \"cond(1).onset\" | cut -d \"[\" -f2 | cut -d \"]\" -f1`\n  con_rep=`cat $template | grep \"cond(2).onset\" | cut -d \"[\" -f2 | cut -d \"]\" -f1`\n\n  # Replace the subject ID that matches with your template.\n  cat $template \\\n    | sed \"s/${inc_rep}/${inc}/g\" \\\n    | sed \"s/${con_rep}/${con}/g\" \\\n    | sed \"s/sub-01/${subs}/g\" \\\n    > jobs/level1_${cursub}.m\n\n  ",
+  "idVariable": "$cursub",
+  "jobTemplate": "module load math/matlab/2019b;\ncd $subjectsDirectory/jobs;\nmatlab -nosplash -nodesktop -r \"cd /scratch/$USER/flanker/jobs; clc; run level1_${cursub}.m; quit\"",
+  "slurmTemplate": "#SBATCH --job-name=${subs}\n#SBATCH --output=jobs/res_${subs}.txt\n#SBATCH --ntasks=1\n#SBATCH --cpus-per-task=2\n#SBATCH --partition=main\n#SBATCH --mem-per-cpu=8192\n#\n# Time format = HH:MM:SS, DD-HH:MM:SS\n#\n#SBATCH --time=04:00:00\n\nsrun jobs/script-${subs}.sh",
+  "loopWrapperBottom": "done\n",
+  "cleanupScript": "",
+  "cleanupSlurmConfig": "#SBATCH -n 1 # number of tasks to use (usually 1)\n#SBATCH -c 1 # number of threads you are going to use\n#SBATCH -p main # main partition\n#SBATCH --qos debug # queue to enter\n",
+  "cleanupMode": "NEVER"
+}

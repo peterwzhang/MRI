@@ -1,0 +1,14 @@
+{
+  "name": "Sleep Test 💤💤💤",
+  "header": "SETUP_SLEEP=2\n\nNUM_JOBS=10\n# Amount of time each job will sleep\nSLEEP_MIN=5\nSLEEP_MAX=30\n\n# Number of jobs which should fail\nSHOULD_FAIL=1\n\nCLEANUP_SLEEP=10",
+  "setupScript": "echo \"We're setting up!\"\n\nfor i in $(seq 1 $SETUP_SLEEP); do\n  sleep 1\n  echo $i/$SETUP_SLEEP\ndone\n\necho \"All done setting up...\"",
+  "setupScriptSlurmConfig": "#SBATCH -n 1 # number of tasks to use (usually 1)\n#SBATCH -c 1 # number of threads you are going to use\n#SBATCH -p main # main partition\n#SBATCH --qos debug # queue to enter\n",
+  "loopWrapperTop": "i=0\nfor word in $(cat /usr/share/dict/words | sort -R | head -n $NUM_JOBS); do",
+  "idVariable": "$word",
+  "jobTemplate": "echo \"This is job $(($i+1)) (known as $word)\"\n\ndelta=$(( $SLEEP_MAX - $SLEEP_MIN ))\nstime=\\$(( \\$RANDOM % \\$delta + $SLEEP_MIN ))\n\necho \"Sleeping for \\$stime seconds...\"\nfor j in \\$(seq 1 \\$stime); do\n  sleep 1\n  echo \\$j/\\$stime\ndone\n\nif (( $i < $SHOULD_FAIL )); then\n  echo \"I'm failing, per request...\"\n  exit $(($i+1))\nfi\n\necho \"And done!\"",
+  "slurmTemplate": "#SBATCH -n 1 # number of tasks to use (usually 1)\n#SBATCH -c 1 # number of threads you are going to use\n#SBATCH -p main # main partition\n#SBATCH --qos debug # queue to enter\n",
+  "loopWrapperBottom": "  i=$((i+1))\ndone",
+  "cleanupScript": "echo \"And cleaning up!\"\n\nfor i in $(seq 1 $CLEANUP_SLEEP); do\n  sleep 1\n  echo $i/$CLEANUP_SLEEP\ndone\n\necho \"All done cleaning up...\"",
+  "cleanupSlurmConfig": "#SBATCH -n 1 # number of tasks to use (usually 1)\n#SBATCH -c 1 # number of threads you are going to use\n#SBATCH -p main # main partition\n#SBATCH --qos debug # queue to enter\n",
+  "cleanupMode": "ALL_ENDED"
+}

@@ -73,7 +73,7 @@
     <dependency>
       <groupId>com.sshtools</groupId>
       <artifactId>maverick-synergy-client</artifactId>
-      <version>3.0.9</version>
+      <version>3.0.10</version>
     </dependency>
 
     <dependency>

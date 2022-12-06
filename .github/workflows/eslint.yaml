@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: borales/actions-yarn@v3.0.0
+      - uses: borales/actions-yarn@v4.2.0
         with:
           cmd: --cwd interface install
-      - uses: borales/actions-yarn@v3.0.0
+      - uses: borales/actions-yarn@v4.2.0
         with:
           cmd: --cwd interface eslint .
-      - uses: borales/actions-yarn@v3.0.0
+      - uses: borales/actions-yarn@v4.2.0

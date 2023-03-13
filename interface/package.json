@@ -37,7 +37,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@types/node": "18.15.0",
+    "@types/node": "18.15.1",
     "@types/pluralize": "^0.0.29",
     "@types/prismjs": "^1.26.0",
     "@types/react": "18.0.28",
